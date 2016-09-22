@@ -40,6 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UserLogin.cs" />
+    <Compile Include="UserLogout.cs" />
+    <Compile Include="UserCreate.cs" />
     <Compile Include="Handlers\GetStock.cs" />
     <Compile Include="Handlers\GetWidget.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
