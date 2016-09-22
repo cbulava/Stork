@@ -5,13 +5,10 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorkServer", "StorkServer\StorkServer.csproj", "{B4FD48E9-51B6-47DF-A9E3-2D98FF0AF23A}"
 EndProject
-<<<<<<< HEAD
-=======
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorkServer.Sql", "StorkServer.Sql\StorkServer.Sql.csproj", "{36528D93-5E55-4117-9035-FD94EC76C032}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorkServer.Business", "StorkServer.Business\StorkServer.Business.csproj", "{26F40E50-262A-4F1C-AD1D-B63CD9F5FA2E}"
 EndProject
->>>>>>> 56089b981f6dd750cf6c352b635c0a444cae53c4
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,8 +19,6 @@ Global
 		{B4FD48E9-51B6-47DF-A9E3-2D98FF0AF23A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4FD48E9-51B6-47DF-A9E3-2D98FF0AF23A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4FD48E9-51B6-47DF-A9E3-2D98FF0AF23A}.Release|Any CPU.Build.0 = Release|Any CPU
-<<<<<<< HEAD
-=======
 		{36528D93-5E55-4117-9035-FD94EC76C032}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{36528D93-5E55-4117-9035-FD94EC76C032}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36528D93-5E55-4117-9035-FD94EC76C032}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -32,7 +27,6 @@ Global
 		{26F40E50-262A-4F1C-AD1D-B63CD9F5FA2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26F40E50-262A-4F1C-AD1D-B63CD9F5FA2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26F40E50-262A-4F1C-AD1D-B63CD9F5FA2E}.Release|Any CPU.Build.0 = Release|Any CPU
->>>>>>> 56089b981f6dd750cf6c352b635c0a444cae53c4
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
