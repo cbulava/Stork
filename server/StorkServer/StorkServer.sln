@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorkServer", "StorkServer\StorkServer.csproj", "{B4FD48E9-51B6-47DF-A9E3-2D98FF0AF23A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B4FD48E9-51B6-47DF-A9E3-2D98FF0AF23A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4FD48E9-51B6-47DF-A9E3-2D98FF0AF23A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4FD48E9-51B6-47DF-A9E3-2D98FF0AF23A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4FD48E9-51B6-47DF-A9E3-2D98FF0AF23A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
