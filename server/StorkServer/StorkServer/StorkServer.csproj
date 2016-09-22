@@ -75,6 +75,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\IStockRepo.cs" />
+    <Compile Include="Contracts\IWidgetRepo.cs" />
     <Compile Include="Entities\StockInfo.cs" />
     <Compile Include="Entities\UserWidgets.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -85,9 +87,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Contracts\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
