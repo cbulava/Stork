@@ -185,6 +185,7 @@
     <TypeScriptCompile Include="app\app.module.ts" />
     <TypeScriptCompile Include="app\app.routing.ts" />
     <TypeScriptCompile Include="app\home\home.component.ts" />
+    <TypeScriptCompile Include="app\login\login.component.ts" />
     <TypeScriptCompile Include="app\main.ts" />
     <TypeScriptCompile Include="app\menu-top\menu-top.component.ts" />
     <TypeScriptCompile Include="app\shared\data.service.ts" />
