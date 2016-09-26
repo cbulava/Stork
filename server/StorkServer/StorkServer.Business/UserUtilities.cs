@@ -126,10 +126,73 @@ namespace StorkServer.Business {
 
         }
 
+        static ServerResponse getUserDashboard(int userID)
+        {
+            UserModel existing = null;
+            //find user, set = to existing
+
+            if (existing == null)
+            {
+                return new ServerResponse(false, "user not found", null);
+            }
+
+            bool success = false;
+
+            //update success
+
+            //get user dashboard object
+            Object userDashboard = null;//temp
+            //set success accordingly
+
+            if (success)
+            {
+                return new ServerResponse(true, "dashboard loaded successfully", userDashboard);
+            }
+            else
+            {
+                return new ServerResponse(false, "failed to load user dashboard", null);
+            }
+
+
+        }
+
+        static ServerResponse getUserWidget(int userID, int widgetID)
+        {
+            UserModel existing = null;
+            //find user, set = to existing
+
+            if (existing == null)
+            {
+                return new ServerResponse(false, "user not found", null);
+            }
+
+            bool success = false;
+
+            //update success
+
+            //get dashboard object
+            Object userDashboard = null;//temp
+
+            //get widget object
+            Object widgetObject = null;//temp
+
+
+            if (success)
+            {
+                return new ServerResponse(true, "widget loaded succesfully", widgetObject);
+            }
+            else
+            {
+                return new ServerResponse(false, "failed to load widget", null);
+            }
+
+
+        }
 
 
 
 
-        
+
+
     }
 }
