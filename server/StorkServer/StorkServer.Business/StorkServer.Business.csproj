@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DatabaseResponse.cs" />
     <Compile Include="Handlers\GetStock.cs" />
     <Compile Include="Handlers\GetWidget.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
