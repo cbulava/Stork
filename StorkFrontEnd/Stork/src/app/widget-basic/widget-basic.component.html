@@ -1,0 +1,12 @@
+﻿<!--
+http://stackoverflow.com/questions/12403095/resizing-div-panel    
+    http://jsfiddle.net/cRKpD/1/    
+    http://stackoverflow.com/questions/35556344/angular2-dynamiccomponentloader-with-parameters
+    http://stackoverflow.com/questions/26540165/typescript-and-libraries-such-as-jquery-with-d-ts-files
+-->
+
+<div class="grid" [ngGrid]="{'max_cols': 0, 'auto_resize': false, 'min_width':1, 'col_width':1, 'min_height':1, 'row_height':1}">
+    <div class="grid-item" [ngGridItem]="{'row':1, 'sizex': 10, 'sizey': 10}"> Hello this is a change </div>
+    <div class="grid-item" [ngGridItem]="{'row':2, 'sizex': 10, 'sizey': 10}"></div>
+    <div class="grid-item" [ngGridItem]="{ 'row':1, 'sizex': 10, 'sizey': 10}"></div>
+</div>
