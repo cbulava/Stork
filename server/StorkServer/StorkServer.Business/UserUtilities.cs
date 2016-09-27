@@ -194,4 +194,7 @@ namespace StorkServer.Business {
 
         }
     }
+
+    //function to take stock symbol and use yahoo api to get response
+    //return as array of strings
 }
