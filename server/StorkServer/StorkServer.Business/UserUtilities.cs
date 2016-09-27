@@ -7,10 +7,10 @@ using StorkServer;
 using System.Data.SqlClient;
 
 namespace StorkServer.Business {
-    class UserUtilities {
+    public class UserUtilities {
 
         //functions should preferably be static as they should be stateless
-        static ServerResponse createUser(string email, string password, string passwordConf) {
+        public static ServerResponse createUser(string email, string password, string passwordConf) {
             //check to see if the email is already taken
             UserModel existing = null; //CHANGE TO SQL FUNCTION TO GET USER BY EMAIL
                                 //(@"SELECT userName FROM (databaseName) WHERE email = @email")
@@ -31,7 +31,7 @@ namespace StorkServer.Business {
             return new ServerResponse(true, "account created successfully", newUser);
         }
 
-        static ServerResponse loginUser(string email, string password)
+        public static ServerResponse loginUser(string email, string password)
         {
             
             UserModel existing = null;
@@ -61,7 +61,7 @@ namespace StorkServer.Business {
 
         }
 
-        static ServerResponse logoutUser (int userID)
+        public static ServerResponse logoutUser (int userID)
         {
             bool loggedOut = false;
 
@@ -76,8 +76,13 @@ namespace StorkServer.Business {
 
         }
 
-        static ServerResponse updateUser(string oldEmail, string newEmail, string oldPassword, string newPassword)
+        public static ServerResponse updateUser(string oldEmail, string newEmail, string oldPassword, string newPassword, string newPasswordConf)
         {
+
+            if (!newPassword.Equals(newPasswordConf)) {
+                return new ServerResponse(false, "new passwords do not match", null);
+            }
+
             if((oldEmail == newEmail) && (oldPassword == newPassword)) 
             {
                 return new ServerResponse(false, "nothing to update", null);
@@ -99,7 +104,7 @@ namespace StorkServer.Business {
 
         }
 
-        static ServerResponse deleteUser(string email, string password)
+        public static ServerResponse deleteUser(string email, string password)
         {
             UserModel existing = null;
             //find user, set = to existing
@@ -126,7 +131,7 @@ namespace StorkServer.Business {
 
         }
 
-        static ServerResponse getUserDashboard(int userID)
+        public static ServerResponse getUserDashboard(int userID)
         {
             UserModel existing = null;
             //find user, set = to existing
@@ -156,7 +161,7 @@ namespace StorkServer.Business {
 
         }
 
-        static ServerResponse getUserWidget(int userID, int widgetID)
+        public static ServerResponse getUserWidget(int userID, int widgetID)
         {
             UserModel existing = null;
             //find user, set = to existing
@@ -188,11 +193,5 @@ namespace StorkServer.Business {
 
 
         }
-
-
-
-
-
-
     }
 }
