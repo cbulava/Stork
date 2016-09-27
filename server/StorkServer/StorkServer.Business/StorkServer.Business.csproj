@@ -40,9 +40,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DatabaseResponse.cs" />
     <Compile Include="Handlers\GetStock.cs" />
     <Compile Include="Handlers\GetWidget.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServerResponse.cs" />
+    <Compile Include="UserModel.cs" />
+    <Compile Include="UserUtilities.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\StorkServer.Sql\StorkServer.Sql.csproj">
+      <Project>{36528d93-5e55-4117-9035-fd94ec76c032}</Project>
+      <Name>StorkServer.Sql</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

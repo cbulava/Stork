@@ -54,6 +54,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
@@ -75,19 +76,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Contracts\IStockRepo.cs" />
-    <Compile Include="Contracts\IWidgetRepo.cs" />
-    <Compile Include="Entities\StockInfo.cs" />
-    <Compile Include="Entities\UserWidgets.cs" />
+    <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\logoutModel.cs" />
+    <Compile Include="Models\UserCreationModel.cs" />
+    <Compile Include="Models\UserUpdateModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="UserController.cs" />
+    <Compile Include="RestController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\StorkServer.Business\StorkServer.Business.csproj">
+      <Project>{26f40e50-262a-4f1c-ad1d-b63cd9f5fa2e}</Project>
+      <Name>StorkServer.Business</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
