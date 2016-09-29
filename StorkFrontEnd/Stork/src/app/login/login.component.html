@@ -1,5 +1,10 @@
 ﻿<h2>Login</h2>
 <br />
+<input #email/>
+<input #password/>
+<button (click)="login(email.value, password.value);">
+    Login
+</button>
 
 <script> 
     
