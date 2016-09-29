@@ -90,6 +90,7 @@
   <ItemGroup>
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\logoutModel.cs" />
+    <Compile Include="Models\StockRequestModel.cs" />
     <Compile Include="Models\UserCreationModel.cs" />
     <Compile Include="Models\UserUpdateModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -23,7 +23,7 @@ namespace StorkServer {
             //Make the server return JSON by default
             config.Formatters.Clear();
             config.Formatters.Add(new JsonMediaTypeFormatter());
-            appBuilder.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
+            //appBuilder.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
             appBuilder.UseWebApi(config);
         }
         //Main entry point of program. Set up of database / business logic layer can be added here
@@ -37,9 +37,6 @@ namespace StorkServer {
             try {
                 using (WebApp.Start<Startup>(url: baseAddress)) {
                     Console.WriteLine("Server Started up on port " + port);
-
-                    //StockUtilities.getQuote(null, null);
-
 
                     //keep running the web app
                     Thread.Sleep(Timeout.Infinite);

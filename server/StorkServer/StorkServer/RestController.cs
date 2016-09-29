@@ -8,13 +8,12 @@ using StorkServer.Business;
 using StorkServer.Models;
 
 namespace StorkServer {
-    [RoutePrefix("user")] //The default route for all functions within the class
     /*
      * Right now this class serves more as an example of how a controller will look.
      */
-    public class UsersController : ApiController {
+    public class RestController : ApiController {
         // GET user
-        [Route("")] //Must add the empty string as a route for any function utilizing the routePrefix
+        [Route("user")] //Must add the empty string as a route for any function utilizing the routePrefix
         [HttpGet] //Must declare what type of http request the function handles
         public ServerResponse getAllUsers() {
             ServerResponse sr = null; //TODO CALL UserUtilites getAllUsers
@@ -23,7 +22,7 @@ namespace StorkServer {
         }
 
         // POST user
-        [Route("")]
+        [Route("user")]
         [HttpPost]
         //To recieve data from a POST call use the [FromBody] tag
         public ServerResponse createUser([FromBody]UserCreationModel value) {
@@ -60,7 +59,7 @@ namespace StorkServer {
         }
 
         //login user
-        [Route("login")]
+        [Route("user/login")]
         [HttpPost]
         public ServerResponse Userlogin([FromBody]LoginModel logininfo) {
             bool success = true;
@@ -90,7 +89,7 @@ namespace StorkServer {
             return sr;
         }
 
-        [Route("logout")]
+        [Route("user/logout")]
         [HttpPost]
         public ServerResponse UserLogout([FromBody]logoutModel logoutinfo) {
             bool success = true;
@@ -117,7 +116,7 @@ namespace StorkServer {
         }
 
         // update a user
-        [Route("{id:int}")] //if collecting a variable from the url utilize format {varname : type}
+        [Route("user/{id:int}")] //if collecting a variable from the url utilize format {varname : type}
         [HttpPut] 
         public ServerResponse updateUser(int id, [FromBody]UserUpdateModel updateinfo) {
             bool success = true;
@@ -160,10 +159,21 @@ namespace StorkServer {
 
 
         // DELETE user
-        [Route("{id:int}")]
+        [Route("user/{id:int}")]
         [HttpDelete]
         public void Delete(int id) {
             ServerResponse sr = new ServerResponse(false, "not implemented yet", null);
+        }
+
+        //GET STOCK
+        [Route("stock/{symbol}")]
+        [HttpPost]
+        public ServerResponse getQuote(string symbol, [FromBody] StockRequestModel payload) {
+            ServerResponse sr;
+
+            string[] fields = { "*" };
+            sr = StockUtilities.getQuote("MFST", fields);
+            return sr;
         }
     }
 }
