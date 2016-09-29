@@ -5,6 +5,7 @@ using System.Net.Http.Formatting;
 using System.Reflection;
 using System.Threading;
 using System.Web.Http;
+using StorkServer.Business;
 
 /*
  * Startup class for Web API initilization
@@ -33,6 +34,10 @@ namespace StorkServer {
             try {
                 using (WebApp.Start<Startup>(url: baseAddress)) {
                     Console.WriteLine("Server Started up on port " + port);
+
+                    StockUtilities.getQuote(null, null);
+
+
                     //keep running the web app
                     Thread.Sleep(Timeout.Infinite);
                 }
