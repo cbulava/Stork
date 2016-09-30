@@ -6,13 +6,16 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using StorkServer.Business;
 using StorkServer.Models;
+using System.Web.Http.Cors;
 
 namespace StorkServer {
     /*
      * Right now this class serves more as an example of how a controller will look.
      */
+    [EnableCors(origins: "http://localhost:3000", headers: "*", methods: "*")]
     public class RestController : ApiController {
         // GET user
+
         [Route("user")] //Must add the empty string as a route for any function utilizing the routePrefix
         [HttpGet] //Must declare what type of http request the function handles
         public ServerResponse getAllUsers() {

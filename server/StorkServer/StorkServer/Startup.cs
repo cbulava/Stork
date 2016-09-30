@@ -23,6 +23,7 @@ namespace StorkServer {
             //Make the server return JSON by default
             config.Formatters.Clear();
             config.Formatters.Add(new JsonMediaTypeFormatter());
+            config.EnableCors();
             //appBuilder.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
             appBuilder.UseWebApi(config);
         }

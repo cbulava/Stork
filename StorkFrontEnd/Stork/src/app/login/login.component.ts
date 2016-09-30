@@ -7,13 +7,13 @@ import { HttpRequestService } from '../shared/http-request.service';
 })
 export class LoginComponent implements OnInit {
 
-    constructor() { }
+    constructor(private httpReq: HttpRequestService) { }
 
     ngOnInit() {
         
     }
-    login() {
-
+    login(email: string, password: string) {
+        this.httpReq.login(email, password, password).subscribe();
     }
 
 }
