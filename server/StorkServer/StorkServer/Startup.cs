@@ -24,7 +24,6 @@ namespace StorkServer {
             config.Formatters.Clear();
             config.Formatters.Add(new JsonMediaTypeFormatter());
             config.EnableCors();
-            //appBuilder.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
             appBuilder.UseWebApi(config);
         }
         //Main entry point of program. Set up of database / business logic layer can be added here
