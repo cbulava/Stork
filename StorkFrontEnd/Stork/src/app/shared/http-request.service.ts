@@ -5,7 +5,7 @@ import { Headers, RequestOptions } from '@angular/http';
 
 @Injectable()
 export class HttpRequestService {
-    serverUrl: string = "localhost:9000/user";
+    serverUrl: string = "http://localhost:9000/user";
 
     constructor(private http: Http) { }
 
