@@ -12,10 +12,10 @@ namespace StorkServer.Business.Handlers
 {
     public class SetUser
     {
-        public void setUser(User user) {
+        public void setUser(int Id, string username, string useremail, string password, string widgetList) {
             UserTableTableAdapter newUser = new UserTableTableAdapter();
 
-            newUser.Insert(user.username,user.useremail,user.password,user.widgetList);
+            newUser.Insert(Id, username, useremail, password, widgetList);
         }
     }
 }

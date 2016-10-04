@@ -72,6 +72,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="StockDataModel.cs" />
+    <Compile Include="StorkDatabaseDataSet.cs">
+      <DependentUpon>StorkDatabaseDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="StorkDatabaseDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
