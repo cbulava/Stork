@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StorkServer.Business.Handlers
+namespace StorkServer.Sql.Repositories
 {
-    class GetWidget
+    public class UserRepo
     {
     }
 }

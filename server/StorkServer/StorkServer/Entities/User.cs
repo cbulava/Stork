@@ -26,6 +26,6 @@ namespace StorkServer.Entities
         public string password { get; set; }
 
 
-        public List<Widget> widgetlist { get; set; }
+        public string widgetlist { get; set; }
     }
 }
