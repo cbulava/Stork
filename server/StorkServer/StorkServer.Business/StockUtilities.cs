@@ -2,6 +2,7 @@
 using System.Text;
 using System.Net;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace StorkServer.Business {
     public class StockUtilities {
@@ -36,16 +37,26 @@ namespace StorkServer.Business {
                     message = "There was an error with querying the stock provider";
                 }
             }
+            JObject jsonresults;
+            try {
+                JObject dataObject = JObject.Parse(results);
+                JObject relevant = (JObject)dataObject.GetValue("query");
+                relevant = (JObject)relevant.GetValue("results");
+                relevant = (JObject)relevant.GetValue("quote");
 
-            JObject dataObject = JObject.Parse(results);
-            JObject relevant = (JObject)dataObject.GetValue("query");
-            relevant = (JObject)relevant.GetValue("results");
-            relevant = (JObject)relevant.GetValue("quote");
+                jsonresults = new JObject();
+                jsonresults.Add("results", relevant);
 
-            JObject jsonresults = new JObject();
-            jsonresults.Add("results", relevant);
+                
+            }
+            catch (JsonReaderException e) {
+                success = false;
+                message = "there was an error parsing results returned from stock provider";
+                jsonresults = null;
+            }
 
             return new ServerResponse(success, message, jsonresults);
+
         }
     }
 }

@@ -173,9 +173,19 @@ namespace StorkServer {
         [HttpPost]
         public ServerResponse getQuote(string symbol, [FromBody] StockRequestModel payload) {
             ServerResponse sr;
+            string[] fields;
+            //if user didn't specify anything, give them everything!
+            if (payload == null || payload.fields.Count() == 0 || payload.fields.Contains("*") ){
+                fields = new string[] { "*" };
+            }
+            else {
 
-            string[] fields = { "*" };
-            sr = StockUtilities.getQuote("MFST", fields);
+                fields = payload.fields.ToArray();
+            }
+
+            
+
+            sr = StockUtilities.getQuote(symbol, fields);
             return sr;
         }
     }
