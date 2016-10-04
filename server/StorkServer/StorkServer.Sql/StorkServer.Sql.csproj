@@ -71,8 +71,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Repositories\StockRepo.cs" />
-    <Compile Include="Repositories\UserRepo.cs" />
     <Compile Include="StockDataModel.cs" />
     <Compile Include="StorkDatabaseDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
