@@ -46,12 +46,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DatabaseResponse.cs" />
-    <Compile Include="Handlers\GetStock.cs" />
-    <Compile Include="Handlers\GetWidget.cs" />
+    <Compile Include="Models\WidgetModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServerResponse.cs" />
+    <Compile Include="Models\ServerResponse.cs" />
     <Compile Include="StockUtilities.cs" />
-    <Compile Include="UserModel.cs" />
+    <Compile Include="Models\UserModel.cs" />
     <Compile Include="UserUtilities.cs" />
   </ItemGroup>
   <ItemGroup>

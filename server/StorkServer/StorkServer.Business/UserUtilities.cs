@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using StorkServer;
 using System.Data.SqlClient;
+using StorkServer.Business.Models;
 
 namespace StorkServer.Business {
     public class UserUtilities {
@@ -192,6 +193,61 @@ namespace StorkServer.Business {
             }
 
 
+        }
+
+        public static ServerResponse deleteUserWidget(int userID, int widgetID) {
+            UserModel existing = null;
+            //find user, set = to existing
+
+            if (existing == null) {
+                return new ServerResponse(false, "user not found", null);
+            }
+
+            bool success = false;
+
+            //update success
+
+            //get dashboard object
+            Object userDashboard = null;//temp
+
+            //get widget object
+            Object widgetObject = null;//temp
+
+
+            if (success) {
+                return new ServerResponse(true, "widget deleted succesfully", widgetObject);
+            }
+            else {
+                return new ServerResponse(false, "failed to load widget", null);
+            }
+
+
+        }
+        public static ServerResponse updateUserWidget(int userID, int widgetID, WidgetModel widget) {
+            UserModel existing = null;
+            //find user, set = to existing
+
+            if (existing == null) {
+                return new ServerResponse(false, "user not found", null);
+            }
+
+            bool success = false;
+
+            //update success
+
+            //get dashboard object
+            Object userDashboard = null;//temp
+
+            //get widget object
+            Object widgetObject = null;//temp
+
+
+            if (success) {
+                return new ServerResponse(true, "widget updated succesfully", widgetObject);
+            }
+            else {
+                return new ServerResponse(false, "failed to load widget", null);
+            }
         }
     }
 }
