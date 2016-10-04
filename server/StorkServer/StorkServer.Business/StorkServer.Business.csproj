@@ -55,6 +55,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DatabaseResponse.cs" />
+    <Compile Include="Handlers\SetUser.cs" />
+    <Compile Include="Handlers\SetWidgets.cs" />
     <Compile Include="Models\WidgetModel.cs" />
     <Compile Include="Handlers\GetStock.cs" />
     <Compile Include="Handlers\GetUser.cs" />
