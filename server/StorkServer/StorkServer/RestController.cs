@@ -6,15 +6,18 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using StorkServer.Business;
 using StorkServer.Models;
+using System.Web.Http.Cors;
+using StorkServer.Business.Models;
 
 namespace StorkServer {
-    [RoutePrefix("user")] //The default route for all functions within the class
     /*
      * Right now this class serves more as an example of how a controller will look.
      */
-    public class UsersController : ApiController {
+    [EnableCors(origins: "http://localhost:3000", headers: "*", methods: "*")]
+    public class RestController : ApiController {
         // GET user
-        [Route("")] //Must add the empty string as a route for any function utilizing the routePrefix
+
+        [Route("user")] //Must add the empty string as a route for any function utilizing the routePrefix
         [HttpGet] //Must declare what type of http request the function handles
         public ServerResponse getAllUsers() {
             ServerResponse sr = null; //TODO CALL UserUtilites getAllUsers
@@ -23,7 +26,7 @@ namespace StorkServer {
         }
 
         // POST user
-        [Route("")]
+        [Route("user")]
         [HttpPost]
         //To recieve data from a POST call use the [FromBody] tag
         public ServerResponse createUser([FromBody]UserCreationModel value) {
@@ -60,17 +63,17 @@ namespace StorkServer {
         }
 
         //login user
-        [Route("login")]
+        [Route("user/login")]
         [HttpPost]
         public ServerResponse Userlogin([FromBody]LoginModel logininfo) {
             bool success = true;
-            string message="";
+            string message = "";
 
             if (logininfo == null) {
                 success = false;
                 message = "no data in payload";
             }
-            else if(logininfo.email == null) {
+            else if (logininfo.email == null) {
                 success = false;
                 message = "no email specified";
             }
@@ -90,7 +93,7 @@ namespace StorkServer {
             return sr;
         }
 
-        [Route("logout")]
+        [Route("user/logout")]
         [HttpPost]
         public ServerResponse UserLogout([FromBody]logoutModel logoutinfo) {
             bool success = true;
@@ -100,25 +103,25 @@ namespace StorkServer {
                 success = false;
                 message = "no data in payload";
             }
-            else if (logoutinfo.id == -1){
+            else if (logoutinfo.id == -1) {
                 success = false;
                 message = "id invalid";
             }
-            
+
             if (success) {
                 sr = UserUtilities.logoutUser(logoutinfo.id);
             }
             else {
                 sr = new ServerResponse(success, message, null);
             }
-             
+
 
             return sr;
         }
 
         // update a user
-        [Route("{id:int}")] //if collecting a variable from the url utilize format {varname : type}
-        [HttpPut] 
+        [Route("user/{id:int}")] //if collecting a variable from the url utilize format {varname : type}
+        [HttpPut]
         public ServerResponse updateUser(int id, [FromBody]UserUpdateModel updateinfo) {
             bool success = true;
             string message = "";
@@ -160,10 +163,93 @@ namespace StorkServer {
 
 
         // DELETE user
-        [Route("{id:int}")]
+        [Route("user/{id:int}")]
         [HttpDelete]
-        public void Delete(int id) {
+        public ServerResponse Delete(int id) {
             ServerResponse sr = new ServerResponse(false, "not implemented yet", null);
+            return sr;
+        }
+
+        //GET dashbaord
+        [Route("user/{id:int}/dashboard")]
+        [HttpGet]
+        public ServerResponse getDashboard(int id) {
+            ServerResponse sr;
+            sr = UserUtilities.getUserDashboard(id);
+            return sr;
+        }
+
+        //ADD a dashboard item
+        [Route("user/{id:int}/dashboard")]
+        [HttpPost]
+        public ServerResponse addWidget(int id, [FromBody] WidgetModel widget) {
+            ServerResponse sr;
+            bool success = false;
+            string message = "not implemented yet";
+            sr = new ServerResponse(success, message, widget);
+            return sr;
+        }
+
+        //GET specific widget
+        [Route("user/{id:int}/dashboard/{widgetid:int}")]
+        [HttpGet]
+        public ServerResponse getWidget(int id, int widgetid) {
+            ServerResponse sr;
+            Console.WriteLine("id = " + id + " widgitid = " + widgetid);
+            sr = UserUtilities.getUserWidget(id, widgetid);
+            return sr;
+        }
+
+        //Delete Widget
+        [Route("user/{id:int}/dashboard/{widgetid:int}")]
+        [HttpDelete]
+        public ServerResponse deleteWidget(int id, int widgetid) {
+            ServerResponse sr;
+            sr = UserUtilities.deleteUserWidget(id, widgetid);
+            return sr;
+        }
+        //Update Widget
+        [Route("user/{id:int}/dashboard/{widgetid:int}")]
+        [HttpPut]
+        public ServerResponse updateWidget(int id, int widgetid, [FromBody] WidgetModel widget) {
+            ServerResponse sr;
+            bool success = true;
+            string message = "";
+            if (widget == null) {
+                success = false;
+                message = "no updated widget given in payload";
+            }
+            if (success) {
+                sr = UserUtilities.updateUserWidget(id, widgetid, widget);
+            }
+            else {
+                sr = new ServerResponse(success, message, null);
+            }
+            
+            return sr;
+        }
+
+
+
+        //GET STOCK
+        [Route("stock/{symbol}")]
+        [HttpPost]
+        public ServerResponse getQuote(string symbol, [FromBody] StockRequestModel payload) {
+            ServerResponse sr;
+            string[] fields;
+            //if user didn't specify anything, give them everything!
+            if (payload == null || payload.fields.Count() == 0 || payload.fields.Contains("*") ){
+                fields = new string[] { "*" };
+            }
+            else {
+
+                fields = payload.fields.ToArray();
+            }
+
+            
+
+            sr = StockUtilities.getQuote(symbol, fields);
+            return sr;
         }
     }
 }

@@ -1,10 +1,13 @@
 ﻿using Microsoft.Owin.Hosting;
 using Owin;
+using Microsoft.Owin.Cors;
 using System;
 using System.Net.Http.Formatting;
 using System.Reflection;
 using System.Threading;
 using System.Web.Http;
+using StorkServer.Business;
+using System.Web.Http.Cors;
 
 /*
  * Startup class for Web API initilization
@@ -20,6 +23,7 @@ namespace StorkServer {
             //Make the server return JSON by default
             config.Formatters.Clear();
             config.Formatters.Add(new JsonMediaTypeFormatter());
+            config.EnableCors();
             appBuilder.UseWebApi(config);
         }
         //Main entry point of program. Set up of database / business logic layer can be added here
@@ -33,6 +37,7 @@ namespace StorkServer {
             try {
                 using (WebApp.Start<Startup>(url: baseAddress)) {
                     Console.WriteLine("Server Started up on port " + port);
+
                     //keep running the web app
                     Thread.Sleep(Timeout.Infinite);
                 }

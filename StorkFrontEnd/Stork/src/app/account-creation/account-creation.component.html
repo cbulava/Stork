@@ -1,0 +1,12 @@
+<h2>Account Creation</h2>
+<br />
+<p>Email</p>
+<input #email/>
+<br />
+<p>Password</p>
+<input #password/>
+<br />
+<br />
+<button (click)="createAccount(email.value, password.value);">
+    Create Account
+</button>

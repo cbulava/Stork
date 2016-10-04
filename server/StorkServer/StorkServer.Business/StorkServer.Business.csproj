@@ -30,8 +30,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,11 +55,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DatabaseResponse.cs" />
+    <Compile Include="Handlers\SetUser.cs" />
+    <Compile Include="Handlers\SetWidgets.cs" />
+    <Compile Include="Models\WidgetModel.cs" />
     <Compile Include="Handlers\GetStock.cs" />
-    <Compile Include="Handlers\GetWidget.cs" />
+    <Compile Include="Handlers\GetUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServerResponse.cs" />
-    <Compile Include="UserModel.cs" />
+    <Compile Include="Models\ServerResponse.cs" />
+    <Compile Include="StockUtilities.cs" />
+    <Compile Include="Models\UserModel.cs" />
     <Compile Include="UserUtilities.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -53,6 +71,10 @@
       <Project>{36528d93-5e55-4117-9035-fd94ec76c032}</Project>
       <Name>StorkServer.Sql</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
