@@ -12,15 +12,18 @@ namespace StorkServer.Entities
     {
         [Key]
         [JsonIgnore]
-        public int ID { get; set; }
+        public int Id { get; set; }
 
-        [Key]
+        
         [Required]
         public string useremail { get; set; }
 
-        [Key]
+        
         [Required]
         public string username { get; set; }        
+
+        [Required]
+        public string password { get; set; }
 
 
         public List<Widget> widgetlist { get; set; }

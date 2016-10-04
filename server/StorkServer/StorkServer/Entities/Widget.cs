@@ -33,10 +33,11 @@ namespace StorkServer.Entities
         [Required]
         [StringLength(2)]
         public int refreshRate { get; set; }
-
         
+
         public List <string> stocklist { get; set; }
 
+        [Required]
         public string widgetType { get; set; }
     }
 }

@@ -14,7 +14,7 @@ namespace StorkServer.Entities
         [JsonIgnore]
         public int ID { get; set;}
 
-        [Key]
+        [Required]
         [StringLength(5)]
         public string acronym { get; set; }
 
