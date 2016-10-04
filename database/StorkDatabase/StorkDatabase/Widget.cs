@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StorkServer.Sql.Repositories
+namespace StorkDatabase
 {
-    public class WidgetRepo
+    class Widget
     {
     }
 }

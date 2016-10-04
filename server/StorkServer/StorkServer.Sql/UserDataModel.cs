@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace StorkServer.Sql
 {
-    public partial class WidgetDataModel : DbContext
+    public partial class UserDataModel : DbContext
     {
-        public WidgetDataModel()
-            : base("name=WidgetDataModel")
+        public UserDataModel()
+            : base("name=UserDataModel")
         {
         }
     }
