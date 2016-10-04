@@ -15,7 +15,7 @@ namespace StorkServer.Business.Handlers
             UserTableTableAdapter newUWidget = new UserTableTableAdapter();
 
 
-            newWidget.Update(newUser);
+            //newWidget.Update(newUser);
         }
     }
 }
