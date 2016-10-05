@@ -55,15 +55,16 @@ export class WidgetControlService {
 
     constructor(private httpReq: HttpRequestService) {
         for (var i = 0; i < 4; i++) {
-			this.boxes[i] = { id: i + 1, config: this._generateDefaultItemConfig(), data: [] , name: this.stockSymbols[i]};			
+			this.boxes[i] = { id: i + 1, config: this._generateDefaultItemConfig(), data: [] , name: this.stockSymbols[i]};	
+			this.getStockData(this.stockSymbols[i], i);		
 		}
 		
 
 
-        this.httpReq.getStock("MSFT", this.basicStockData).subscribe(data => this.boxes[0].data = data.payload.results );
-        this.httpReq.getStock("GOOG", this.basicStockData).subscribe(data => this.boxes[1].data = data.payload.results );
-		this.httpReq.getStock("AMZN", this.basicStockData).subscribe(data => this.boxes[2].data = data.payload.results );
-		this.httpReq.getStock("FB", this.basicStockData).subscribe(data => this.boxes[3].data = data.payload.results );
+        // this.httpReq.getStock("MSFT", this.basicStockData).subscribe(data => this.boxes[0].data = data.payload.results );
+        // this.httpReq.getStock("GOOG", this.basicStockData).subscribe(data => this.boxes[1].data = data.payload.results );
+		// this.httpReq.getStock("AMZN", this.basicStockData).subscribe(data => this.boxes[2].data = data.payload.results );
+		// this.httpReq.getStock("FB", this.basicStockData).subscribe(data => this.boxes[3].data = data.payload.results );
 
     }
 
@@ -119,6 +120,7 @@ export class WidgetControlService {
 	}
 	
 	onDrag(index: number, event: NgGridItemEvent): void {
+		let f: number = 6;
 		// Do something here
 	}
 	
@@ -130,7 +132,17 @@ export class WidgetControlService {
 		return {  'col': 1, 'row': 1, 'sizex': 70, 'sizey': 10, 'minCols':30, 'minRows':10, 'resizable':false, 'draggable':false};
 	}
 
-    getStockData(stock: string){
-        
+	//Stock symbol and widget index to save it to
+    getStockData(stock: string, boxIndex: number){
+        let httpData: Array<any>;
+		this.httpReq.getStock(stock, this.basicStockData).subscribe(
+ 			response => {
+                if(response.success){
+                    this.boxes[boxIndex].data = response.payload.results;
+                }else{
+                    //retrieval failed for some reason
+                }
+            }
+		);
     }
 }

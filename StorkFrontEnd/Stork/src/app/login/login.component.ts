@@ -16,6 +16,7 @@ export class LoginComponent implements OnInit {
     ngOnInit() {
         
     }
+    
     login(email: string, password: string) {
         this.httpReq.login(email, password).subscribe(       
                     response => {

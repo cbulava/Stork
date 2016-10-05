@@ -6,11 +6,8 @@ http://stackoverflow.com/questions/12403095/resizing-div-panel
 -->
 
 <div class="grid" [(ngGrid)]="gridConfig">
-    <!--<div id="w1" class="grid-item" [ngGridItem]="{'row':1, 'sizex': 10, 'sizey': 10}"> Hello this is a change </div>
-    <div class="grid-item" [ngGridItem]="{'row':2, 'sizex': 10, 'sizey': 10}"></div>
-    <div class="grid-item" [ngGridItem]="{ 'row':1, 'sizex': 10, 'sizey': 10}"></div>-->
 
-        <div *ngFor="let box of boxes" [(ngGridItem)]="box.config" style="padding:5px">
+        <div *ngFor="let box of boxes" [(ngGridItem)]="box.config" style="padding:5px" (onDrag)="widgetControl.onDrag()" (onResize)="widgetControl.onResize()">
         <div class="title">{{box.name}}</div>
         <table>
             <tr>
