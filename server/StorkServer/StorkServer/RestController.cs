@@ -7,7 +7,7 @@ using System.Web.Http;
 using StorkServer.Business;
 using StorkServer.Models;
 using System.Web.Http.Cors;
-using StorkServer.Business.Models;
+using StorkServer.Sql.Models;
 
 namespace StorkServer {
     /*
