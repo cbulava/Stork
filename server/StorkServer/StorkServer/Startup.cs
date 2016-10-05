@@ -34,6 +34,7 @@ namespace StorkServer {
             //administrator mode, due to listening to all addresses. Furthermore if having issue connecting
             //to this server from an outside computer make sure windows firewall has the desired port on an inbound rule,
             //also make sure the router has forwarded the port to the host machine
+            UserUtilities.test();
             try {
                 using (WebApp.Start<Startup>(url: baseAddress)) {
                     Console.WriteLine("Server Started up on port " + port);

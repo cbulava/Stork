@@ -6,9 +6,15 @@ using System.Threading.Tasks;
 using StorkServer;
 using System.Data.SqlClient;
 using StorkServer.Business.Models;
+using System.Data.SQLite;
 
 namespace StorkServer.Business {
     public class UserUtilities {
+
+        public static void test() {
+            StorkServer.Sql.SqliteHandler.InitDB();
+            //SQLiteConnection connection = StorkServer.Sql.SqliteHandler.connect();
+        }
 
         //functions should preferably be static as they should be stateless
         public static ServerResponse createUser(string email, string password, string passwordConf) {
