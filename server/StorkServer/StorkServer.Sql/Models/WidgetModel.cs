@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StorkServer.Business.Models {
+namespace StorkServer.Sql.Models {
     public class WidgetModel {
         public int id { get; set; }
         public string widgetType { get; set; }

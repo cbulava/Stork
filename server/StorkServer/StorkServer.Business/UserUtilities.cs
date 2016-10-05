@@ -5,23 +5,22 @@ using System.Text;
 using System.Threading.Tasks;
 using StorkServer;
 using System.Data.SqlClient;
-using StorkServer.Business.Models;
 using System.Data.SQLite;
+using StorkServer.Sql.Models;
+using StorkServer.Sql;
 
 namespace StorkServer.Business {
     public class UserUtilities {
 
-        public static void test() {
+        public static void StartupDB() {
             StorkServer.Sql.SqliteHandler.InitDB();
-            //SQLiteConnection connection = StorkServer.Sql.SqliteHandler.connect();
         }
 
         //functions should preferably be static as they should be stateless
         public static ServerResponse createUser(string email, string password, string passwordConf) {
             //check to see if the email is already taken
-            UserModel existing = null; //CHANGE TO SQL FUNCTION TO GET USER BY EMAIL
-                                //(@"SELECT userName FROM (databaseName) WHERE email = @email")
-            if (existing != null) {
+            long id = SqliteHandler.getUserId(email);
+            if (id != -1) {
                 //return a failure with an error message an no payload
                 return new ServerResponse(false, "email already exists", null);
             }
@@ -31,36 +30,45 @@ namespace StorkServer.Business {
             }
 
             //Down the line do some call to send an email to the user, for now do nothing
+            //grab the user id of the created user
+            id = SqliteHandler.createUser(email, password);
+            if (id == -1) {
+                //there was some failure
+                return new ServerResponse(false, "there was an error creating the user", null);
+            }
 
-            UserModel newUser = new UserModel(); //create a new user using given info 
-            //TODO CHANGE TO SQL FUNCTION TO CREATE AND STORE USER
-            //return a success with a success message and put the user into the payload
-            return new ServerResponse(true, "account created successfully", newUser);
+
+            UserModel newUser = SqliteHandler.getUser(id); //grab the created user
+            if (newUser != null) {
+                //return a success with a success message and put the user into the payload
+                return new ServerResponse(true, "account created successfully", newUser);
+            }
+            else {
+                //there was some failure
+                return new ServerResponse(false, "there was an error grabbing the created the user", null);
+            }
+            
         }
 
         public static ServerResponse loginUser(string email, string password)
         {
-            
-            UserModel existing = null;
-            
-            //TODO sql connection code
-            //SqlCommand cmd = new SqlCommand(@"Select userName FROM logins WHERE email=@email and password=@password", connection);
-            //existing = cmd.ExecuteScalar();
-            //.. 
-            
-            //if successful
-            if (existing != null)
-            {
-                //existing = a user object
-                return new ServerResponse(true, "user login successfull", existing);
 
+            long id = SqliteHandler.getUserId(email);
+            if (id == -1) {
+                //return a failure with an error message an no payload
+                return new ServerResponse(false, "email doesn't exist", null);
+            }
+            string realPassword = SqliteHandler.getUserPassword(id);
+            if (realPassword.Equals(password)) {
+                UserModel user = SqliteHandler.getUser(id);
+                return new ServerResponse(true, "user login successfull", user);
             }
             //if not successful
             else
             {
                 //...
                 //sql call returns no match
-                return new ServerResponse(false, "user login not found", null);
+                return new ServerResponse(false, "password doesn't match", null);
             }
 
 
@@ -68,13 +76,15 @@ namespace StorkServer.Business {
 
         }
 
-        public static ServerResponse logoutUser (int userID)
+        public static ServerResponse logoutUser (long userID)
         {
-            bool loggedOut = false;
 
-            if (loggedOut)
+            //for now just verify that a user exists to be criteria
+            UserModel user = SqliteHandler.getUser(userID);
+
+            if (user != null)
             {
-                return new ServerResponse(true, "useer logged out", null);
+                return new ServerResponse(true, "user logged out", null);
             }
             else
             {

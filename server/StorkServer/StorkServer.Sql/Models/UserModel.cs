@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StorkServer.Business.Models {
+namespace StorkServer.Sql.Models {
     public class UserModel {
-        public int id { get; set; }
+        public long id { get; set; }
         public string email { get; set; }
         private LinkedList<WidgetModel> widgets;
         public WidgetModel[] widgetList {

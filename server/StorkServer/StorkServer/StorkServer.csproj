@@ -179,6 +179,10 @@
       <Project>{26f40e50-262a-4f1c-ad1d-b63cd9f5fa2e}</Project>
       <Name>StorkServer.Business</Name>
     </ProjectReference>
+    <ProjectReference Include="..\StorkServer.Sql\StorkServer.Sql.csproj">
+      <Project>{36528D93-5E55-4117-9035-FD94EC76C032}</Project>
+      <Name>StorkServer.Sql</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
