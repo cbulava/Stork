@@ -15,12 +15,13 @@ interface Box {
 	config: NgGridItemConfig;
     data: Array<any>;
 	name: string;
+	error: string;
 }
 
 @Injectable()
 export class WidgetControlService {
     private boxes: Array<Box> = [];
-
+	private showError: boolean = false;
     private httpData: Array<any>;
     private curNum: number = 5;
     private rgb: string = "#efefef";
@@ -55,7 +56,7 @@ export class WidgetControlService {
 
     constructor(private httpReq: HttpRequestService) {
         for (var i = 0; i < 4; i++) {
-			this.boxes[i] = { id: i + 1, config: this._generateDefaultItemConfig(), data: [] , name: this.stockSymbols[i]};	
+			this.boxes[i] = { id: i + 1, config: this._generateDefaultItemConfig(), data: [] , name: this.stockSymbols[i], error: ""};	
 			this.getStockData(this.stockSymbols[i], i);		
 		}
 		
@@ -106,7 +107,7 @@ export class WidgetControlService {
 	addBox(): void {
 		const conf: NgGridItemConfig = this._generateDefaultItemConfig();
 		conf.payload = this.curNum++;
-		this.boxes.push({ id: conf.payload, config: conf, data: [], name: "" });
+		this.boxes.push({ id: conf.payload, config: conf, data: [], name: "" , error: ""});
 	}
 	
 	removeBox(): void {
@@ -142,7 +143,11 @@ export class WidgetControlService {
                 }else{
                     //retrieval failed for some reason
                 }
-            }
+            }, 
+			error => {
+				this.showError = true;
+				this.boxes[boxIndex].error = "Error timeout in Server. Server may be slow or not running.";
+			}
 		);
     }
 }
