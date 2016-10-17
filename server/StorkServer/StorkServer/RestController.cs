@@ -246,7 +246,6 @@ namespace StorkServer {
                 fields = payload.fields.ToArray();
             }
 
-            
 
             sr = StockUtilities.getQuote(symbol, fields);
             return sr;

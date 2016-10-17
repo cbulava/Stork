@@ -56,6 +56,23 @@ namespace StorkServer.Sql {
 
             command.ExecuteNonQuery();
 
+            statement = "CREATE TABLE WIDGETS (" +
+                "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "UID INTEGER," + 
+                "STOCKLIST CHAR(1024)," +
+                "TYPE CHAR(50)," +
+                "REFRESH INTEGER," +
+                "X INTEGER, " +
+                "Y INTEGER, " +
+                "HEIGHT INTEGER, " +
+                "WIDTH INTEGER," +
+                "FOREIGN KEY(UID) REFERENCES USERS(ID)" + 
+                ");";
+
+            command = new SQLiteCommand(statement, connection);
+
+            command.ExecuteNonQuery();
+
             disconnect(connection);
         }
         //returns the id of the user
@@ -120,6 +137,23 @@ namespace StorkServer.Sql {
 
             return password;
         }
+        //will convert an array of stocks into a database storable string
+        public static string stockArrayToString(string[] stocks) {
+            string converted = "";
+            for (int i = 0; i < stocks.Length; i++) {
+                converted += stocks[i];
+                if (i != stocks.Length - 1) {
+                    converted += ",";
+                }
+            }
+
+            return converted;
+        }
+        //will convert a string of stocks into a useable array
+        public static string[] stockStringToArray(string stocks) {
+            return stocks.Split(',');
+        }
+
 
         //obtains a user from the database given id (will be fleshed out more once widgets are in)
         public static UserModel getUser(long id) {
@@ -143,7 +177,138 @@ namespace StorkServer.Sql {
             }
             reader.Close();
             disconnect(connection);
+            //grab the users widgets
+            if (user != null) {
+                WidgetModel[] widgets = getAllWidgets(id);
+                user.widgetList = widgets;
+            }
+            
+            
             return user;
+        }
+
+        //inserts a widget into the database
+        public static long createWidget(long uid, WidgetModel widget) {
+            SQLiteConnection connection = connect();
+
+            string statement = "INSERT INTO WIDGETS(UID, STOCKLIST, TYPE, REFRESH, X, Y, HEIGHT, WIDTH) VALUES(" + 
+                uid + ", '" + stockArrayToString(widget.stockList) + "', '" + widget.widgetType + "', " + widget.refresh + "," + widget.x + "," + widget.y + "," + widget.height + "," + widget.width + ")";
+            SQLiteCommand command = new SQLiteCommand(statement, connection);
+
+            command.ExecuteNonQuery();
+            //grab the id
+            statement = "SELECT last_insert_rowid()";
+            command = new SQLiteCommand(statement, connection);
+            Int64 id = (Int64)command.ExecuteScalar();
+
+            disconnect(connection);
+            return id;
+        }
+
+        //updates a widget in the database
+        public static void updateWidget(long wid, WidgetModel newWidget) {
+            SQLiteConnection connection = connect();
+            string statement = "UPDATE WIDGETS SET " +
+                "STOCKLIST = '" + stockArrayToString(newWidget.stockList) + "', TYPE = '" + newWidget.widgetType + "', REFRESH = " + newWidget.refresh + ", X = " + newWidget.x + ", Y = " + newWidget.y + ", HEIGHT = " + newWidget.height + ", WIDTH = " + newWidget.width + " " +
+                "WHERE ID = " + wid;
+
+            SQLiteCommand command = new SQLiteCommand(statement, connection);
+
+            command.ExecuteNonQuery();
+
+            disconnect(connection);
+        }
+
+        //deletes a widget in the database
+        public static void deleteWidget(long wid) {
+            SQLiteConnection connection = connect();
+
+            string statement = "DELETE FROM WIDGETS WHERE ID = " + wid;
+
+            SQLiteCommand command = new SQLiteCommand(statement, connection);
+
+            command.ExecuteNonQuery();
+
+            disconnect(connection);
+        }
+
+        //grabs a widget from the database
+        public static WidgetModel getWidget(long wid) {
+            WidgetModel widget;
+            SQLiteConnection connection = connect();
+
+            string statement = "SELECT * FROM WIDGETS WHERE ID = " + wid;
+            SQLiteCommand command = new SQLiteCommand(statement, connection);
+            SQLiteDataReader reader = command.ExecuteReader();
+
+            if (reader.HasRows) {
+                reader.Read();
+                long id = (long)reader[0];
+                string stocklist = (string)reader[2];
+                string type = (string)reader[3];
+                long refresh = (long)reader[4];
+                long x = (long)reader[5];
+                long y = (long)reader[6];
+                long height = (long)reader[7];
+                long width = (long)reader[8];
+                widget = new WidgetModel();
+                widget.id = id;
+                widget.stockList = stockStringToArray(stocklist);
+                widget.widgetType = type;
+                widget.refresh = refresh;
+                widget.x = x;
+                widget.y = y;
+                widget.height = height;
+                widget.width = width;
+                
+            }
+            else {
+                widget = null;
+            }
+
+            reader.Close();
+            disconnect(connection);
+
+            return widget;
+        }
+
+        //grabs all widget from the database
+        public static WidgetModel[] getAllWidgets(long uid) {
+            LinkedList<WidgetModel> widgets = new LinkedList<WidgetModel>();
+            SQLiteConnection connection = connect();
+
+            string statement = "SELECT * FROM WIDGETS WHERE UID = " + uid;
+            SQLiteCommand command = new SQLiteCommand(statement, connection);
+            SQLiteDataReader reader = command.ExecuteReader();
+
+            if (reader.HasRows) {
+                while (reader.Read()) {
+                    long id = (long)reader[0];
+                    string stocklist = (string)reader[2];
+                    string type = (string)reader[3];
+                    long refresh = (long)reader[4];
+                    long x = (long)reader[5];
+                    long y = (long)reader[6];
+                    long height = (long)reader[7];
+                    long width = (long)reader[8];
+                    WidgetModel widget = new WidgetModel();
+                    widget.id = id;
+                    widget.stockList = stockStringToArray(stocklist);
+                    widget.widgetType = type;
+                    widget.refresh = refresh;
+                    widget.x = x;
+                    widget.y = y;
+                    widget.height = height;
+                    widget.width = width;
+
+                    widgets.AddLast(widget);
+                }
+            }
+
+            reader.Close();
+            disconnect(connection);
+
+            return widgets.ToArray();
         }
     }
 }

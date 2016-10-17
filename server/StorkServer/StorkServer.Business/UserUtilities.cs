@@ -14,6 +14,27 @@ namespace StorkServer.Business {
 
         public static void StartupDB() {
             StorkServer.Sql.SqliteHandler.InitDB();
+            //testing 
+            long uid = SqliteHandler.createUser("email", "password");
+            WidgetModel widget = new WidgetModel();
+            widget.refresh = 10;
+            widget.addStock("MSFT");
+            widget.addStock("GOOG");
+            widget.height = 24;
+            long wid =  SqliteHandler.createWidget(uid, widget);
+
+            widget = new WidgetModel();
+            widget.refresh = 13;
+            widget.addStock("MSfFT");
+            widget.addStock("GOfOG");
+            widget.height = 4;
+            SqliteHandler.updateWidget(wid, widget);
+
+            WidgetModel[] w = SqliteHandler.getAllWidgets(uid);
+            Console.WriteLine(w[0].stockList[0]);
+            Console.WriteLine(w[0].refresh);
+            Console.WriteLine(w[0].height);
+
         }
 
         //functions should preferably be static as they should be stateless
@@ -121,7 +142,7 @@ namespace StorkServer.Business {
 
         }
 
-        public static ServerResponse deleteUser(string email, string password)
+        public static ServerResponse deleteUser(long id)
         {
             UserModel existing = null;
             //find user, set = to existing
