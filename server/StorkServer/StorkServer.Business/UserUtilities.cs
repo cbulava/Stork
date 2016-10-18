@@ -14,27 +14,6 @@ namespace StorkServer.Business {
 
         public static void StartupDB() {
             StorkServer.Sql.SqliteHandler.InitDB();
-            //testing 
-            long uid = SqliteHandler.createUser("email", "password");
-            WidgetModel widget = new WidgetModel();
-            widget.refresh = 10;
-            widget.addStock("MSFT");
-            widget.addStock("GOOG");
-            widget.height = 24;
-            long wid =  SqliteHandler.createWidget(uid, widget);
-
-            widget = new WidgetModel();
-            widget.refresh = 13;
-            widget.addStock("MSfFT");
-            widget.addStock("GOfOG");
-            widget.height = 4;
-            SqliteHandler.updateWidget(wid, widget);
-
-            WidgetModel[] w = SqliteHandler.getAllWidgets(uid);
-            Console.WriteLine(w[0].stockList[0]);
-            Console.WriteLine(w[0].refresh);
-            Console.WriteLine(w[0].height);
-
         }
 
         //functions should preferably be static as they should be stateless
@@ -169,122 +148,68 @@ namespace StorkServer.Business {
 
         }
 
-        public static ServerResponse getUserDashboard(int userID)
+        public static ServerResponse getUserDashboard(long userID)
         {
-            UserModel existing = null;
-            //find user, set = to existing
-
+            UserModel existing = SqliteHandler.getUser(userID);
             if (existing == null)
             {
                 return new ServerResponse(false, "user not found", null);
             }
 
-            bool success = false;
-
-            //update success
-
-            //get user dashboard object
-            Object userDashboard = null;//temp
-            //set success accordingly
-
-            if (success)
-            {
-                return new ServerResponse(true, "dashboard loaded successfully", userDashboard);
-            }
-            else
-            {
-                return new ServerResponse(false, "failed to load user dashboard", null);
-            }
-
+            return new ServerResponse(true, "dashboard loaded successfully", existing.widgetList);
 
         }
 
-        public static ServerResponse getUserWidget(int userID, int widgetID)
+        public static ServerResponse getUserWidget(long widgetID)
         {
-            UserModel existing = null;
+
+            WidgetModel widget = SqliteHandler.getWidget(widgetID);
+
+            if (widget == null) {
+                return new ServerResponse(false, "widget not found", null);
+            }
+
+            return new ServerResponse(true, "widget loaded succesfully", widget);
+        }
+
+
+        public static ServerResponse deleteUserWidget( long widgetID) {
+            WidgetModel widget = SqliteHandler.getWidget(widgetID);
             //find user, set = to existing
 
-            if (existing == null)
-            {
-                return new ServerResponse(false, "user not found", null);
+            if (widget == null) {
+                return new ServerResponse(false, "widget not found", null);
             }
 
-            bool success = false;
+            SqliteHandler.deleteWidget(widgetID);
 
-            //update success
-
-            //get dashboard object
-            Object userDashboard = null;//temp
-
-            //get widget object
-            Object widgetObject = null;//temp
-
-
-            if (success)
-            {
-                return new ServerResponse(true, "widget loaded succesfully", widgetObject);
-            }
-            else
-            {
-                return new ServerResponse(false, "failed to load widget", null);
-            }
+            return new ServerResponse(true, "widget deleted succesfully", null);
 
 
         }
+        public static ServerResponse updateUserWidget(long widgetID, WidgetModel widget) {
+            WidgetModel oldWidget = SqliteHandler.getWidget(widgetID);
 
-        public static ServerResponse deleteUserWidget(int userID, int widgetID) {
-            UserModel existing = null;
-            //find user, set = to existing
-
-            if (existing == null) {
-                return new ServerResponse(false, "user not found", null);
+            if (oldWidget == null) {
+                return new ServerResponse(false, "widget not found", null);
             }
 
-            bool success = false;
+            SqliteHandler.updateWidget(widgetID, widget);
 
-            //update success
+            oldWidget = SqliteHandler.getWidget(widgetID);
 
-            //get dashboard object
-            Object userDashboard = null;//temp
-
-            //get widget object
-            Object widgetObject = null;//temp
-
-
-            if (success) {
-                return new ServerResponse(true, "widget deleted succesfully", widgetObject);
-            }
-            else {
-                return new ServerResponse(false, "failed to load widget", null);
-            }
-
-
+            return new ServerResponse(true, "widget updated successfully", oldWidget);
         }
-        public static ServerResponse updateUserWidget(int userID, int widgetID, WidgetModel widget) {
-            UserModel existing = null;
-            //find user, set = to existing
 
-            if (existing == null) {
-                return new ServerResponse(false, "user not found", null);
+        public static ServerResponse addUserWidget(long userId, WidgetModel widget) {
+            UserModel user = SqliteHandler.getUser(userId);
+            if (user == null) {
+                return new ServerResponse(false, "user could not be found", null);
             }
 
-            bool success = false;
+            long wid = SqliteHandler.createWidget(userId, widget);
 
-            //update success
-
-            //get dashboard object
-            Object userDashboard = null;//temp
-
-            //get widget object
-            Object widgetObject = null;//temp
-
-
-            if (success) {
-                return new ServerResponse(true, "widget updated succesfully", widgetObject);
-            }
-            else {
-                return new ServerResponse(false, "failed to load widget", null);
-            }
+            return new ServerResponse(true, "widget was successfully created", wid);
         }
     }
 }
