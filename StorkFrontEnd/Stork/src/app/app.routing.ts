@@ -6,7 +6,7 @@ import { EditComponent } from './edit/edit.component';
 import { AccountCreationComponent }  from './account-creation/account-creation.component';
 
 const app_routes: Routes = [
-  { path: '',  pathMatch:'full', redirectTo: '/home' },
+  { path: '',  pathMatch:'full', redirectTo: '/login' },
   { path: 'home',  component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'edit', component: EditComponent },

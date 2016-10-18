@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { DataService } from '../shared/data.service';
-import { WidgetBasicComponent } from '../widget-basic/widget-basic.component';
+import { WidgetHolderComponent } from '../widget-holder/widget-holder.component';
+import { Router } from '@angular/router';
 
 @Component({
     moduleId: module.id,
@@ -12,7 +13,11 @@ export class HomeComponent implements OnInit {
     
     projectName: string;
 
-    constructor(private dataService: DataService) { }
+    constructor(private dataService: DataService, private router: Router) { 
+        if(!localStorage["id_token"]){
+            router.navigate(["/"]);
+        }
+    }
 
     ngOnInit() { 
         this.projectName = this.dataService.getProjectName();

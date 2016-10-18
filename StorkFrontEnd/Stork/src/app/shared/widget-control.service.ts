@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Type, ChangeDetectorRef} from '@angular/core';
 import { NgGrid, NgGridItem } from 'angular2-grid';
 import { HttpRequestService } from '../shared/http-request.service';
+import { WidgetSampleComponent } from '../widget-sample/widget-sample.component';
 import { NgGridConfig, NgGridItemConfig, NgGridItemEvent } from "angular2-grid";
+
 
 
 class Widget { 
@@ -12,10 +14,12 @@ class Widget {
 
 interface Box {
 	id: number;
+	compId: number;
 	config: NgGridItemConfig;
     data: Array<any>;
 	name: string;
 	error: string;
+	type: number;
 }
 
 @Injectable()
@@ -29,6 +33,7 @@ export class WidgetControlService {
     private itemPositions: Array<any> = [];
 	private basicStockData: Array<string> = ["Bid", "DaysLow", "DaysHigh", "YearsLow", "YearsHigh", "Ask", "AverageDailyVolume", "DaysRange"];
 	private stockSymbols: Array<string> = ["MSFT", "GOOG", "AMZN", "FB"];
+	public currBoxId: number = 5;
 	private gridConfig: NgGridConfig = <NgGridConfig>{
 		'margins': [5],
 		'draggable': true,
@@ -55,17 +60,12 @@ export class WidgetControlService {
 
 
     constructor(private httpReq: HttpRequestService) {
+		//manually creating boxes and fill them with compoment type 0 (change type to that of your component number to test for now)
         for (var i = 0; i < 4; i++) {
-			this.boxes[i] = { id: i + 1, config: this._generateDefaultItemConfig(), data: [] , name: this.stockSymbols[i], error: ""};	
+			this.boxes[i] = { id: i + 1, compId: 0, config: this._generateDefaultItemConfig(), data: [] , name: this.stockSymbols[i], error: "", type: 0};	
 			this.getStockData(this.stockSymbols[i], i);		
 		}
-		
-
-
-        // this.httpReq.getStock("MSFT", this.basicStockData).subscribe(data => this.boxes[0].data = data.payload.results );
-        // this.httpReq.getStock("GOOG", this.basicStockData).subscribe(data => this.boxes[1].data = data.payload.results );
-		// this.httpReq.getStock("AMZN", this.basicStockData).subscribe(data => this.boxes[2].data = data.payload.results );
-		// this.httpReq.getStock("FB", this.basicStockData).subscribe(data => this.boxes[3].data = data.payload.results );
+		//modify box component data here
 
     }
 
@@ -76,6 +76,9 @@ export class WidgetControlService {
 
     }
 
+	refreshWidgetHolder() {
+
+	}
 
 	get ratioDisabled(): boolean {
 		return (this.gridConfig.max_rows > 0 && this.gridConfig.visible_cols > 0) ||
@@ -107,7 +110,7 @@ export class WidgetControlService {
 	addBox(): void {
 		const conf: NgGridItemConfig = this._generateDefaultItemConfig();
 		conf.payload = this.curNum++;
-		this.boxes.push({ id: conf.payload, config: conf, data: [], name: "" , error: ""});
+		this.boxes.push({ id: conf.payload, compId: 1, config: conf, data: [], name: "" , error: "", type: 0});
 	}
 	
 	removeBox(): void {
@@ -121,7 +124,6 @@ export class WidgetControlService {
 	}
 	
 	onDrag(index: number, event: NgGridItemEvent): void {
-		let f: number = 6;
 		// Do something here
 	}
 	
@@ -131,6 +133,10 @@ export class WidgetControlService {
 	
 	private _generateDefaultItemConfig(): NgGridItemConfig {
 		return {  'col': 1, 'row': 1, 'sizex': 70, 'sizey': 10, 'minCols':30, 'minRows':10, 'resizable':false, 'draggable':false};
+	}
+
+	get currentInitBoxId(): number {
+		return this.currBoxId;
 	}
 
 	//Stock symbol and widget index to save it to
@@ -146,7 +152,7 @@ export class WidgetControlService {
             }, 
 			error => {
 				this.showError = true;
-				this.boxes[boxIndex].error = "Error timeout in Server. Server may be slow or not running.";
+				this.boxes[boxIndex].error = "Error timeout in Server. Server may be slow, or stock data is updating on Yahoo page.";
 			}
 		);
     }
