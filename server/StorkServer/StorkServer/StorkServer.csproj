@@ -211,4 +211,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Target Name="AfterClean">
+    <Delete Files="$(OutDir)\data.sqlite" ContinueOnError="true" />
+  </Target>
 </Project>

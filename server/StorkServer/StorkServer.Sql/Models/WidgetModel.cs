@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace StorkServer.Sql.Models {
     public class WidgetModel {
-        public int id { get; set; }
+        public long id { get; set; }
         public string widgetType { get; set; }
-        public int refresh { get; set; }
-        public int x { get; set; }
-        public int y { get; set; }
-        public int width { get; set; }
-        public int height { get; set; }
+        public long refresh { get; set; }
+        public long x { get; set; }
+        public long y { get; set; }
+        public long width { get; set; }
+        public long height { get; set; }
         //the internal representation
         private LinkedList<string> stocks { get; }
         //the external view
