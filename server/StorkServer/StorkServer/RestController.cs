@@ -7,7 +7,7 @@ using System.Web.Http;
 using StorkServer.Business;
 using StorkServer.Models;
 using System.Web.Http.Cors;
-using StorkServer.Business.Models;
+using StorkServer.Sql.Models;
 
 namespace StorkServer {
     /*
@@ -184,10 +184,18 @@ namespace StorkServer {
         [HttpPost]
         public ServerResponse addWidget(int id, [FromBody] WidgetModel widget) {
             ServerResponse sr;
-            bool success = false;
-            string message = "not implemented yet";
-            sr = new ServerResponse(success, message, widget);
-            return sr;
+            bool success = true;
+            string message = "";
+            if (widget == null) {
+                success = false;
+                message = "no widget found in the payload";
+            }
+
+            if (!success) {
+                sr = new ServerResponse(success, message, null);
+            }
+
+            return UserUtilities.addUserWidget(id, widget);
         }
 
         //GET specific widget
@@ -195,8 +203,7 @@ namespace StorkServer {
         [HttpGet]
         public ServerResponse getWidget(int id, int widgetid) {
             ServerResponse sr;
-            Console.WriteLine("id = " + id + " widgitid = " + widgetid);
-            sr = UserUtilities.getUserWidget(id, widgetid);
+            sr = UserUtilities.getUserWidget(widgetid);
             return sr;
         }
 
@@ -205,7 +212,7 @@ namespace StorkServer {
         [HttpDelete]
         public ServerResponse deleteWidget(int id, int widgetid) {
             ServerResponse sr;
-            sr = UserUtilities.deleteUserWidget(id, widgetid);
+            sr = UserUtilities.deleteUserWidget(widgetid);
             return sr;
         }
         //Update Widget
@@ -220,7 +227,7 @@ namespace StorkServer {
                 message = "no updated widget given in payload";
             }
             if (success) {
-                sr = UserUtilities.updateUserWidget(id, widgetid, widget);
+                sr = UserUtilities.updateUserWidget( widgetid, widget);
             }
             else {
                 sr = new ServerResponse(success, message, null);
@@ -246,7 +253,6 @@ namespace StorkServer {
                 fields = payload.fields.ToArray();
             }
 
-            
 
             sr = StockUtilities.getQuote(symbol, fields);
             return sr;

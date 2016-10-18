@@ -28,6 +28,9 @@ namespace StorkServer {
         }
         //Main entry point of program. Set up of database / business logic layer can be added here
         static void Main() {
+            //startup the DB
+            UserUtilities.StartupDB();
+
             int port = 9000;
             string baseAddress = "http://*:" + port;
             //NOTE: If get error here, need to run either the application / visual studio in
