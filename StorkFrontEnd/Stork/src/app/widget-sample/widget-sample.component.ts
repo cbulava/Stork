@@ -42,8 +42,6 @@ export class WidgetSampleComponent implements OnInit {
         //do your stuff!
         this.box.name = "Your Component Name (w/e)";
 
-        //use WCS to getstock data for your box
-        // A fetch will fill in the information into data. 
         //the key values are known only to you so that's on you. You can use the data
         //in the html by using {{ box.data.your_key }}. You can look up pipes to 
         //fetch the data.
