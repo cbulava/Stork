@@ -17,7 +17,7 @@ export class EditComponent implements OnInit {
 
     constructor(private widgetControl: WidgetControlService) { 
 
-        for(let i = 0; i < 4; i++){
+        for(let i = 0; i < this.widgetControl.getBoxes.length; i++){
             this.widgetControl.getBoxes[i].config.resizable = true;
             this.widgetControl.getBoxes[i].config.draggable = true;  
         }

@@ -42,10 +42,17 @@ export class WidgetHolderComponent implements OnInit {
 	private boxes: Array<Box> = [];
 	private gridConfig: NgGridConfig;
 
+	private factoryComponents: Array<any> = [
+    	WidgetSampleComponent
+	];
+
+
 	@ViewChildren('boxid', {read: ViewContainerRef}) boxids: QueryList<ViewContainerRef>;
 	//@ViewChildren("boxList") private boxList: QueryList<ElementRef
 	constructor(private widgetControl: WidgetControlService, private componentfactoryResolver: ComponentFactoryResolver){
 	
+		//for 0 type in your widget type number from getWidget
+		this.widgetControl.createTestStocks(0);
 
 		//this.blist.createComponent(factory);
 		this.gridConfig = this.widgetControl.getGridConfig;
@@ -56,26 +63,44 @@ export class WidgetHolderComponent implements OnInit {
 
 	ngOnInit() {
 		if(document.location.href.includes("home")){
-			for(let i = 0; i < 4; i++){
+			for(let i = 0; i < this.widgetControl.getBoxes.length; i++){
 				this.widgetControl.getBoxes[i].config.resizable = false;
 				this.widgetControl.getBoxes[i].config.draggable = false;  
 			}
 		}
+		if(document.location.href.includes("edit")){
+			for(let i = 0; i < this.widgetControl.getBoxes.length; i++){
+				this.widgetControl.getBoxes[i].config.resizable = true;
+				this.widgetControl.getBoxes[i].config.draggable = true;  
+			}
+		}
 	}	
+
+//add your widgets here. return the Type identified by the import at the top
+	getWidget(i: number){
+		if(i == 0){
+			return WidgetSampleComponent;
+		}
+		if(i == 1){
+			//insert component
+		}
+		if(i == 2){
+			//insert component
+		}
+	}
 
 	ngAfterViewInit() {
 
 		//Where all the boxes are filled with their respective components. 
-		//let factory = this.componentfactoryResolver.resolveComponentFactory(WidgetSampleComponent);
+		let factory = this.componentfactoryResolver.resolveComponentFactory(WidgetSampleComponent);
 		let temp: ViewContainerRef[];
 	
 		temp = this.boxids.toArray();
 		for(var i = 0; i < this.boxids.length; i++){
-			let factory = this.componentfactoryResolver.resolveComponentFactory(globals.factoryComponents[this.boxes[i].type](i));
 			this.widgetControl.currBoxId = i;
+			let factory = this.componentfactoryResolver.resolveComponentFactory(this.getWidget(this.boxes[i].type));
 			temp[i].createComponent(factory);
 		}
-		//this.blist.createComponent(factory);
     }
 
 }
