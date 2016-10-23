@@ -1,0 +1,16 @@
+        <div class="title">{{box?.name}}</div>
+        <table>
+            <tr>
+                <td *ngFor="let data of box.data | keys" style="padding:5px">
+                {{ data?.key }} 
+                </td>
+            </tr>
+            <tr>
+                <td *ngFor="let data of box.data | keys" style="padding:5px">
+                {{ data?.value }} 
+                </td>
+            </tr>
+            <tr ng-show="widgetControl.showError">
+                {{ box?.error }}
+            </tr>
+        </table>

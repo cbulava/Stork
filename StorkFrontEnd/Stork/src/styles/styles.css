@@ -1,0 +1,159 @@
+html {
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+main {
+    position: relative;
+    padding-top: 60px;
+    margin-right:auto;
+    margin-left:auto;
+    width:90%;
+}
+
+/* Ensure display:flex and others don't override a [hidden] */
+[hidden] { display: none !important; }
+
+.navbar-inner {
+    padding-left: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    background-color: #027FF4;
+    background-image: none;
+}
+
+.navbar-inner.toolbar {
+    background-color: #fafafa;
+}
+
+footer {
+    margin-top: 15px;
+}
+
+.navbar-inner.footer {
+    background-color: #fafafa;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    height:50px;
+}
+
+.nav.navBarPadding {
+    margin-left:25px;
+    margin-top: 10px;
+}
+
+.navbar .brand {
+    margin-top: 2px;
+    color: #fff;
+    -webkit-text-shadow: none;
+    text-shadow: none;
+}
+
+.navbar-toggle {
+  border: 1px solid white;
+}
+
+.navbar-toggle .icon-bar {
+  background-color: white;
+}
+
+.app-title {
+    line-height:50px;
+    font-size:20px;
+    color: white;
+}
+
+#menu1 {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+    background-color: yellowgreen;
+    color: black;
+    text-decoration: none;
+}
+
+#widget-basic {
+    border: 3px solid black;
+}
+
+.grid {
+	background-color: #efefef;
+	width: 100%;
+	min-height: 750px;
+}
+
+.grid-item {
+	background-color: #ffffff;
+	-webkit-transition: width 0.25s, height 0.25s, left 0.25s, top 0.25s, right 0.25s, bottom 0.25s;
+	-moz-transition: width 0.25s, height 0.25s, left 0.25s, top 0.25s, right 0.25s, bottom 0.25s;
+	-o-transition: width 0.25s, height 0.25s, left 0.25s, top 0.25s, right 0.25s, bottom 0.25s;
+	transition: width 0.25s, height 0.25s, left 0.25s, top 0.25s, right 0.25s, bottom 0.25s;
+}
+
+.grid-item:active, .grid-item.moving {
+	z-index: 2;
+	-webkit-transition: none;
+	-moz-transition: none;
+	-o-transition: none;
+	transition: none;
+}
+
+.grid-placeholder {
+	background-color: rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 767px) {
+	.grid {
+		width: 100% !important;
+		height: auto !important;
+		padding: 10px;
+	}
+	.grid-item {
+		position: static !important;
+		width: 100% !important;
+		margin-bottom: 10px;
+	}
+	.grid-item:last-child {
+		margin-bottom: 0;
+	}
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    padding:5px;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+a {text-decoration: none;}

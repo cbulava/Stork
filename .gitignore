@@ -240,3 +240,7 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+StorkFrontEnd/Stork/app/home/home.component.html
+StorkFrontEnd/Stork/app/login/login.component.html
+StorkFrontEnd/Stork/app/login/login.component.html
+StorkFrontEnd/Stork/app/login/login.component.html
