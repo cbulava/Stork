@@ -48,6 +48,7 @@ namespace StorkServer {
             //Catch the error that is thrown when admin mode requirement is not met
             catch (TargetInvocationException e) {
                 Console.WriteLine("Please run the application in administrator mode.");
+                Console.WriteLine("Alternatively, run 'allowFirewall.cmd' in adminstrator mode to allow connection");
                 Console.WriteLine("Press any key to exit...");
                 Console.ReadKey();
             }
