@@ -24,6 +24,7 @@ export class WidgetSampleComponent implements OnInit {
     private box: Box;
 	private gridConfig: NgGridConfig;
     private boxId: number;
+    private basicFields: Array<string> = ["Bid", "DaysLow", "DaysHigh", "YearsLow", "YearsHigh", "Ask", "AverageDailyVolume", "DaysRange"];
 
     constructor(private widgetControl: WidgetControlService) {
         this.boxes = this.widgetControl.getBoxes;
@@ -32,10 +33,15 @@ export class WidgetSampleComponent implements OnInit {
         //the widgets are assigned to their boxes based on a dashboard(future)
         this.boxId = this.widgetControl.currentInitBoxId;
 
+        //do you stock retrieval before getting your box to play with!
+        this.widgetControl.getStockData("MSFT", this.boxId, this.basicFields);
+
+        //get your box!
         this.box = this.boxes[this.boxId];
 
-        //use WCS to getstock data for your box
-        // A fetch will fill in the information into data. 
+        //do your stuff!
+        this.box.name = "Your Component Name (w/e)";
+
         //the key values are known only to you so that's on you. You can use the data
         //in the html by using {{ box.data.your_key }}. You can look up pipes to 
         //fetch the data.

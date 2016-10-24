@@ -37,6 +37,58 @@ export class HttpRequestService {
 
   }
 
+  logout(id: number){
+  	let body = JSON.stringify({id});
+  	return this.http.post(this.serverUrl.concat("user/logout"), body, this.options)
+  		.map(this.extractData)
+  		.catch(this.handleError);
+  }
+
+  updateUser(id : number, oldEmail : string, newEmail : string, oldPassword : string, newPassword : string, newPasswordConf : string){
+  	let body = JSON.stringify({oldEmail, newEmail, oldPassword, newPassword, newPasswordConf});
+  	return this.http.put(this.serverUrl.concat("user/").concat(id.toString()), body, this.options)
+  		.map(this.extractData)
+  		.catch(this.handleError);
+  }
+
+  deleteUser(id : number){
+  	return this.http.delete(this.serverUrl.concat("user/").concat(id.toString()), this.options)
+  		.map(this.extractData)
+  		.catch(this.handleError);
+  }
+
+  getDashboard(id : number){
+  	return this.http.get(this.serverUrl.concat("user/").concat(id.toString()).concat("/dashboard"), this.options)
+  		.map(this.extractData)
+  		.catch(this.handleError);
+  }
+
+  addWidget(id : number, stockList: string[], widgetType : string, refresh : number, x : number, y : number, height : number, width : number){
+  	let body = JSON.stringify({stockList, widgetType, refresh, x, y, height, width});
+  	return this.http.post(this.serverUrl.concat("user/").concat(id.toString()).concat("/dashboard"), body, this.options)
+  		.map(this.extractData)
+  		.catch(this.handleError);
+  }
+
+  getWidget(id : number, widgetid : number){
+  	return this.http.get(this.serverUrl.concat("user/").concat(id.toString()).concat("/dashboard/").concat(widgetid.toString()), this.options)
+  		.map(this.extractData)
+  		.catch(this.handleError);
+  }
+
+  deleteWidget(id : number, widgetid : number){
+  	return this.http.delete(this.serverUrl.concat("user/").concat(id.toString()).concat("/dashboard/").concat(widgetid.toString()), this.options)
+  		.map(this.extractData)
+  		.catch(this.handleError);
+  }
+
+  updateWidget(id : number, widgetid: number, stockList: string[], widgetType : string, refresh : number, x : number, y : number, height : number, width : number){
+  	let body = JSON.stringify({stockList, widgetType, refresh, x, y, height, width});
+  	return this.http.post(this.serverUrl.concat("user/").concat(id.toString()).concat("/dashboard/").concat(widgetid.toString()), body, this.options)
+  		.map(this.extractData)
+  		.catch(this.handleError);
+  }
+
   private extractData(res: Response) {
     let body = res.json();
     return body || { };

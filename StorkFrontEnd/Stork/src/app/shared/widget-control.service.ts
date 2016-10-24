@@ -61,13 +61,19 @@ export class WidgetControlService {
 
     constructor(private httpReq: HttpRequestService) {
 		//manually creating boxes and fill them with compoment type 0 (change type to that of your component number to test for now)
-        for (var i = 0; i < 4; i++) {
-			this.boxes[i] = { id: i + 1, compId: 0, config: this._generateDefaultItemConfig(), data: [] , name: this.stockSymbols[i], error: "", type: 0};	
-			this.getStockData(this.stockSymbols[i], i);		
-		}
+        // for (var i = 0; i < 4; i++) {
+		// 	this.boxes[i] = { id: i + 1, compId: 0, config: this._generateDefaultItemConfig(), data: [] , name: "box", error: "", type: 0};	
+		// 	//this.getStockData(this.stockSymbols[i], i, this.basicStockData);		
+		// }
 		//modify box component data here
-
     }
+
+	createTestStocks(stockId: number){
+		for (var i = 0; i < 4; i++) {
+			this.boxes[i] = { id: i + 1, compId: 0, config: this._generateDefaultItemConfig(), data: [] , name: "box", error: "", type: stockId};	
+			//this.getStockData(this.stockSymbols[i], i, this.basicStockData);		
+		}
+	}
 
     ngOnInit() {
         
@@ -140,9 +146,9 @@ export class WidgetControlService {
 	}
 
 	//Stock symbol and widget index to save it to
-    getStockData(stock: string, boxIndex: number){
+    getStockData(stock: string, boxIndex: number, fields: any[]){
         let httpData: Array<any>;
-		this.httpReq.getStock(stock, this.basicStockData).subscribe(
+		this.httpReq.getStock(stock, fields).subscribe(
  			response => {
                 if(response.success){
                     this.boxes[boxIndex].data = response.payload.results;
