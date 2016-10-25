@@ -4,6 +4,7 @@ import { HttpRequestService } from '../shared/http-request.service';
 import { NgGridConfig, NgGridItemConfig, NgGridItemEvent } from "angular2-grid";
 import { WidgetControlService } from '../shared/widget-control.service';
 import { WidgetSampleComponent } from '../widget-sample/widget-sample.component';
+import { WidgetListDataComponent } from '../../widget-ListData/widget-listData.component';
 
 import globals = require('../shared/globals');
 
@@ -83,6 +84,7 @@ export class WidgetHolderComponent implements OnInit {
 		}
 		if(i == 1){
 			//insert component
+			//return WidgetListDataComponent;
 		}
 		if(i == 2){
 			//insert component
