@@ -37,7 +37,6 @@ namespace StorkServer {
                 Console.ReadKey();
                 return;
             }
-            Console.WriteLine(ConfigurationManager.AppSettings["BarchartKey"]);
             //startup the DB
             UserUtilities.StartupDB();
 
