@@ -153,6 +153,8 @@ export class WidgetControlService {
                 if(response.success){
                     this.boxes[boxIndex].data = response.payload.results;
                 }else{
+					this.showError = true;
+					this.boxes[boxIndex].error = response.message;
                     //retrieval failed for some reason
                 }
             }, 

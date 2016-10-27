@@ -36,11 +36,7 @@ export class WidgetSampleComponent implements OnInit {
         //do you stock retrieval before getting your box to play with!
         this.widgetControl.getStockData("MSFT", this.boxId, this.basicFields);
 
-        //get your box!
-        this.box = this.boxes[this.boxId];
 
-        //do your stuff!
-        this.box.name = "Your Component Name (w/e)";
 
         //the key values are known only to you so that's on you. You can use the data
         //in the html by using {{ box.data.your_key }}. You can look up pipes to 
@@ -48,7 +44,11 @@ export class WidgetSampleComponent implements OnInit {
      }
 
     ngOnInit() { 
-        
+                //get your box!
+        this.box = this.boxes[this.boxId];
+
+        //do your stuff!
+        this.box.name = "Your Component Name (w/e)";
     }
 
 }

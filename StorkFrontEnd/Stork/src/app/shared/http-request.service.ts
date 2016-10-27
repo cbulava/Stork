@@ -32,7 +32,7 @@ export class HttpRequestService {
       let body = JSON.stringify({ fields });   
       return this.http.post(this.serverUrl.concat("stock/").concat(stock), body, this.options)
                     .map(this.extractData)
-                    .timeout(6000, new Error("Server Timeout"))
+                    .timeout(10000, new Error("Server Timeout"))
                     .catch(this.handleError);
 
   }
