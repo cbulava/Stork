@@ -40,15 +40,26 @@ namespace StorkServer.Business {
                 }
             }
 
-            Console.WriteLine(results);
             JObject jsonresults;
             try {
                 JObject dataObject = JObject.Parse(results);
                 JArray relevant = (JArray)dataObject.GetValue("results");
-                //relevant = (JObject)relevant.GetValue("results");
-               // relevant = (JObject)relevant.GetValue("quote");
 
                 jsonresults = new JObject();
+
+                //remove extraneous fields
+                if (!fields[0].Equals("*")) {
+                    JObject partialRelevant = new JObject();
+                    for (int i = 0; i < fields.Length; i++) {
+                        if (relevant[0][fields[i]] != null) {
+                            partialRelevant[fields[i]] = relevant[0][fields[i]];
+                        }
+                    }
+
+                    relevant[0] = partialRelevant;
+                }
+
+
                 jsonresults.Add("results", relevant[0]);
 
                 
