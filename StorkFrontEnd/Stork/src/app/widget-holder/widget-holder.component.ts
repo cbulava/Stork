@@ -1,9 +1,9 @@
-﻿import { Component, Input, Type, Directive , OnInit, ViewChildren, QueryList, ComponentFactoryResolver, ViewChild, ViewContainerRef} from '@angular/core';
+﻿import { StocktableComponent } from '../widget-stocktable/widget-stocktable.component';
+import { Component, Input, Type, Directive , OnInit, ViewChildren, QueryList, ComponentFactoryResolver, ViewChild, ViewContainerRef} from '@angular/core';
 import { NgGrid, NgGridItem } from 'angular2-grid';
 import { HttpRequestService } from '../shared/http-request.service';
 import { NgGridConfig, NgGridItemConfig, NgGridItemEvent } from "angular2-grid";
 import { WidgetControlService } from '../shared/widget-control.service';
-import { WidgetSampleComponent } from '../widget-sample/widget-sample.component';
 
 import globals = require('../shared/globals');
 
@@ -33,7 +33,7 @@ class BoxId{
     moduleId: module.id,
     selector: 'widget-holder',
 	entryComponents: [
-		WidgetSampleComponent
+		StocktableComponent
 	],
     templateUrl: 'widget-holder.component.html', 
 })
@@ -43,7 +43,7 @@ export class WidgetHolderComponent implements OnInit {
 	private gridConfig: NgGridConfig;
 
 	private factoryComponents: Array<any> = [
-    	WidgetSampleComponent
+    	StocktableComponent
 	];
 
 
@@ -79,7 +79,7 @@ export class WidgetHolderComponent implements OnInit {
 //add your widgets here. return the Type identified by the import at the top
 	getWidget(i: number){
 		if(i == 0){
-			return WidgetSampleComponent;
+			return StocktableComponent;
 		}
 		if(i == 1){
 			//insert component
@@ -92,7 +92,7 @@ export class WidgetHolderComponent implements OnInit {
 	ngAfterViewInit() {
 
 		//Where all the boxes are filled with their respective components. 
-		let factory = this.componentfactoryResolver.resolveComponentFactory(WidgetSampleComponent);
+		let factory = this.componentfactoryResolver.resolveComponentFactory(StocktableComponent);
 		let temp: ViewContainerRef[];
 	
 		temp = this.boxids.toArray();

@@ -12,6 +12,7 @@ import { MenuTopComponent } from './menu-top/menu-top.component';
 import { WidgetHolderComponent } from './widget-holder/widget-holder.component';
 import { WidgetSampleComponent } from './widget-sample/widget-sample.component';
 import { EditComponent } from './edit/edit.component';
+import { StocktableComponent } from './widget-stocktable/widget-stocktable.component'
 
 import { app_routing } from './app.routing';
 
@@ -25,9 +26,12 @@ import {LocationStrategy, HashLocationStrategy} from '@angular/common';
 
 import { KeysPipe } from './shared/keys.pipe';
 
+import { Ng2CompleterModule } from "ng2-completer";
+
+
 @NgModule({
-    imports: [BrowserModule, FormsModule, HttpModule, app_routing, NgGridModule],
-    declarations: [AppComponent, HomeComponent, LoginComponent, MenuTopComponent, WidgetHolderComponent, KeysPipe, EditComponent, AccountCreationComponent, WidgetSampleComponent],
+    imports: [BrowserModule, FormsModule, HttpModule, app_routing, NgGridModule, Ng2CompleterModule],
+    declarations: [AppComponent, HomeComponent, LoginComponent, MenuTopComponent, WidgetHolderComponent, KeysPipe, EditComponent, AccountCreationComponent, WidgetSampleComponent, StocktableComponent],
     providers: [DataService, HttpRequestService, WidgetControlService, {provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap:    [ AppComponent ]
 })

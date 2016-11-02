@@ -1,0 +1,41 @@
+        <div class="title">{{box?.name}}</div>
+        <ng2-completer [(ngModel)]="searchStr" pause=250 [dataService]="dataService" [minSearchLength]="0" placeholder="Search by ticker or name..." #stockname></ng2-completer>
+        <button (click)="searchForStock(stockname.value)">
+            Search
+        </button>
+        <br />
+        <button (click)="selectAll()">
+            Select All
+        </button>
+        <button (click)="deselectAll()">
+            Deselect All
+        </button>
+        <div class="form-group">
+            <label for="options">Options : </label>
+            <table style="width:100%"> <tr>
+            <td *ngFor="let option of options">
+                <label>
+                    <input type="checkbox"
+                           name="options"
+                           value="{{option.value}}"
+                           [(ngModel)]="option.checked"/>
+                    {{option.name}}
+                </label>
+            </td>
+            </tr></table>
+        </div>
+        <table>
+            <tr>
+                <td *ngFor="let data of box.data | keys" style="padding:5px">
+                {{ data?.key }} 
+                </td>
+            </tr>
+            <tr>
+                <td *ngFor="let data of box.data | keys" style="padding:5px">
+                {{ data?.value }} 
+                </td>
+            </tr>
+            <tr ng-show="widgetControl.showError">
+                {{ box?.error }}
+            </tr>
+        </table>

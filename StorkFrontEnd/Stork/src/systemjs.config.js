@@ -5,14 +5,16 @@
     'app':                        'app', // 'dist',
     '@angular':                   'node_modules/@angular',
     'rxjs':                       'node_modules/rxjs',
-     'angular2-grid': 'node_modules/angular2-grid/dist'
+     'angular2-grid': 'node_modules/angular2-grid/dist',
+     'ng2-completer':             'node_modules/ng2-completer/bundles'
   };
 
   // packages tells the System loader how to load when no filename and/or no extension
   var packages = {
     'app':                        { main: 'main.js',  defaultExtension: 'js' },
     'rxjs':                       { defaultExtension: 'js' },
-       'angular2-grid': { main: 'main.js',  defaultExtension: 'js' }
+       'angular2-grid': { main: 'main.js',  defaultExtension: 'js' },
+       'ng2-completer':           {main: 'ng2-completer.js', format: 'cjs'}
   };
 
   var ngPackageNames = [
