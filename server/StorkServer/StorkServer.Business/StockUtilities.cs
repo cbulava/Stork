@@ -40,29 +40,37 @@ namespace StorkServer.Business {
                 }
             }
 
-            JObject jsonresults;
+            JObject jsonresults = null;
             try {
                 JObject dataObject = JObject.Parse(results);
-                JArray relevant = (JArray)dataObject.GetValue("results");
+                if (dataObject.GetValue("results").Type == JTokenType.Null) {
+                    success = false;
+                    message = ((JObject) dataObject.GetValue("status")).GetValue("message").ToString();
 
-                jsonresults = new JObject();
+                }
+                else {
+                    JArray relevant = (JArray)dataObject.GetValue("results");
 
-                //remove extraneous fields
-                if (!fields[0].Equals("*")) {
-                    JObject partialRelevant = new JObject();
-                    for (int i = 0; i < fields.Length; i++) {
-                        if (relevant[0][fields[i]] != null) {
-                            partialRelevant[fields[i]] = relevant[0][fields[i]];
+                    jsonresults = new JObject();
+
+                    //remove extraneous fields
+                    if (!fields[0].Equals("*")) {
+                        JObject partialRelevant = new JObject();
+                        for (int i = 0; i < fields.Length; i++) {
+                            if (relevant[0][fields[i]] != null) {
+                                partialRelevant[fields[i]] = relevant[0][fields[i]];
+                            }
                         }
+
+                        relevant[0] = partialRelevant;
                     }
 
-                    relevant[0] = partialRelevant;
+
+                    jsonresults.Add("results", relevant[0]);
+
                 }
 
 
-                jsonresults.Add("results", relevant[0]);
-
-                
             }
             catch (JsonReaderException e) {
                 success = false;
