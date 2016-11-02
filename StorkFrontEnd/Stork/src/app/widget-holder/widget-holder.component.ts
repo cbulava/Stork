@@ -35,7 +35,7 @@ class BoxId{
     moduleId: module.id,
     selector: 'widget-holder',
 	entryComponents: [
-		WidgetSampleComponent
+		WidgetCommoditiesComponent
 	],
     templateUrl: 'widget-holder.component.html', 
 })
@@ -45,7 +45,7 @@ export class WidgetHolderComponent implements OnInit {
 	private gridConfig: NgGridConfig;
 
 	private factoryComponents: Array<any> = [
-    	WidgetSampleComponent
+    	WidgetCommoditiesComponent
 	];
 
 

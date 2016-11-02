@@ -24,7 +24,7 @@ export class WidgetCommoditiesComponent implements OnInit {
     private box: Box;
 	private gridConfig: NgGridConfig;
     private boxId: number;
-    private basicFields: Array<string> = ["Bid", "DaysLow", "DaysHigh", "YearsLow", "YearsHigh", "Ask", "AverageDailyVolume", "DaysRange"];
+    private basicFields: Array<string> = ['Symbol'];
 
     constructor(private widgetControl: WidgetControlService) {
         this.boxes = this.widgetControl.getBoxes;
@@ -33,8 +33,10 @@ export class WidgetCommoditiesComponent implements OnInit {
         //the widgets are assigned to their boxes based on a dashboard(future)
         this.boxId = this.widgetControl.currentInitBoxId;
 
+
+
         //do you stock retrieval before getting your box to play with!
-        this.widgetControl.getStockData("GLD", this.boxId, this.basicFields);
+        this.widgetControl.getStockData('GLD', this.boxId, this.basicFields);
 
         
 
@@ -46,6 +48,7 @@ export class WidgetCommoditiesComponent implements OnInit {
     ngOnInit() { 
         //get your box!
         this.box = this.boxes[this.boxId];
+
 
         //do your stuff!
         this.box.name = "Commodities";
