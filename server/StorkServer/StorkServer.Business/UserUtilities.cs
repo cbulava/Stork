@@ -16,6 +16,13 @@ namespace StorkServer.Business {
             StorkServer.Sql.SqliteHandler.InitDB();
         }
 
+        public static string hashPassword(string password) {
+            byte[] data = System.Text.Encoding.UTF8.GetBytes(password);
+            data = new System.Security.Cryptography.SHA256Managed().ComputeHash(data);
+            String hash = System.Text.Encoding.UTF8.GetString(data);
+            return hash;
+        }
+
         //functions should preferably be static as they should be stateless
         public static ServerResponse createUser(string email, string password, string passwordConf) {
             //check to see if the email is already taken
@@ -31,6 +38,12 @@ namespace StorkServer.Business {
 
             //Down the line do some call to send an email to the user, for now do nothing
             //grab the user id of the created user
+
+
+            //hash the password
+            password = hashPassword(password);
+
+
             id = SqliteHandler.createUser(email, password);
             if (id == -1) {
                 //there was some failure
@@ -59,7 +72,10 @@ namespace StorkServer.Business {
                 return new ServerResponse(false, "email doesn't exist", null);
             }
             string realPassword = SqliteHandler.getUserPassword(id);
-            if (realPassword.Equals(password)) {
+            //hash password
+            password = hashPassword(password);
+
+            if (realPassword != null && realPassword.Equals(password)) {
                 UserModel user = SqliteHandler.getUser(id);
                 return new ServerResponse(true, "user login successfull", user);
             }

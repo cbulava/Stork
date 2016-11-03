@@ -86,11 +86,14 @@ namespace StorkServer.Sql {
             //grab the id
             statement = "SELECT last_insert_rowid()";
             command = new SQLiteCommand(statement, connection);
-            Int64 id = (Int64)command.ExecuteScalar();
+            long id = (long)command.ExecuteScalar();
 
             //insert the password
-            statement = "INSERT INTO PASSWORDS(ID, PASSWORD) VALUES(" + id + ",'" + password + "')";
+            statement = "INSERT INTO PASSWORDS(ID, PASSWORD) VALUES(@id,@pass)";
             command = new SQLiteCommand(statement, connection);
+
+            command.Parameters.AddWithValue("id", id);
+            command.Parameters.AddWithValue("pass", password);
             command.ExecuteNonQuery();
 
             disconnect(connection);
