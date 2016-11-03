@@ -24,7 +24,7 @@ export class WidgetCommoditiesComponent implements OnInit {
     private box: Box;
 	private gridConfig: NgGridConfig;
     private boxId: number;
-    private basicFields: Array<string> = ['symbol'];
+    private basicFields: Array<string> = ['low', 'high', 'fiftyTwoWkLow', 'fiftyTwoWkHigh', 'avgVolume'];
 
     constructor(private widgetControl: WidgetControlService) {
         this.boxes = this.widgetControl.getBoxes;
