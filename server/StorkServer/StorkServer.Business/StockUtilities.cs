@@ -39,7 +39,6 @@ namespace StorkServer.Business {
                     message = "There was an error with querying the stock provider";
                 }
             }
-
             JObject jsonresults = null;
             try {
                 JObject dataObject = JObject.Parse(results);
@@ -64,7 +63,6 @@ namespace StorkServer.Business {
 
                         relevant[0] = partialRelevant;
                     }
-
 
                     jsonresults.Add("results", relevant[0]);
 

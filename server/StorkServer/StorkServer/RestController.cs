@@ -244,6 +244,7 @@ namespace StorkServer {
         [Route("stock/{symbol}")]
         [HttpPost]
         public ServerResponse getQuote(string symbol, [FromBody] StockRequestModel payload) {
+            
             ServerResponse sr;
             string[] fields;
             //if user didn't specify anything, give them everything!

@@ -24,7 +24,7 @@ export class WidgetCommoditiesComponent implements OnInit {
     private box: Box;
 	private gridConfig: NgGridConfig;
     private boxId: number;
-    private basicFields: Array<string> = ['Symbol'];
+    private basicFields: Array<string> = ['symbol'];
 
     constructor(private widgetControl: WidgetControlService) {
         this.boxes = this.widgetControl.getBoxes;
@@ -33,12 +33,7 @@ export class WidgetCommoditiesComponent implements OnInit {
         //the widgets are assigned to their boxes based on a dashboard(future)
         this.boxId = this.widgetControl.currentInitBoxId;
 
-
-
         //do you stock retrieval before getting your box to play with!
-        this.widgetControl.getStockData('GLD', this.boxId, this.basicFields);
-
-        
 
         //the key values are known only to you so that's on you. You can use the data
         //in the html by using {{ box.data.your_key }}. You can look up pipes to 
@@ -52,6 +47,11 @@ export class WidgetCommoditiesComponent implements OnInit {
 
         //do your stuff!
         this.box.name = "Commodities";
+    }
+
+    selected(value: string){
+        this.widgetControl.getStockData(value, this.boxId, this.basicFields);
+        console.log(this.box.data);
     }
 
 }
