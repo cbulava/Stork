@@ -168,7 +168,7 @@ export class WidgetControlService {
 			this.boxes[index].config['minRows'] = y;
 		}
 	}
-
+	
 	private _generateDefaultItemConfig(): NgGridItemConfig {
 		return {  'col': 1, 'row': 1, 'sizex': 70, 'sizey': 10, 'minCols':30, 'minRows':10, 'resizable':true, 'draggable':true};
 	}
