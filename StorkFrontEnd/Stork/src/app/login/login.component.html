@@ -1,4 +1,5 @@
-﻿<h2>Login</h2>
+﻿<div id="login_div" style="margin: 0px 10px 10px; color: #333; background-color:#eaeaea;">
+
 <br />
 <div>
 <p>Email</p>
@@ -8,7 +9,7 @@
 <input #password type="password">
 <br />
 <br />
-<button (click)="login(email.value, password.value);">
+<button (click)="login(email.value, password.value);" style="color:black;">
     Login
 </button>
 
@@ -18,10 +19,10 @@
 Not a member? Create an Account!
 <br />
 <br /> 
-<button (click)="navigateToAC();">
+<button (click)="navigateToAC();" style="color:black;">
     Create Account
 </button>
-
+</div>
 <script> 
     
 </script>

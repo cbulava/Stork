@@ -1,14 +1,20 @@
-html {
+/*html {
     overflow-y: scroll;
     overflow-x: hidden;
-}
+    background-color:#919191;
+}*/
 
 main {
     position: relative;
-    padding-top: 60px;
+    /*padding-top: 60px;
     margin-right:auto;
     margin-left:auto;
-    width:90%;
+    width:90%;*/
+    background-color:#eaeaea;
+}
+
+body {
+    background-color:#eaeaea;
 }
 
 /* Ensure display:flex and others don't override a [hidden] */
@@ -67,49 +73,68 @@ footer {
     color: white;
 }
 
-#menu1 {
+#ac_div {
+    margin: 10px 10px 10px;
+    color: #333;
+}
+
+#login_div {
+    margin: 0px 10px 10px; 
+    color: #333;
+    background-color:#eaeaea;
+}
+
+#main_menu {
     list-style-type: none;
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #333;
+    background-color: white;
 }
 
 li {
     float: left;
 }
 
-li a {
+#main_menu li a {
     display: block;
-    color: white;
+    color: #333;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
 }
 
 /* Change the link color to #111 (black) on hover */
-li a:hover {
-    background-color: yellowgreen;
-    color: black;
+#main_menu li a:hover {
+    color: #75b781;
     text-decoration: none;
+    border-bottom:3px solid #75b781;
 }
+/*
+#homeLink:hover{    
+    color: #75b781;
+    text-decoration: none;
+    border-bottom:3px solid #75b781;
+}*/
 
 #widget-basic {
     border: 3px solid black;
 }
 
 .grid {
-	background-color: #efefef;
+	background-color: white;
 	width: 100%;
 	min-height: 750px;
+    height:100%;
 }
 
 .grid-item {
-	background-color: #ffffff;
+	background-color: #e5e5e5;
 	-webkit-transition: width 0.25s, height 0.25s, left 0.25s, top 0.25s, right 0.25s, bottom 0.25s;
 	-moz-transition: width 0.25s, height 0.25s, left 0.25s, top 0.25s, right 0.25s, bottom 0.25s;
 	-o-transition: width 0.25s, height 0.25s, left 0.25s, top 0.25s, right 0.25s, bottom 0.25s;
 	transition: width 0.25s, height 0.25s, left 0.25s, top 0.25s, right 0.25s, bottom 0.25s;
+    color:#333;
 }
 
 .grid-item:active, .grid-item.moving {
@@ -121,7 +146,7 @@ li a:hover {
 }
 
 .grid-placeholder {
-	background-color: rgba(0, 0, 0, 0.3);
+	background-color: #75b781;
 }
 
 @media (max-width: 767px) {
@@ -148,7 +173,7 @@ table {
 }
 
 td, th {
-    border: 1px solid #dddddd;
+    border: 1px solid white;
     text-align: left;
     padding: 8px;
 }
@@ -157,3 +182,48 @@ tr:nth-child(even) {
     background-color: #dddddd;
 }
 a {text-decoration: none;}
+
+[hidden] { display: none !important;}
+
+#edit_div {
+    background-color: #444;
+    width:400px;
+
+    -moz-transition-duration: 0.3s;
+    -webkit-transition-duration: 0.3s;
+    -o-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -moz-transition-timing-function: ease-in;
+    -webkit-transition-timing-function: ease-in;
+    -o-transition-timing-function: ease-in;
+    transition-timing-function: ease-in;
+        overflow: hidden;
+    height:40px;
+    float:left;
+}
+
+#edit_div button{
+    padding: 8px;
+    text-align: left;
+    color:white;
+    background-color:#444;
+    border: none;
+}
+#edit_div button:hover{
+    background-color: yellowgreen;
+    color: black;
+}
+#edit_tri {
+    width: 0;
+	height: 0;
+	border-top: 40px solid #444;
+	border-right: 80px solid transparent;
+    float:left;
+}
+#title_tri {
+    width: 0;
+	height: 0;
+	border-bottom: 40px solid #444;
+	border-left: 80px solid transparent;
+    float:left;
+}

@@ -10,14 +10,18 @@ import { LoginComponent } from './login/login.component';
 import { AccountCreationComponent } from './account-creation/account-creation.component';
 import { MenuTopComponent } from './menu-top/menu-top.component';
 import { WidgetHolderComponent } from './widget-holder/widget-holder.component';
-import { WidgetSampleComponent } from './widget-sample/widget-sample.component';
+import { WidgetSampleComponent } from './widgets/widget-sample/widget-sample.component';
 import { EditComponent } from './edit/edit.component';
+import { StocktableComponent } from './widgets/widget-stocktable/widget-stocktable.component'
+import { WidgetListDataComponent } from './widgets/widget-listData/widget-listData.component';
+import { WidgetShowGraphComponent } from './widgets/widget-showGraph/widget-showGraph.component';
+import { WidgetCommoditiesComponent } from './widgets/widget-commodities/widget-commodities.component';
 
 import { app_routing } from './app.routing';
 
-import { DataService } from './shared/data.service';
-import { HttpRequestService } from './shared/http-request.service';
-import { WidgetControlService } from './shared/widget-control.service';
+import { DataService } from './shared/services/data.service';
+import { HttpRequestService } from './shared/services/http-request.service';
+import { WidgetControlService } from './shared/services/widget-control.service';
 
 import {NgGridModule} from "angular2-grid";
 
@@ -25,9 +29,12 @@ import {LocationStrategy, HashLocationStrategy} from '@angular/common';
 
 import { KeysPipe } from './shared/keys.pipe';
 
+import {Ng2CompleterModule } from 'ng2-completer';
+
+
 @NgModule({
-    imports: [BrowserModule, FormsModule, HttpModule, app_routing, NgGridModule],
-    declarations: [AppComponent, HomeComponent, LoginComponent, MenuTopComponent, WidgetHolderComponent, KeysPipe, EditComponent, AccountCreationComponent, WidgetSampleComponent],
+    imports: [BrowserModule, FormsModule, HttpModule, app_routing, NgGridModule, Ng2CompleterModule],
+    declarations: [AppComponent, HomeComponent, LoginComponent, MenuTopComponent, WidgetHolderComponent, KeysPipe, EditComponent, AccountCreationComponent, WidgetSampleComponent, StocktableComponent, WidgetListDataComponent, WidgetShowGraphComponent, WidgetCommoditiesComponent],
     providers: [DataService, HttpRequestService, WidgetControlService, {provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap:    [ AppComponent ]
 })
