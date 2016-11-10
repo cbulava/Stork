@@ -2,12 +2,19 @@
 import { NgGrid, NgGridItem } from 'angular2-grid';
 import { HttpRequestService } from '../shared/services/http-request.service';
 import { NgGridConfig, NgGridItemConfig, NgGridItemEvent } from "angular2-grid";
+<<<<<<< HEAD
 import { WidgetControlService } from '../shared/services/widget-control.service';
 import { WidgetSampleComponent } from '../widgets/widget-sample/widget-sample.component';
 import { StocktableComponent } from '../widgets/widget-stocktable/widget-stocktable.component';
 import { WidgetShowGraphComponent } from '../widgets/widget-showGraph/widget-showGraph.component';
 import { WidgetListDataComponent } from '../widgets/widget-listData/widget-listData.component';
 import { WidgetCommoditiesComponent } from '../widgets/widget-commodities/widget-commodities.component';
+=======
+import { WidgetControlService } from '../shared/widget-control.service';
+import { WidgetSampleComponent } from '../widget-sample/widget-sample.component';
+import { WidgetListDataComponent } from '../widget-listData/widget-listData.component';
+import { WidgetShowGraphComponent } from '../widget-showGraph/widget-showGraph.component';
+>>>>>>> cc9935114fe6c4c733ee5486caa741cbd5b2f70b
 
 import globals = require('../shared/globals');
 
@@ -19,6 +26,7 @@ interface Widget {
 	id: number;
 	name: string;
 }
+
 
 interface Box {
 	id: number;
@@ -41,11 +49,15 @@ class BoxId{
     moduleId: module.id,
     selector: 'widget-holder',
 	entryComponents: [
+<<<<<<< HEAD
 		WidgetSampleComponent,
 		StocktableComponent,
 		WidgetShowGraphComponent,
 		WidgetListDataComponent, 
 		WidgetCommoditiesComponent
+=======
+		WidgetSampleComponent, WidgetListDataComponent, WidgetShowGraphComponent
+>>>>>>> cc9935114fe6c4c733ee5486caa741cbd5b2f70b
 	],
     templateUrl: 'widget-holder.component.html', 
 })
@@ -57,6 +69,7 @@ export class WidgetHolderComponent implements OnInit {
 	private boxComps: Array<ViewContainerRef> = [];
 	private gridConfig: NgGridConfig;
 	
+<<<<<<< HEAD
 	private addBoxCheck: boolean;
 	private removeBoxCheck: boolean;
 	private numBoxes: number;	
@@ -66,8 +79,16 @@ export class WidgetHolderComponent implements OnInit {
 	private haveWidgets: boolean;
 	private isEdit: boolean;	
     private widgetChoiceMap: Array<Widget> = [];
+=======
+	//global for which widget
+	private widgetNum = 2;
+	//0 = widget-sample
+	//1 = widget-listData
+	//2 = widget-showGraph
+
+>>>>>>> cc9935114fe6c4c733ee5486caa741cbd5b2f70b
 	private factoryComponents: Array<any> = [
-    	WidgetSampleComponent
+    	WidgetSampleComponent, WidgetListDataComponent, WidgetShowGraphComponent
 	];
 
 
@@ -77,7 +98,13 @@ export class WidgetHolderComponent implements OnInit {
 
 
 		//for 0 type in your widget type number from getWidget
+<<<<<<< HEAD
 		//this.widgetControl.createTestStocks(0);
+=======
+		//specify widgetNum
+		this.widgetControl.createTestStocks(this.widgetNum);
+		//this.widgetControl.createTestStocks(1);
+>>>>>>> cc9935114fe6c4c733ee5486caa741cbd5b2f70b
 
 		//this.blist.createComponent(factory);
 		this.gridConfig = this.widgetControl.getGridConfig;
@@ -133,12 +160,21 @@ export class WidgetHolderComponent implements OnInit {
 //add your widgets here. return the Type identified by the import at the top
 	getWidget(i: number): any{
 		if(i == 0){
-			return WidgetSampleComponent;
+			//return WidgetSampleComponent;
+			//return WidgetListDataComponent;
 		}
 		if(i == 1){
+<<<<<<< HEAD
 			return StocktableComponent;
 		}
 		if(i == 2){
+=======
+			//insert component
+			//return WidgetListDataComponent;
+		}
+		if(i == 2){
+			//insert component
+>>>>>>> cc9935114fe6c4c733ee5486caa741cbd5b2f70b
 			return WidgetShowGraphComponent;
 		}
 		if(i == 3){
@@ -206,7 +242,18 @@ export class WidgetHolderComponent implements OnInit {
 		
 
 		//Where all the boxes are filled with their respective components. 
-		let factory = this.componentfactoryResolver.resolveComponentFactory(WidgetSampleComponent);
+		if(this.widgetNum == 0)
+		{
+			let factory = this.componentfactoryResolver.resolveComponentFactory(WidgetSampleComponent);
+		}
+		else if (this.widgetNum == 1)
+		{
+			let factory = this.componentfactoryResolver.resolveComponentFactory(WidgetListDataComponent);
+		}
+		else if (this.widgetNum == 2)
+		{
+			let factory = this.componentfactoryResolver.resolveComponentFactory(WidgetShowGraphComponent);
+		}
 		let temp: ViewContainerRef[];
 		if(!this.boxids){
 			return;
