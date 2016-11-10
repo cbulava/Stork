@@ -4,7 +4,8 @@ import { HttpRequestService } from '../shared/http-request.service';
 import { NgGridConfig, NgGridItemConfig, NgGridItemEvent } from "angular2-grid";
 import { WidgetControlService } from '../shared/widget-control.service';
 import { WidgetSampleComponent } from '../widget-sample/widget-sample.component';
-import { WidgetListDataComponent } from '../../widget-ListData/widget-listData.component';
+import { WidgetListDataComponent } from '../widget-listData/widget-listData.component';
+import { WidgetShowGraphComponent } from '../widget-showGraph/widget-showGraph.component';
 
 import globals = require('../shared/globals');
 
@@ -12,6 +13,7 @@ import globals = require('../shared/globals');
 //     stock_data: any[];
 //     widget_id: number;
 // }
+
 
 interface Box {
 	id: number;
@@ -34,7 +36,7 @@ class BoxId{
     moduleId: module.id,
     selector: 'widget-holder',
 	entryComponents: [
-		WidgetSampleComponent
+		WidgetSampleComponent, WidgetListDataComponent, WidgetShowGraphComponent
 	],
     templateUrl: 'widget-holder.component.html', 
 })
@@ -42,9 +44,15 @@ class BoxId{
 export class WidgetHolderComponent implements OnInit {
 	private boxes: Array<Box> = [];
 	private gridConfig: NgGridConfig;
+	
+	//global for which widget
+	private widgetNum = 2;
+	//0 = widget-sample
+	//1 = widget-listData
+	//2 = widget-showGraph
 
 	private factoryComponents: Array<any> = [
-    	WidgetSampleComponent
+    	WidgetSampleComponent, WidgetListDataComponent, WidgetShowGraphComponent
 	];
 
 
@@ -53,7 +61,9 @@ export class WidgetHolderComponent implements OnInit {
 	constructor(private widgetControl: WidgetControlService, private componentfactoryResolver: ComponentFactoryResolver){
 	
 		//for 0 type in your widget type number from getWidget
-		this.widgetControl.createTestStocks(0);
+		//specify widgetNum
+		this.widgetControl.createTestStocks(this.widgetNum);
+		//this.widgetControl.createTestStocks(1);
 
 		//this.blist.createComponent(factory);
 		this.gridConfig = this.widgetControl.getGridConfig;
@@ -78,9 +88,10 @@ export class WidgetHolderComponent implements OnInit {
 	}	
 
 //add your widgets here. return the Type identified by the import at the top
-	getWidget(i: number){
+	getWidget(i: number): any{
 		if(i == 0){
-			return WidgetSampleComponent;
+			//return WidgetSampleComponent;
+			//return WidgetListDataComponent;
 		}
 		if(i == 1){
 			//insert component
@@ -88,13 +99,25 @@ export class WidgetHolderComponent implements OnInit {
 		}
 		if(i == 2){
 			//insert component
+			return WidgetShowGraphComponent;
 		}
 	}
 
 	ngAfterViewInit() {
 
 		//Where all the boxes are filled with their respective components. 
-		let factory = this.componentfactoryResolver.resolveComponentFactory(WidgetSampleComponent);
+		if(this.widgetNum == 0)
+		{
+			let factory = this.componentfactoryResolver.resolveComponentFactory(WidgetSampleComponent);
+		}
+		else if (this.widgetNum == 1)
+		{
+			let factory = this.componentfactoryResolver.resolveComponentFactory(WidgetListDataComponent);
+		}
+		else if (this.widgetNum == 2)
+		{
+			let factory = this.componentfactoryResolver.resolveComponentFactory(WidgetShowGraphComponent);
+		}
 		let temp: ViewContainerRef[];
 	
 		temp = this.boxids.toArray();

@@ -58,6 +58,12 @@ namespace StorkServer.Business {
                 message = "there was an error parsing results returned from stock provider, the api key might have been entered wrong";
                 jsonresults = null;
             }
+            catch (InvalidCastException e)
+            {
+                success = false;
+                message = "there was an error parsing results returned from stock provider, the api key might have been entered wrong";
+                jsonresults = null;
+            }
 
             return new ServerResponse(success, message, jsonresults);
 

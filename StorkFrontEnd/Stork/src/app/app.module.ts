@@ -11,7 +11,8 @@ import { AccountCreationComponent } from './account-creation/account-creation.co
 import { MenuTopComponent } from './menu-top/menu-top.component';
 import { WidgetHolderComponent } from './widget-holder/widget-holder.component';
 import { WidgetSampleComponent } from './widget-sample/widget-sample.component';
-import { WidgetListDataComponent } from '../widget-ListData/widget-listData.component';
+import { WidgetListDataComponent } from './widget-listData/widget-listData.component';
+import { WidgetShowGraphComponent } from './widget-showGraph/widget-showGraph.component';
 import { EditComponent } from './edit/edit.component';
 
 import { app_routing } from './app.routing';
@@ -28,7 +29,7 @@ import { KeysPipe } from './shared/keys.pipe';
 
 @NgModule({
     imports: [BrowserModule, FormsModule, HttpModule, app_routing, NgGridModule],
-    declarations: [AppComponent, HomeComponent, LoginComponent, MenuTopComponent, WidgetHolderComponent, KeysPipe, EditComponent, AccountCreationComponent, WidgetSampleComponent, WidgetListDataComponent],
+    declarations: [AppComponent, HomeComponent, LoginComponent, MenuTopComponent, WidgetHolderComponent, KeysPipe, EditComponent, AccountCreationComponent, WidgetSampleComponent, WidgetListDataComponent, WidgetShowGraphComponent],
     providers: [DataService, HttpRequestService, WidgetControlService, {provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap:    [ AppComponent ]
 })
