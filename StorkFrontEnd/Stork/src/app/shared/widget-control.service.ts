@@ -81,10 +81,6 @@ export class WidgetControlService {
     ngOnViewInit() {
 
     }
-	updateSize(index: number, x = 70, y = 10): void{
-		this.boxes[index].config['sizex'] = x;
-		this.boxes[index].config['sizey'] = y;
-	}
 
 	refreshWidgetHolder() {
 
