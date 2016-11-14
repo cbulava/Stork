@@ -43,6 +43,8 @@ export class StocktableComponent implements OnInit {
         //the widgets are assigned to their boxes based on a dashboard(future)
         this.boxId = this.widgetControl.currentInitBoxId;
 
+        this.widgetControl.updateSize(this.boxId);
+
         //do you stock retrieval before getting your box to play with!
         //this.widgetControl.getStockData("MSFT", this.boxId, this.basicFields);
 
@@ -62,7 +64,7 @@ export class StocktableComponent implements OnInit {
          {name:'YearHigh', checked:false, desc:'Highest value of the year'},
          {name:'Ask', checked:false, desc:'Minimum price sellers are willing to receive for a security'},
          {name:'AverageDailyVolume', checked:false, desc:'The amount of individual securities traded in a day on average'},
-         {name:'DaysRange', checked:false, desc:'Lowest and highest prices of the day'},
+         {name:'DaysRange', checked:false, desc:'Lowest and highest prices of the day'}, 
          ]
     
     get selectedOptions() {

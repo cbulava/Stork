@@ -13,7 +13,7 @@
         <div class="form-group">
             <label for="options">Options : </label>
             <table style="width:100%"> <tr>
-            <td *ngFor="let option of options">
+            <th *ngFor="let option of options">
                 <label>
                     <input type="checkbox"
                            name="options"
@@ -21,7 +21,7 @@
                            [(ngModel)]="option.checked"/>
                     {{option.name}}
                 </label>
-            </td>
+            </th>
             </tr></table>
         </div>
         <table>
