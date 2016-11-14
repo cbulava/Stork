@@ -260,6 +260,41 @@ namespace StorkServer {
             return sr;
         }
 
+        //GET HISTORIC STOCK
+        [Route("stock/history/{symbol}")]
+        [HttpPost]
+        public ServerResponse getHistoric(string symbol, [FromBody] HistoryRequestModel payload) {
+            ServerResponse sr;
+            string[] fields;
+            bool success = true;
+            string message = "";
+            //if user didn't specify anything, give them everything!
+            if (payload == null || payload.fields == null || payload.fields.Count() == 0 || payload.fields.Contains("*")) {
+                fields = new string[] { "*" };
+            }
+            else {
+
+                fields = payload.fields.ToArray();
+            }
+            if (payload.startDate == null || payload.startDate.Equals("")) {
+                success = false;
+                message = "did not supply a start date";
+            }
+            if (payload.endDate == null || payload.endDate.Equals("")) {
+                success = false;
+                message = "did not supply an end date";
+            }
+
+            if (success) {
+                sr = StockUtilities.getHistoric(symbol, payload.startDate, payload.endDate, payload.type, payload.interval, fields);
+            }
+            else {
+                sr = new ServerResponse(success, message, null);
+            }
+            
+            return sr;
+        }
+
         /*[Route("*")]
         [AcceptVerbs("GET", "POST", "PUT", "DELETE")]//Include what ever methods you want to handle
         [AllowAnonymous]//So I can use it on authenticated controllers
