@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { DataService } from '../shared/data.service';
+import { DataService } from '../shared/services/data.service';
 import { WidgetHolderComponent } from '../widget-holder/widget-holder.component';
 import { Router } from '@angular/router';
 

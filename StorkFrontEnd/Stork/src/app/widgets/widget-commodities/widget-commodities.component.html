@@ -1,0 +1,53 @@
+<div style="margin: 10px 10px 10px;">
+    <div class="title">{{box?.name}}</div>
+
+        <select class = "comod-control" #t (change)="selected(t.value)">
+            <option value = "GCZ16">Gold</option>
+            <option value = "SIX16">Silver</option>
+            <option value = "HGX16">Copper</option>
+            <option value = "PLX16">Platinum</option>
+            <option value = "PAX16">Palladium</option>
+            <option value = "CLZ16">Crude Oil </option>
+            <option value = "HOZ16">Heating Oil</option>
+            <option value = "RBZ16">Gas</option>
+            <option value = "NGZ16">Natural Gas</option>
+            <option value = "CBF17">Crude Oil Brent</option>
+            <option value = "ZKZ16">Ethanol</option>
+            <option value = "ZWZ16">Wheat</option>
+            <option value = "ZCZ16">Corn</option>
+            <option value = "ZSX16">Soybeans</option>
+            <option value = "ZMZ16">Soybean Meal</option>
+            <option value = "ZLZ16">Soybean Oil</option>
+            <option value = "ZOZ16">Oats</option>
+            <option value = "ZRX16">Rough Rice</option>
+            <option value = "KEX16">Red Wheat</option>
+            <option value = "MWZ16">Spring Wheat</option>
+            <option value = "RSX16">Canola</option>
+            <option value = "LEX16">Live Cattle </option>
+            <option value = "GFX16">Feeder Cattle</option>
+            <option value = "HEZ16">Lean Hogs</option>
+            <option value = "DLX16">Milk</option>
+            <option value = "CTZ16">Cotton #2</option>
+            <option value = "OJX16">Orange Juice</option>
+            <option value = "SBH17">Sugar </option>
+            <option value = "KCZ16">Coffee</option>
+            <option value = "CCZ16">Cocoa</option>
+            <option value = "LSX16">Lumber</option>
+        </select>
+
+        <table>
+            <tr>
+                <td *ngFor="let data of box.data | keys" style="padding:5px">
+                {{ data?.key }} 
+                </td>
+            </tr>
+            <tr>
+                <td *ngFor="let data of box.data | keys" style="padding:5px">
+                {{ data?.value }} 
+                </td>
+            </tr>
+            <tr ng-show="widgetControl.showError">
+                {{ box?.error }}
+            </tr>
+        </table>
+</div>

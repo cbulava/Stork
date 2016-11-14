@@ -1,0 +1,4 @@
+﻿
+  <appSettings>
+    <add key="BarchartKey" value="KEY GOES HERE" />
+  </appSettings>

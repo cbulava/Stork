@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { WidgetHolderComponent } from '../widget-holder/widget-holder.component';
 import { HomeComponent } from '../home/home.component';
 import { NgGrid, NgGridItem } from 'angular2-grid';
-import { HttpRequestService } from '../shared/http-request.service';
+import { HttpRequestService } from '../shared/services/http-request.service';
 import { NgGridConfig, NgGridItemConfig, NgGridItemEvent } from "angular2-grid";
-import { WidgetControlService } from '../shared/widget-control.service';
+import { WidgetControlService } from '../shared/services/widget-control.service';
 
 
 
@@ -27,7 +27,4 @@ export class EditComponent implements OnInit {
 
     }
 
-    addBox() {
-        this.widgetControl.addBox();
-    }
 }

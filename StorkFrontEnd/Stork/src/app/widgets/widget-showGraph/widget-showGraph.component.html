@@ -1,0 +1,32 @@
+     <div  style="margin: 10px 10px 10px;"> 
+        <!-- below displays title of widget in white box -->
+        <div class="title">{{box?.name}}</div>
+        <br /> 
+        <div>
+            <input #symbol/> <!--input box-->
+            <button (click)="getSymbolData(symbol.value);">
+            Look Up
+            </button>
+        </div>
+        <div #dataContainer></div><!--graph-->
+
+            
+
+   <!--     <table>
+            <!-- below fills in stock data grid box labels -->
+  <!--          <tr>
+                <td *ngFor="let data of box.data | keys" style="padding:5px">
+                {{ data?.key }} 
+                </td>
+            </tr>
+            <!-- below fills in stock data grid boxes -->
+ <!--           <tr>
+                <td *ngFor="let data of box.data | keys" style="padding:5px">
+                {{ data?.value }} 
+                </td>
+            </tr>
+            <tr ng-show="widgetControl.showError">
+                {{ box?.error }}
+            </tr>
+            <P>
+        </table> -->

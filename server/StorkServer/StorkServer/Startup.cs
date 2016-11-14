@@ -8,6 +8,11 @@ using System.Threading;
 using System.Web.Http;
 using StorkServer.Business;
 using System.Web.Http.Cors;
+using System.Configuration;
+using System.Web.Http.Routing;
+using System.Net;
+using System.Collections.Generic;
+using System.Net.Http;
 
 /*
  * Startup class for Web API initilization
@@ -28,6 +33,14 @@ namespace StorkServer {
         }
         //Main entry point of program. Set up of database / business logic layer can be added here
         static void Main() {
+            //check to see if stock API key is set up
+            if (ConfigurationManager.AppSettings["BarchartKey"] == null || ConfigurationManager.AppSettings["BarchartKey"] == "" || ConfigurationManager.AppSettings["BarchartKey"] == "KEY GOES HERE") {
+                Console.WriteLine("The Barchart API key could not be found, please enter the key into the 'keys.config' file");
+                Console.WriteLine("For developers the keys.config file can be found in the google drive");
+                Console.WriteLine("Press any key to exit...");
+                Console.ReadKey();
+                return;
+            }
             //startup the DB
             UserUtilities.StartupDB();
 
@@ -48,10 +61,12 @@ namespace StorkServer {
             //Catch the error that is thrown when admin mode requirement is not met
             catch (TargetInvocationException e) {
                 Console.WriteLine("Please run the application in administrator mode.");
+                Console.WriteLine("Alternatively, run 'allowFirewall.cmd' in adminstrator mode to allow connection");
                 Console.WriteLine("Press any key to exit...");
                 Console.ReadKey();
             }
-            
+
         }
     }
+
 }

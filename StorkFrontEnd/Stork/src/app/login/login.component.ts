@@ -1,5 +1,5 @@
 ﻿import { Component, OnInit } from '@angular/core';
-import { HttpRequestService } from '../shared/http-request.service';
+import { HttpRequestService } from '../shared/services/http-request.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
         this.httpReq.login(email, password).subscribe(       
                     response => {
                         if(response.success){
-                            localStorage.setItem('id_token', response.payload.id);
+                            localStorage.setItem('id', response.payload.id);
                             this.router.navigate(['home']);
                         }else{
                             alert("Login unsuccesful. Please check your username and password and try again.");

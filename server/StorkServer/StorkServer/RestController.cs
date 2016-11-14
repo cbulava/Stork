@@ -8,6 +8,8 @@ using StorkServer.Business;
 using StorkServer.Models;
 using System.Web.Http.Cors;
 using StorkServer.Sql.Models;
+using System.Net.Http;
+using System.Net;
 
 namespace StorkServer {
     /*
@@ -256,6 +258,22 @@ namespace StorkServer {
 
             sr = StockUtilities.getQuote(symbol, fields);
             return sr;
+        }
+
+        /*[Route("*")]
+        [AcceptVerbs("GET", "POST", "PUT", "DELETE")]//Include what ever methods you want to handle
+        [AllowAnonymous]//So I can use it on authenticated controllers
+        public ServerResponse HandleUnknownAction(string actionName) {
+            return new ServerResponse(false, "resource could not be found", null);
+        }*/
+        [Route("{*url}")]
+        [HttpGet, HttpPost, HttpPut, HttpDelete, HttpHead, HttpOptions, AcceptVerbs("PATCH")] 
+        public HttpResponseMessage Handle404() {
+            var responseMessage = new HttpResponseMessage(HttpStatusCode.NotFound);
+            responseMessage.ReasonPhrase = "The requested resource is not found";
+            ServerResponse sr = new ServerResponse(false, "resource could not be found", null);
+            responseMessage.Content = new StringContent( sr.ToString());
+            return responseMessage;
         }
     }
 }

@@ -1,0 +1,1 @@
+netsh http add urlacl url=http://*:9000/ user= %USERNAME%
