@@ -44,14 +44,14 @@ export class WidgetControlService {
 		'visible_rows': 0,
 		'min_cols': 1,
 		'min_rows': 1,
-		'col_width': 0,
+		'col_width': 1,
 		'row_height': 1,
 		'cascade': 'up',
 		'min_width': 10,
 		'min_height': 10,
-		'fix_to_grid': true,
+		'fix_to_grid': false,
 		'auto_style': true,
-		'auto_resize': true,
+		'auto_resize': false,
 		'maintain_ratio': false,
 		'prefer_new': false,
 		'zoom_on_drag': false,
@@ -69,7 +69,7 @@ export class WidgetControlService {
     }
 
 	createTestStocks(stockId: number){
-		for (var i = 0; i < 1; i++) {
+		for (var i = 0; i < 4; i++) {
 			this.boxes[i] = { id: i + 1, compId: 0, config: this._generateDefaultItemConfig(), data: [] , name: "box", error: "", type: stockId};	
 			//this.getStockData(this.stockSymbols[i], i, this.basicStockData);		
 		}
@@ -138,7 +138,7 @@ export class WidgetControlService {
 	}
 	
 	private _generateDefaultItemConfig(): NgGridItemConfig {
-		return {  'col': 1, 'row': 1, 'sizex': 70, 'sizey': 45, 'minCols':30, 'minRows':10, 'resizable':false, 'draggable':false};
+		return {  'col': 1, 'row': 1, 'sizex': 70, 'sizey': 10, 'minCols':30, 'minRows':10, 'resizable':false, 'draggable':false};
 	}
 
 	get currentInitBoxId(): number {
@@ -154,7 +154,6 @@ export class WidgetControlService {
                     this.boxes[boxIndex].data = response.payload.results;
                 }else{
                     //retrieval failed for some reason
-					this.boxes[boxIndex].error = response.message;
                 }
             }, 
 			error => {
