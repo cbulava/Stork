@@ -260,6 +260,26 @@ namespace StorkServer {
             return sr;
         }
 
+        //GET STOCK
+        [Route("stock/competitor/{symbol}")]
+        [HttpPost]
+        public ServerResponse getCompetitor(string symbol, [FromBody] StockRequestModel payload) {
+            ServerResponse sr;
+            string[] fields;
+            //if user didn't specify anything, give them everything!
+            if (payload == null || payload.fields.Count() == 0 || payload.fields.Contains("*")) {
+                fields = new string[] { "*" };
+            }
+            else {
+
+                fields = payload.fields.ToArray();
+            }
+
+
+            sr = StockUtilities.getCompetitor(symbol, fields);
+            return sr;
+        }
+
         //GET HISTORIC STOCK
         [Route("stock/history/{symbol}")]
         [HttpPost]

@@ -10,6 +10,7 @@ namespace StorkServer.Business {
 
         public static string baseQuote = "http://marketdata.websol.barchart.com/getQuote.json?key=";
         public static string baseHistory = "http://marketdata.websol.barchart.com/getHistory.json?key=";
+        public static string baseCompetitor = "http://marketdata.websol.barchart.com/getCompetitors.json?key=";
 
 
         private static ServerResponse barchartRequest(string baseAddress, string additionAddress, string[] fields, bool single) {
@@ -30,6 +31,8 @@ namespace StorkServer.Business {
                     message = "There was an error with querying the stock provider";
                 }
             }
+
+            Console.WriteLine(results);
             JObject jsonresults = null;
             try {
                 JObject dataObject = JObject.Parse(results);
@@ -114,6 +117,21 @@ namespace StorkServer.Business {
 
 
             return barchartRequest(baseHistory, additionString.ToString(), fields, false);
+        }
+
+        public static ServerResponse getCompetitor(string symbol, string[] fields) {
+            StringBuilder additionString = new StringBuilder();
+            additionString.Append("&symbol=");
+            additionString.Append(symbol);
+            additionString.Append("&fields=");
+            for (int i = 0; i < fields.Length; i++) {
+                if (i != 0) {
+                    additionString.Append(',');
+                }
+                additionString.Append(System.Web.HttpUtility.UrlEncode(fields[i]));
+            }
+
+            return barchartRequest(baseCompetitor, additionString.ToString(), fields, false);
         }
     }
 }
