@@ -9,6 +9,7 @@ import myGlobals = require('../../widgets/widget-stocktable/globals');
 @Component({
     moduleId: module.id,
     selector: 'autofill',
+    templateUrl: '../html/autofill.component.html'
 })
 export class AutofillComponent implements OnInit {
     private dataService: CompleterData;
