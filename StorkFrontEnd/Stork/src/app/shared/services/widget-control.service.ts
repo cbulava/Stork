@@ -14,7 +14,7 @@ class Widget {
 
 interface Box {
 	id: number;
-	compId: number;
+	servId: number;
 	config: NgGridItemConfig;
     data: Array<any>;
 	name: string;
@@ -73,7 +73,7 @@ export class WidgetControlService {
 
 	createTestStocks(stockId: number){
 		for (var i = 0; i < 4; i++) {
-			this.boxes[i] = { id: i + 1, compId: 0, config: this._generateDefaultItemConfig(), data: [] , name: "box", error: "", type: stockId};	
+			this.boxes[i] = { id: i + 1, servId: 0, config: this._generateDefaultItemConfig(), data: [] , name: "box", error: "", type: stockId};	
 			//this.getStockData(this.stockSymbols[i], i, this.basicStockData);		
 		}
 	}
@@ -119,8 +119,16 @@ export class WidgetControlService {
 	addBox(type: number): number {
 		const conf: NgGridItemConfig = this._generateDefaultItemConfig();
 		conf.payload = this.curNum++;
-		this.boxes.push({ id: conf.payload, compId: 1, config: conf, data: [], name: "" , error: "", type: type});
-		return conf.payload;
+		this.boxes.push({ id: conf.payload, servId: 0, config: conf, data: [], name: "" , error: "", type: type});
+				
+		this.httpReq.addWidget(localStorage["id"], [], type.toString(), 0, 1, 1, 70, 10).subscribe(
+ 			response => {
+                if(response.success){
+                    let boxServId = response.payload.results;
+					this.boxes[this.boxes.length].servId = boxServId;
+            	}
+			 });
+		return conf.payload;	
 	}
 	
 	removeBox(id: number): void {
