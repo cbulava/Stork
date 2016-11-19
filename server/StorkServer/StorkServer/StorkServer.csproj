@@ -163,6 +163,7 @@
     <Compile Include="Entities\Stock.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\Widget.cs" />
+    <Compile Include="Models\HistoryRequestModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\logoutModel.cs" />
     <Compile Include="Models\StockRequestModel.cs" />
