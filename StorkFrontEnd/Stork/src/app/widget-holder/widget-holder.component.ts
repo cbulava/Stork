@@ -8,7 +8,7 @@ import { StocktableComponent } from '../widgets/widget-stocktable/widget-stockta
 import { WidgetShowGraphComponent } from '../widgets/widget-showGraph/widget-showGraph.component';
 import { WidgetListDataComponent } from '../widgets/widget-listData/widget-listData.component';
 import { WidgetCommoditiesComponent } from '../widgets/widget-commodities/widget-commodities.component';
-
+import { WidgetCompareGraphsComponent } from '../widgets/widget-compareGraphs/widget-compareGraphs.component';
 import globals = require('../shared/globals');
 
 // class Widget { 
@@ -45,7 +45,8 @@ class BoxId{
 		StocktableComponent,
 		WidgetShowGraphComponent,
 		WidgetListDataComponent, 
-		WidgetCommoditiesComponent
+		WidgetCommoditiesComponent,
+		WidgetCompareGraphsComponent
 	],
     templateUrl: 'widget-holder.component.html', 
 })
@@ -77,7 +78,7 @@ export class WidgetHolderComponent implements OnInit {
 
 
 		//for 0 type in your widget type number from getWidget
-		//this.widgetControl.createTestStocks(0);
+		//this.widgetControl.createTestStocks(5);
 
 		//this.blist.createComponent(factory);
 		this.gridConfig = this.widgetControl.getGridConfig;
@@ -91,6 +92,7 @@ export class WidgetHolderComponent implements OnInit {
 		this.widgetChoiceMap.push({id: 2, name: 'Graph Widget'});
 		this.widgetChoiceMap.push({id: 3, name: 'List Widget'});
 		this.widgetChoiceMap.push({id: 4, name: 'Commodities Widget'});
+		this.widgetChoiceMap.push({id: 5, name: 'Compare Graphs Widget'});
 
 		//identifiers for adding and removing boxes. Numbers are box types to remove/add
 		//checks are bools for if the button has been clicked. 
@@ -146,6 +148,9 @@ export class WidgetHolderComponent implements OnInit {
 		}
 		if(i == 4){
 			return WidgetCommoditiesComponent;
+		}
+		if(i == 5){
+			return WidgetCompareGraphsComponent;
 		}
 	}
 

@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
                     response => {
                         if(response.success){
                             localStorage.setItem('id', response.payload.id);
-                            this.router.navigate(['home']);
+                            this.router.navigate(["/home"]);
                         }else{
                             alert("Login unsuccesful. Please check your username and password and try again.");
                             //login failed do stuff here

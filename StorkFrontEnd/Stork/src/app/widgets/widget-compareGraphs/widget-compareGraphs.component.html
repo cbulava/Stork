@@ -1,0 +1,85 @@
+     <div  style="margin: 10px 10px 10px;"> 
+        <!-- below displays title of widget in white box -->
+        <div class="title">{{box?.name}}</div>
+        <div>
+            <div>Graph period.    Moving avg 1.   Moving avg 2.</div>
+            <div>
+            <select #timePeriod>
+                <option value="1">1 months</option>
+                <option value="3">3 months</option>
+                <option value="6">6 months</option>
+                <option value="9">9 months</option>
+            </select>
+            <select #ma1>
+                <option value="50">50 days</option>
+                <option value="100">100 days</option>
+                <option value="200">200 days</option>
+                <option value="300">365 days</option>
+            </select>
+            <select #ma2>
+                <option value="75">75 days</option>
+                <option value="150">150 days</option>
+                <option value="250">250 days</option>
+                <option value="350">350 days</option>
+            </select>
+            </div>
+            <input #symbol/> <!--input box-->
+            <button (click)="getSymbolData(symbol.value, timePeriod.value, ma1.value, ma2.value);">
+            Look Up
+            </button>
+            <div #dataContainer></div><!--graph1-->
+        </div>
+        <!--################################################-->
+        <div class="title">{{box?.name}}</div>
+        <div>
+            <div>Graph period.    Moving avg 1.   Moving avg 2.</div>
+            <div>
+            <select #timePeriod2>
+                <option value="1">1 months</option>
+                <option value="3">3 months</option>
+                <option value="6">6 months</option>
+                <option value="9">9 months</option>
+            </select>
+            <select #ma12>
+                <option value="50">50 days</option>
+                <option value="100">100 days</option>
+                <option value="200">200 days</option>
+                <option value="300">365 days</option>
+            </select>
+            <select #ma22>
+                <option value="75">75 days</option>
+                <option value="150">150 days</option>
+                <option value="250">250 days</option>
+                <option value="350">350 days</option>
+            </select>
+            </div>
+            <input #symbol2/> <!--input box-->
+            <button (click)="getSymbolData2(symbol2.value, timePeriod2.value, ma12.value, ma22.value);">
+            Look Up
+            </button>
+            <div #dataContainer2></div><!--graph1-->
+        </div>
+
+ 
+
+
+            
+
+   <!--     <table>
+            <!-- below fills in stock data grid box labels -->
+  <!--          <tr>
+                <td *ngFor="let data of box.data | keys" style="padding:5px">
+                {{ data?.key }} 
+                </td>
+            </tr>
+            <!-- below fills in stock data grid boxes -->
+ <!--           <tr>
+                <td *ngFor="let data of box.data | keys" style="padding:5px">
+                {{ data?.value }} 
+                </td>
+            </tr>
+            <tr ng-show="widgetControl.showError">
+                {{ box?.error }}
+            </tr>
+            <P>
+        </table> -->

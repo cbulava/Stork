@@ -22,6 +22,7 @@ export class AccountCreationComponent implements OnInit {
                         }
                         else{
                             //account creation failed
+                            alert("Account creation unsuccesful. Please check your username and password and try again.");
                         }
                     }
                     );
