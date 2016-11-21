@@ -32,7 +32,6 @@ namespace StorkServer.Business {
                 }
             }
 
-            Console.WriteLine(results);
             JObject jsonresults = null;
             try {
                 JObject dataObject = JObject.Parse(results);
