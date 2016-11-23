@@ -72,7 +72,7 @@ export class WidgetControlService {
     }
 
 	createTestStocks(stockId: number){
-		for (var i = 0; i < 4; i++) {
+		for (var i = 0; i < 1; i++) {
 			this.boxes[i] = { id: i + 1, compId: 0, config: this._generateDefaultItemConfig(), data: [] , name: "box", error: "", type: stockId};	
 			//this.getStockData(this.stockSymbols[i], i, this.basicStockData);		
 		}

@@ -16,7 +16,7 @@ import { StocktableComponent } from './widgets/widget-stocktable/widget-stocktab
 import { WidgetListDataComponent } from './widgets/widget-listData/widget-listData.component';
 import { WidgetShowGraphComponent } from './widgets/widget-showGraph/widget-showGraph.component';
 import { WidgetCommoditiesComponent } from './widgets/widget-commodities/widget-commodities.component';
-import { BearBullComponent } from './widgets/widget-bearbull/widget-bearbull.component';
+import { RiskComponent } from './widgets/widget-risk/widget-risk.component';
 
 import { app_routing } from './app.routing';
 
@@ -35,7 +35,7 @@ import {Ng2CompleterModule } from 'ng2-completer';
 
 @NgModule({
     imports: [BrowserModule, FormsModule, HttpModule, app_routing, NgGridModule, Ng2CompleterModule],
-    declarations: [AppComponent, HomeComponent, LoginComponent, MenuTopComponent, WidgetHolderComponent, KeysPipe, EditComponent, AccountCreationComponent, WidgetSampleComponent, StocktableComponent, WidgetListDataComponent, WidgetShowGraphComponent, WidgetCommoditiesComponent, BearBullComponent],
+    declarations: [AppComponent, HomeComponent, LoginComponent, MenuTopComponent, WidgetHolderComponent, KeysPipe, EditComponent, AccountCreationComponent, WidgetSampleComponent, StocktableComponent, WidgetListDataComponent, WidgetShowGraphComponent, WidgetCommoditiesComponent, RiskComponent],
     providers: [DataService, HttpRequestService, WidgetControlService, {provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap:    [ AppComponent ]
 })
