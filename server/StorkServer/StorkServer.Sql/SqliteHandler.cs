@@ -60,7 +60,7 @@ namespace StorkServer.Sql {
                 "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "UID INTEGER," + 
                 "STOCKLIST CHAR(1024)," +
-                "TYPE CHAR(50)," +
+                "TYPE INTEGER," +
                 "REFRESH INTEGER," +
                 "X INTEGER, " +
                 "Y INTEGER, " +
@@ -195,7 +195,7 @@ namespace StorkServer.Sql {
             SQLiteConnection connection = connect();
 
             string statement = "INSERT INTO WIDGETS(UID, STOCKLIST, TYPE, REFRESH, X, Y, HEIGHT, WIDTH) VALUES(" + 
-                uid + ", '" + stockArrayToString(widget.stockList) + "', '" + widget.widgetType + "', " + widget.refresh + "," + widget.x + "," + widget.y + "," + widget.height + "," + widget.width + ")";
+                uid + ", '" + stockArrayToString(widget.stockList) + "', " + widget.widgetType + ", " + widget.refresh + "," + widget.x + "," + widget.y + "," + widget.height + "," + widget.width + ")";
             SQLiteCommand command = new SQLiteCommand(statement, connection);
 
             command.ExecuteNonQuery();
@@ -212,7 +212,7 @@ namespace StorkServer.Sql {
         public static void updateWidget(long wid, WidgetModel newWidget) {
             SQLiteConnection connection = connect();
             string statement = "UPDATE WIDGETS SET " +
-                "STOCKLIST = '" + stockArrayToString(newWidget.stockList) + "', TYPE = '" + newWidget.widgetType + "', REFRESH = " + newWidget.refresh + ", X = " + newWidget.x + ", Y = " + newWidget.y + ", HEIGHT = " + newWidget.height + ", WIDTH = " + newWidget.width + " " +
+                "STOCKLIST = '" + stockArrayToString(newWidget.stockList) + "', TYPE = " + newWidget.widgetType + ", REFRESH = " + newWidget.refresh + ", X = " + newWidget.x + ", Y = " + newWidget.y + ", HEIGHT = " + newWidget.height + ", WIDTH = " + newWidget.width + " " +
                 "WHERE ID = " + wid;
 
             SQLiteCommand command = new SQLiteCommand(statement, connection);
@@ -248,7 +248,7 @@ namespace StorkServer.Sql {
                 reader.Read();
                 long id = (long)reader[0];
                 string stocklist = (string)reader[2];
-                string type = (string)reader[3];
+                long type = (long)reader[3];
                 long refresh = (long)reader[4];
                 long x = (long)reader[5];
                 long y = (long)reader[6];
@@ -288,7 +288,7 @@ namespace StorkServer.Sql {
                 while (reader.Read()) {
                     long id = (long)reader[0];
                     string stocklist = (string)reader[2];
-                    string type = (string)reader[3];
+                    long type = (long)reader[3];
                     long refresh = (long)reader[4];
                     long x = (long)reader[5];
                     long y = (long)reader[6];
