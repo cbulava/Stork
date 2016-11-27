@@ -73,6 +73,17 @@ namespace StorkServer.Sql {
 
             command.ExecuteNonQuery();
 
+            statement = "CREATE TABLE MAIL (" +
+                "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "UID INTEGER," +
+                "STOCK CHAR(64)," +
+                "FOREIGN KEY(UID) REFERENCES USERS(ID)" +
+                ");";
+
+            command = new SQLiteCommand(statement, connection);
+
+            command.ExecuteNonQuery();
+
             disconnect(connection);
         }
         //returns the id of the user
