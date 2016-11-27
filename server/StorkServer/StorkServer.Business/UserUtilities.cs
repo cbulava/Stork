@@ -8,6 +8,7 @@ using System.Data.SqlClient;
 using System.Data.SQLite;
 using StorkServer.Sql.Models;
 using StorkServer.Sql;
+using System.Net.Mail;
 
 namespace StorkServer.Business {
     public class UserUtilities {
@@ -226,6 +227,28 @@ namespace StorkServer.Business {
             long wid = SqliteHandler.createWidget(userId, widget);
 
             return new ServerResponse(true, "widget was successfully created", wid);
+        }
+
+        public static void sendEmail(string toEmail, string subject, string message) {
+            MailMessage mail = new MailMessage();
+            SmtpClient client = new SmtpClient();
+            client.Port = 587;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.UseDefaultCredentials = false;
+            client.Credentials = new System.Net.NetworkCredential("storkstockapp@gmail.com", "storkpassword");
+            client.EnableSsl = true;
+            client.Host = "smtp.gmail.com";
+            mail.To.Add(new MailAddress(toEmail));
+            mail.From = new MailAddress("storkstockapp@gmail.com");
+            mail.Subject = subject;
+            mail.Body = message;
+            try {
+                client.Send(mail);
+                client.Dispose();
+            }
+            catch (Exception e) {
+                Console.WriteLine(e.ToString());
+            }
         }
     }
 }
