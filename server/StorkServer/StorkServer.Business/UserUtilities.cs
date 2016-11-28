@@ -229,6 +229,32 @@ namespace StorkServer.Business {
             return new ServerResponse(true, "widget was successfully created", wid);
         }
 
+        public static ServerResponse addMail(long userid, string stock) {
+            SqliteHandler.createMail(userid, stock);
+
+            return new ServerResponse(true, "mail successfully added", null);
+        }
+
+        public static ServerResponse deleteMail(long userid, string stock) {
+            SqliteHandler.removeMail(userid, stock);
+
+            return new ServerResponse(true, "mail successfully removed", null);
+        }
+
+        public static ServerResponse getAllMail(long userid) {
+            string[] stocks;
+
+            stocks = SqliteHandler.getAllMail(userid);
+            if (stocks.Length != 0) {
+                return new ServerResponse(true, "retrieved mail list successfully", stocks);
+            }
+            else {
+                return new ServerResponse(false, "no mailing options for this user", null);
+            }
+            
+        }
+
+
         public static void sendEmail(string toEmail, string subject, string message) {
             MailMessage mail = new MailMessage();
             SmtpClient client = new SmtpClient();

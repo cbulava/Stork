@@ -219,6 +219,56 @@ namespace StorkServer.Sql {
             return id;
         }
 
+        //inserts an email entry
+
+        public static long createMail(long uid, string stock) {
+            SQLiteConnection connection = connect();
+            string statement = "INSERT INTO MAIL(UID, STOCK) VALUES(" +
+                uid + ", '" + stock + "')";
+            SQLiteCommand command = new SQLiteCommand(statement, connection);
+            command.ExecuteNonQuery();
+
+            statement = "SELECT last_insert_rowid()";
+            command = new SQLiteCommand(statement, connection);
+            Int64 id = (Int64)command.ExecuteScalar();
+
+            disconnect(connection);
+            return id;
+        }
+
+        public static bool removeMail(long uid, string stock) {
+            SQLiteConnection connection = connect();
+            bool status = true;
+            string statement = "DELETE FROM MAIL WHERE UID = " + uid + " AND STOCK='" + stock + "'";
+            SQLiteCommand command = new SQLiteCommand(statement, connection);
+            command.ExecuteNonQuery();
+            disconnect(connection);
+            return status;
+        }
+
+        
+        public static string[] getAllMail(long uid) {
+            LinkedList<string> stocks = new LinkedList<string>();
+            SQLiteConnection connection = connect();
+
+            string statement = "SELECT * FROM MAIL WHERE UID = " + uid;
+            SQLiteCommand command = new SQLiteCommand(statement, connection);
+            SQLiteDataReader reader = command.ExecuteReader();
+
+            if (reader.HasRows) {
+                while (reader.Read()) {
+                    string stock = (string)reader[2];
+                    stocks.AddLast(stock);
+                }
+            }
+
+            reader.Close();
+            disconnect(connection);
+
+            return stocks.ToArray();
+        }
+        
+
         //updates a widget in the database
         public static void updateWidget(long wid, WidgetModel newWidget) {
             SQLiteConnection connection = connect();
