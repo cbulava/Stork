@@ -82,7 +82,7 @@ export class WidgetHolderComponent implements OnInit {
 
 
 		//for 0 type in your widget type number from getWidget
-		this.widgetControl.createTestStocks(5);
+		//this.widgetControl.createTestStocks(5);
 
 		//this.widgetControl.loadUserWidgets();
 		//load widgets based on User.Id

@@ -10,6 +10,7 @@ export class HttpRequestService {
     options = new RequestOptions({ headers: this.headers });
     httpData: Array<any>;
 
+
     constructor(private http: Http) { }
 
   login (email: string, password:string){

@@ -132,13 +132,15 @@ export class RiskComponent implements OnInit, DoCheck {
 
     importFields(){
         //console.log(this.box.data);
-        this.yearHigh = this.box.data.fiftyTwoWkHigh;
-        this.yearLow = this.box.data.fiftyTwoWkLow;
-        this.bid = this.box.data.bid;
-        this.ask = this.box.data.ask;
-        this.lastPrice = this.box.data.lastPrice;
-        this.averageTradingVolume = this.box.data.avgVolume;
-        this.twelveMonthPct = this.box.data.twelveMnthPct;
+
+
+        this.yearHigh = this.box.data["fiftyTwoWkHigh"]; 
+        this.yearLow = this.box.data["fiftyTwoWkLow"];
+        this.bid = this.box.data["bid"];
+        this.ask = this.box.data["ask"];
+        this.lastPrice = this.box.data["lastPrice"];
+        this.averageTradingVolume = this.box.data["avgVolume"];
+        this.twelveMonthPct = this.box.data["twelveMnthPct"];
         this.riskCalculator();
     }
 
