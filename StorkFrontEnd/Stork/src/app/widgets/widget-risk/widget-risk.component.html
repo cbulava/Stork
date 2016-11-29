@@ -1,0 +1,113 @@
+  <div style="margin: 5px 5px 5px;">    
+        <div class="title">{{box?.name}}</div>
+        <ng2-completer [(ngModel)]="searchStr" pause=500 [dataService]="dataService" [minSearchLength]="1" placeholder="Search by ticker or name..." #stockname></ng2-completer>
+        <button (click)="searchForStock(stockname.value);">
+            Search
+        </button>
+        <br />
+        <style>
+        /* Popup container - can be anything you want */
+        .popup {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* The actual popup */
+        .popup .popuptext {
+            visibility: hidden;
+            width: 600px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px 0;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -80px;
+        }
+
+        /* Toggle this class - hide and show the popup */
+        .popup .show {
+            visibility: visible;
+            -webkit-animation: fadeIn 1s;
+            animation: fadeIn 1s;
+        }
+
+        /* Add animation (fade in the popup) */
+        @-webkit-keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity:1 ;}
+        }
+        </style>
+        <div class="body">
+            <div *ngIf="risk == undefined">{{risky}}</div>
+            <div *ngIf="risk >= 2" [style.color]="'red'">{{risky}}</div>
+            <div *ngIf="risk < 2" [style.color]="'blue'">{{risky}}</div>
+            <div>{{info}}</div>
+            <hr>
+
+
+            <div class="popup" (click)="nyhpopup()" [style.color]="'green'">
+                <div *ngIf="yh && nearYearHigh()" [style.color]="'red'">{{yh}}</div>
+                <div *ngIf="yh && !nearYearHigh()" [style.color]="'blue'">{{yh}}</div>
+            <span class="popuptext" id="nyhpopup">
+                YEAR HIGH: If a stock is near its year high, that means there isn't a big chance of it continuing to climb and therefore would be a risky buy.
+            </span>
+            </div>
+
+            <div class="popup" (click)="u1mpopup()" [style.color]="'green'">
+                <div *ngIf="u1m && under1m()" [style.color]="'red'">{{u1m}}</div>
+                <div *ngIf="u1m && !under1m()" [style.color]="'blue'">{{u1m}}</div>
+            <span class="popuptext" id="u1mpopup">
+                TRADING VOLUME: A small (under 1 million) trading volume means it's a smaller and therefore more volatile stock. 
+                Larger stocks tend to be more stable and have less volatility or chance to crash.
+                Volatile stocks are risky buys because they have potential to be huge moneymakers or huge losses.
+            </span>
+            </div>
+
+            <div class="popup" (click)="ngrowpopup()" [style.color]="'green'">
+                <div *ngIf="ngrow && notGrowing()" [style.color]="'red'">{{ngrow}}</div>
+                <div *ngIf="ngrow && !notGrowing()" [style.color]="'blue'">{{ngrow}}</div>
+            <span class="popuptext" id="ngrowpopup">
+                GROWING STOCK: If this stock is growing over a 1 year term, it means it is likely to continue increasing in value in the long term. 
+                Likewise, a stock that has a net decrease in value over a 1 year term is likely to continue decreasing over time.
+            </span>
+            </div>
+
+            <div class="popup" (click)="ctbpopup()" [style.color]="'black'">
+                <div *ngIf="ctb && closertobid() == null">{{ctb}}</div>
+                <div *ngIf="ctb && closertobid() == true" [style.color]="'red'">{{ctb}}</div>
+                <div *ngIf="ctb && closertobid() == false" [style.color]="'blue'">{{ctb}}</div>
+            <span class="popuptext" id="ctbpopup">
+                BID/ASK CLOSENESS: Stocks that are trending closer to bids are declining, at least in the short term, since sellers are more willing to pay the bid price to get rid of the stock.
+                Conversely, stocks trending closer to asks are increasing in value, as buyers are more willing to pay the ask price to get the stock.
+                If you are seeing "cannot determine bid/ask trends", it means the market is closed. The market reopens on non-holiday Mondays through Fridays, 9:30 a.m. to 4:00 p.m. EST.
+            </span>
+            </div>
+
+        </div>
+        <body style="text-align:center">
+
+        <div class="popup" (click)="tipspopup()">Tips on risk...
+        <span class="popuptext" id="myPopup">
+            RISK TIPS: Remember that risk isn't always a bad thing. It can mean big rewards, risk just means it's less likely to happen. 
+            Less risky stocks can mean bigger losses if something bad happens, more risky stocks can mean bigger rewards if something good happens.
+            Try to diversify your stock buying between risky and less risky stocks for maximum benefit and do plenty of research.
+            <a href="http://www.investopedia.com/financial-edge/0512/low-vs.-high-risk-investments-for-beginners.aspx"> More explanation on risk...</a>
+        </span>
+        </div>
+        <div ng-show="widgetControl.showError">
+                {{ box?.error }}
+        </div>

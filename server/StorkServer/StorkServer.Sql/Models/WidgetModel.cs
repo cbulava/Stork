@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace StorkServer.Sql.Models {
     public class WidgetModel {
         public long id { get; set; }
-        public string widgetType { get; set; }
+        public long widgetType { get; set; }
         public long refresh { get; set; }
         public long x { get; set; }
         public long y { get; set; }

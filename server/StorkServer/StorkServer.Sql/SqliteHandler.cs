@@ -60,13 +60,24 @@ namespace StorkServer.Sql {
                 "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "UID INTEGER," + 
                 "STOCKLIST CHAR(1024)," +
-                "TYPE CHAR(50)," +
+                "TYPE INTEGER," +
                 "REFRESH INTEGER," +
                 "X INTEGER, " +
                 "Y INTEGER, " +
                 "HEIGHT INTEGER, " +
                 "WIDTH INTEGER," +
                 "FOREIGN KEY(UID) REFERENCES USERS(ID)" + 
+                ");";
+
+            command = new SQLiteCommand(statement, connection);
+
+            command.ExecuteNonQuery();
+
+            statement = "CREATE TABLE MAIL (" +
+                "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "UID INTEGER," +
+                "STOCK CHAR(64)," +
+                "FOREIGN KEY(UID) REFERENCES USERS(ID)" +
                 ");";
 
             command = new SQLiteCommand(statement, connection);
@@ -195,7 +206,7 @@ namespace StorkServer.Sql {
             SQLiteConnection connection = connect();
 
             string statement = "INSERT INTO WIDGETS(UID, STOCKLIST, TYPE, REFRESH, X, Y, HEIGHT, WIDTH) VALUES(" + 
-                uid + ", '" + stockArrayToString(widget.stockList) + "', '" + widget.widgetType + "', " + widget.refresh + "," + widget.x + "," + widget.y + "," + widget.height + "," + widget.width + ")";
+                uid + ", '" + stockArrayToString(widget.stockList) + "', " + widget.widgetType + ", " + widget.refresh + "," + widget.x + "," + widget.y + "," + widget.height + "," + widget.width + ")";
             SQLiteCommand command = new SQLiteCommand(statement, connection);
 
             command.ExecuteNonQuery();
@@ -208,11 +219,66 @@ namespace StorkServer.Sql {
             return id;
         }
 
+        //inserts an email entry
+
+        public static long createMail(long uid, string stock) {
+            SQLiteConnection connection = connect();
+            string statement = "INSERT INTO MAIL(UID, STOCK) VALUES(" +
+                uid + ", '" + stock + "')";
+            SQLiteCommand command = new SQLiteCommand(statement, connection);
+            command.ExecuteNonQuery();
+
+            statement = "SELECT last_insert_rowid()";
+            command = new SQLiteCommand(statement, connection);
+            Int64 id = (Int64)command.ExecuteScalar();
+
+            disconnect(connection);
+            return id;
+        }
+
+        public static bool removeMail(long uid, string stock) {
+            SQLiteConnection connection = connect();
+            bool status = true;
+            string statement = "DELETE FROM MAIL WHERE UID = " + uid + " AND STOCK='" + stock + "'";
+            SQLiteCommand command = new SQLiteCommand(statement, connection);
+            command.ExecuteNonQuery();
+            disconnect(connection);
+            return status;
+        }
+
+        
+        public static string[] getAllMail(long uid) {
+            LinkedList<string> stocks = new LinkedList<string>();
+            SQLiteConnection connection = connect();
+
+            string statement = "SELECT * FROM MAIL WHERE UID = " + uid;
+            SQLiteCommand command = new SQLiteCommand(statement, connection);
+            SQLiteDataReader reader = command.ExecuteReader();
+
+            if (reader.HasRows) {
+                while (reader.Read()) {
+                    try {
+                        string stock = (string)reader[2];
+                        stocks.AddLast(stock);
+                    }
+                    catch (InvalidCastException e) {
+                       //do nothing
+                    }
+                }
+            }
+
+            reader.Close();
+            disconnect(connection);
+
+            return stocks.ToArray();
+        }
+        
+
         //updates a widget in the database
         public static void updateWidget(long wid, WidgetModel newWidget) {
             SQLiteConnection connection = connect();
             string statement = "UPDATE WIDGETS SET " +
-                "STOCKLIST = '" + stockArrayToString(newWidget.stockList) + "', TYPE = '" + newWidget.widgetType + "', REFRESH = " + newWidget.refresh + ", X = " + newWidget.x + ", Y = " + newWidget.y + ", HEIGHT = " + newWidget.height + ", WIDTH = " + newWidget.width + " " +
+                "STOCKLIST = '" + stockArrayToString(newWidget.stockList) + "', TYPE = " + newWidget.widgetType + ", REFRESH = " + newWidget.refresh + ", X = " + newWidget.x + ", Y = " + newWidget.y + ", HEIGHT = " + newWidget.height + ", WIDTH = " + newWidget.width + " " +
                 "WHERE ID = " + wid;
 
             SQLiteCommand command = new SQLiteCommand(statement, connection);
@@ -248,7 +314,7 @@ namespace StorkServer.Sql {
                 reader.Read();
                 long id = (long)reader[0];
                 string stocklist = (string)reader[2];
-                string type = (string)reader[3];
+                long type = (long)reader[3];
                 long refresh = (long)reader[4];
                 long x = (long)reader[5];
                 long y = (long)reader[6];
@@ -288,7 +354,7 @@ namespace StorkServer.Sql {
                 while (reader.Read()) {
                     long id = (long)reader[0];
                     string stocklist = (string)reader[2];
-                    string type = (string)reader[3];
+                    long type = (long)reader[3];
                     long refresh = (long)reader[4];
                     long x = (long)reader[5];
                     long y = (long)reader[6];
