@@ -84,7 +84,7 @@ export class HttpRequestService {
 
   updateWidget(id : number, widgetid: number, stockList: string[], widgetType : string, refresh : number, x : number, y : number, height : number, width : number){
   	let body = JSON.stringify({stockList, widgetType, refresh, x, y, height, width});
-  	return this.http.post(this.serverUrl.concat("user/").concat(id.toString()).concat("/dashboard/").concat(widgetid.toString()), body, this.options)
+  	return this.http.put(this.serverUrl.concat("user/").concat(id.toString()).concat("/dashboard/").concat(widgetid.toString()), body, this.options)
   		.map(this.extractData)
   		.catch(this.handleError);
   }

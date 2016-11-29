@@ -57,9 +57,10 @@ export class WidgetHolderComponent implements OnInit {
 	private boxComps: Array<ViewContainerRef> = [];
 	private gridConfig: NgGridConfig;
 	
-	private addBoxCheck: boolean;
+	private loadBoxCheck: boolean;
+	public addBoxCheck: boolean;
 	private removeBoxCheck: boolean;
-	private numBoxes: number;	
+	public numBoxes: number;	
 	private removeBoxNum: number;
 	private addBoxNum: number;
 
@@ -78,6 +79,9 @@ export class WidgetHolderComponent implements OnInit {
 
 		//for 0 type in your widget type number from getWidget
 		//this.widgetControl.createTestStocks(0);
+
+		//this.widgetControl.loadUserWidgets();
+		//load widgets based on User.Id
 
 		//this.blist.createComponent(factory);
 		this.gridConfig = this.widgetControl.getGridConfig;
@@ -98,6 +102,8 @@ export class WidgetHolderComponent implements OnInit {
 		this.removeBoxCheck = false;
 		this.addBoxNum = -1;
 		this.addBoxCheck = false;
+
+		//get all widgets here
 
 		for(var i = 0; i < this.boxes.length; i++){
 			this.removeCheckBoxes.push(this.boxes[i].id);
@@ -199,11 +205,30 @@ export class WidgetHolderComponent implements OnInit {
 			this.addBoxCheck = false;
 			
 		}	
+		if(this.loadBoxCheck && this.widgetControl.numServBoxes == this.boxids.length){
+			for(let i = 0; i < this.widgetControl.numServBoxes; i++){
+				let temp: ViewContainerRef[];
+				temp = this.boxids.toArray();
+				this.widgetControl.currBoxId = i;
+				let factory = this.componentfactoryResolver.resolveComponentFactory(this.getWidget(this.boxes[i].type));
+				temp[i].createComponent(factory);
+				this.loadBoxCheck = false;
+				this.haveWidgets = false;
+			}
+			this.numBoxes = this.widgetControl.numServBoxes;
+
+		}
+
 
 	}
 	ngAfterViewInit() {
 
-		
+		if(this.widgetControl.doLoadOnce){
+			this.widgetControl.loadUserWidgets();
+			this.widgetControl.doLoadOnce = false;
+			this.loadBoxCheck = true;
+			
+		}
 
 		//Where all the boxes are filled with their respective components. 
 		let factory = this.componentfactoryResolver.resolveComponentFactory(WidgetSampleComponent);
