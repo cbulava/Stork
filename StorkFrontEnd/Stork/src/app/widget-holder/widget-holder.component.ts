@@ -9,6 +9,7 @@ import { WidgetShowGraphComponent } from '../widgets/widget-showGraph/widget-sho
 import { WidgetListDataComponent } from '../widgets/widget-listData/widget-listData.component';
 import { WidgetCommoditiesComponent } from '../widgets/widget-commodities/widget-commodities.component';
 import { RiskComponent } from '../widgets/widget-risk/widget-risk.component';
+import { WidgetEmailComponent } from '../widgets/widget-email/widget-email.component';
 
 import globals = require('../shared/globals');
 
@@ -47,7 +48,8 @@ class BoxId{
 		WidgetShowGraphComponent,
 		WidgetListDataComponent, 
 		WidgetCommoditiesComponent,
-		RiskComponent
+		RiskComponent,
+		WidgetEmailComponent
 	],
     templateUrl: 'widget-holder.component.html', 
 })
@@ -94,6 +96,7 @@ export class WidgetHolderComponent implements OnInit {
 		this.widgetChoiceMap.push({id: 3, name: 'List Widget'});
 		this.widgetChoiceMap.push({id: 4, name: 'Commodities Widget'});
 		this.widgetChoiceMap.push({id: 5, name: 'Risk Widget'});
+		this.widgetChoiceMap.push({id: 6, name: 'Email Widget'});
 
 		//identifiers for adding and removing boxes. Numbers are box types to remove/add
 		//checks are bools for if the button has been clicked. 
@@ -152,6 +155,9 @@ export class WidgetHolderComponent implements OnInit {
 		}
 		if(i == 5) {
 			return RiskComponent;
+		}
+		if (i == 6){
+			return WidgetEmailComponent;
 		}
 	}
 

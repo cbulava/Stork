@@ -249,7 +249,7 @@ namespace StorkServer.Business {
                 return new ServerResponse(true, "retrieved mail list successfully", stocks);
             }
             else {
-                return new ServerResponse(false, "no mailing options for this user", null);
+                return new ServerResponse(false, "There are no subscriptions currently.", null);
             }
             
         }

@@ -70,6 +70,25 @@ export class HttpRequestService {
   		.catch(this.handleError);
   }
 
+  addMail(id : number, stock : string) {
+    let body = JSON.stringify({stock});
+    return this.http.post(this.serverUrl.concat("user/").concat(id.toString()).concat("/mail"), body, this.options)
+          .map(this.extractData)
+          .catch(this.handleError);
+  }
+
+  getMail(id : number){
+      return this.http.get(this.serverUrl.concat("user/").concat(id.toString()).concat("/mail"), this.options)
+          .map(this.extractData)
+          .catch(this.handleError);
+  }
+
+  removeMail(id : number, stock : string){
+      return this.http.delete(this.serverUrl.concat("user/").concat(id.toString()).concat("/mail/").concat(stock), this.options)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
   getWidget(id : number, widgetid : number){
   	return this.http.get(this.serverUrl.concat("user/").concat(id.toString()).concat("/dashboard/").concat(widgetid.toString()), this.options)
   		.map(this.extractData)

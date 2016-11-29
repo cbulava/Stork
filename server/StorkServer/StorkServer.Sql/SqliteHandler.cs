@@ -257,8 +257,13 @@ namespace StorkServer.Sql {
 
             if (reader.HasRows) {
                 while (reader.Read()) {
-                    string stock = (string)reader[2];
-                    stocks.AddLast(stock);
+                    try {
+                        string stock = (string)reader[2];
+                        stocks.AddLast(stock);
+                    }
+                    catch (InvalidCastException e) {
+                       //do nothing
+                    }
                 }
             }
 

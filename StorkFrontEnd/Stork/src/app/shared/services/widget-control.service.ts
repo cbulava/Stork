@@ -204,4 +204,62 @@ export class WidgetControlService {
 			}
 		);
     }
+    //Email subscription handling methods
+    getEmailData(id : number, boxIndex: number)  {      
+    	let httpData: Array<any>;
+	this.httpReq.getMail(id).subscribe(
+ 			response => {
+                if(response.success){
+                    this.boxes[boxIndex].data = response.payload;
+                    this.showError = false;
+                    this.boxes[boxIndex].error = "";
+                }else{
+					this.showError = true;
+					this.boxes[boxIndex].error = response.message;
+                    //retrieval failed for some reason
+                }
+            }, 
+			error => {
+				this.showError = true;
+				this.boxes[boxIndex].error = "Error timeout in Server. Server may be slow, or stock data is updating on Yahoo page.";
+			}
+		);
+    }
+
+    addEmailData(id : number, stock : string, boxIndex: number)  {      
+    	let httpData: Array<any>;
+	this.httpReq.addMail(id, stock).subscribe(
+ 			response => {
+                if(response.success){
+                   this.getEmailData(id, boxIndex);
+                }else{
+		this.showError = true;
+		this.boxes[boxIndex].error = response.message;
+                    	//retrieval failed for some reason
+                }
+            }, 
+		error => {
+			this.showError = true;
+			this.boxes[boxIndex].error = "Error timeout in Server. Server may be slow, or stock data is updating on Yahoo page.";
+		}
+	);
+    }
+    removeEmailData(id : number, stock : string, boxIndex: number)  {      
+    	let httpData: Array<any>;
+	this.httpReq.removeMail(id, stock).subscribe(
+ 			response => {
+                if(response.success){
+                   this.getEmailData(id, boxIndex);
+                }else{
+		this.showError = true;
+		this.boxes[boxIndex].error = response.message;
+                    //retrieval failed for some reason
+                }
+            }, 
+		error => {
+			this.showError = true;
+			this.boxes[boxIndex].error = "Error timeout in Server. Server may be slow, or stock data is updating on Yahoo page.";
+		}
+	);
+    }
 }
