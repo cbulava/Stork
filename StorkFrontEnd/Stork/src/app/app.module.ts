@@ -17,6 +17,7 @@ import { WidgetListDataComponent } from './widgets/widget-listData/widget-listDa
 import { WidgetShowGraphComponent } from './widgets/widget-showGraph/widget-showGraph.component';
 import { WidgetCommoditiesComponent } from './widgets/widget-commodities/widget-commodities.component';
 import { WidgetCompareGraphsComponent } from './widgets/widget-compareGraphs/widget-compareGraphs.component';
+import { WidgetStockNewsComponent } from './widgets/widget-stockNews/widget-stockNews.component';
 
 import { app_routing } from './app.routing';
 
@@ -35,7 +36,7 @@ import {Ng2CompleterModule } from 'ng2-completer';
 
 @NgModule({
     imports: [BrowserModule, FormsModule, HttpModule, app_routing, NgGridModule, Ng2CompleterModule],
-    declarations: [AppComponent, HomeComponent, LoginComponent, MenuTopComponent, WidgetHolderComponent, KeysPipe, EditComponent, AccountCreationComponent, WidgetSampleComponent, StocktableComponent, WidgetListDataComponent, WidgetShowGraphComponent, WidgetCommoditiesComponent, WidgetCompareGraphsComponent ],
+    declarations: [AppComponent, HomeComponent, LoginComponent, MenuTopComponent, WidgetHolderComponent, KeysPipe, EditComponent, AccountCreationComponent, WidgetSampleComponent, StocktableComponent, WidgetListDataComponent, WidgetShowGraphComponent, WidgetCommoditiesComponent, WidgetCompareGraphsComponent, WidgetStockNewsComponent ],
     providers: [DataService, HttpRequestService, WidgetControlService, {provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap:    [ AppComponent ]
 })

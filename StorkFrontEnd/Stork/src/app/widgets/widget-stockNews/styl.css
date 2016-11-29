@@ -1,0 +1,68 @@
+/* Styles go here */
+
+
+body, input[type=text] {
+  font-family: "Comic Sans MS", cursive, sans-serif ;
+  font-size: 14px;
+  color: #fff;
+  height: 100%;
+  background-color: #3F51B5;
+  padding: 10px;
+}
+
+
+app {
+  padding: 20px 10px;
+  border: 1px solid #ddd;
+  display: block;
+}
+
+.feed {
+  background-color: #fff;
+  padding: 10px;
+  color: #777;
+  margin: 10px;
+  position: relative;
+}
+
+input[type=text] {
+  padding: 10px 0px 10px 10px;
+  color: #666;
+  width: 98%;
+  margin: 0px 20px 20px 0px;
+  background-color: #fff;
+}
+
+a.button {
+  color: #fff;
+  text-decoration: none;
+  display: inline-block;
+  padding: 10px 50px;
+  border: 2px solid #fff;
+  margin: 0px 0px 20px 5px;
+  cursor: pointer;
+  display: inline-block;
+}
+
+a.button:hover {
+  background-color: #2E40A4;
+}
+
+.center {
+  text-align: center;
+}
+
+a.remove {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-weight: bold;
+  text-decoration: none;
+  cursor: pointer;
+  color: #666;
+  font-size: 150%;
+}
+
+a.remove:hover {
+  color: #f00;
+}
