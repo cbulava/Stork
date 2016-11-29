@@ -14,7 +14,7 @@ class Widget {
 
 interface Box {
 	id: number;
-	compId: number;
+	servId: number;
 	config: NgGridItemConfig;
     data: Array<any>;
 	name: string;
@@ -37,6 +37,11 @@ export class WidgetControlService {
 	private stockSymbols: Array<string> = ["MSFT", "GOOG", "AMZN", "FB"];
 	public currBoxId: number = 5;
 	private manualResize: boolean = false;
+
+	public numServBoxes = 0;
+
+	public doLoadOnce: boolean = true;
+
 	private gridConfig: NgGridConfig = <NgGridConfig>{
 		'margins': [5],
 		'draggable': true,
@@ -49,7 +54,7 @@ export class WidgetControlService {
 		'min_rows': 1,
 		'col_width': 1,
 		'row_height': 1,
-		'cascade': 'up',
+		'cascade': 'top',
 		'min_width': 10,
 		'min_height': 10,
 		'fix_to_grid': false,
@@ -61,7 +66,6 @@ export class WidgetControlService {
 		'limit_to_screen': true
 	};
 
-
     constructor(private httpReq: HttpRequestService, private componentfactoryResolver: ComponentFactoryResolver) {
 		//manually creating boxes and fill them with compoment type 0 (change type to that of your component number to test for now)
         // for (var i = 0; i < 4; i++) {
@@ -71,9 +75,27 @@ export class WidgetControlService {
 		//modify box component data here
     }
 
+	resetService(){
+		
+    	this.boxes = [];
+		this.showError = false;
+		this.httpData = [];
+		this.curNum = 0;
+		this.rgb = "#efefef";
+		this.curItemCheck = 0;
+		this.itemPositions = [];
+		this.basicStockData =  ["Bid", "DaysLow", "DaysHigh", "YearsLow", "YearsHigh", "Ask", "AverageDailyVolume", "DaysRange"];
+		this.stockSymbols =  ["MSFT", "GOOG", "AMZN", "FB"];
+		this.currBoxId = 5;
+		this.manualResize = false;
+		this.numServBoxes = 0;
+		this.doLoadOnce = true;
+
+	}
+
 	createTestStocks(stockId: number){
 		for (var i = 0; i < 4; i++) {
-			this.boxes[i] = { id: i + 1, compId: 0, config: this._generateDefaultItemConfig(), data: [] , name: "box", error: "", type: stockId};	
+			this.boxes[i] = { id: i + 1, servId: 0, config: this._generateDefaultItemConfig(), data: [] , name: "box", error: "", type: stockId};	
 			//this.getStockData(this.stockSymbols[i], i, this.basicStockData);		
 		}
 	}
@@ -116,11 +138,55 @@ export class WidgetControlService {
         return this.gridConfig;
     }
 
+	loadUserWidgets(): void {
+		this.httpReq.getDashboard(localStorage["id"]).subscribe(
+			response => {
+				if(response.success){
+
+					this.numServBoxes = response.payload.length;
+					let i = 0;
+					for(let obj of response.payload){
+						const conf: NgGridItemConfig = this._generateDefaultItemConfig();
+						conf.payload = this.curNum++;
+						conf.sizey = obj.width;
+						conf.sizex = obj.height;
+						conf.row = obj.y;
+						conf.col = obj.x;
+						let len = this.boxes.push({
+							 id: conf.payload, 
+							 servId: obj.id, 
+							 config: conf, 
+							 data: [], 
+							 name: "" , 
+							 error: "", 
+							 type: obj.widgetType});
+						i++;
+						//load data for box, data is currently empty though
+					}
+				}
+			},
+			error => {
+
+			}
+		)
+		
+	}
+
 	addBox(type: number): number {
 		const conf: NgGridItemConfig = this._generateDefaultItemConfig();
 		conf.payload = this.curNum++;
-		this.boxes.push({ id: conf.payload, compId: 1, config: conf, data: [], name: "" , error: "", type: type});
-		return conf.payload;
+		this.boxes.push({ id: conf.payload, servId: 0, config: conf, data: [], name: "" , error: "", type: type});
+		this.numServBoxes++;	
+		this.httpReq.addWidget(localStorage["id"], [], type.toString(), 0, 1, 1, 70, 10).subscribe(
+ 			response => {
+                if(response.success){
+                    let boxServId = response.payload;
+					this.boxes[this.boxes.length - 1].servId = boxServId;
+            	}else{
+					this.removeBox(conf.payload);
+				}
+			 });
+		return conf.payload;	
 	}
 	
 	removeBox(id: number): void {
@@ -131,9 +197,23 @@ export class WidgetControlService {
 		if(id < 0){
 			return;
 		}
+		this.numServBoxes--;
+
 		for(var i = 0; i < this.boxes.length; i++){
 			if(this.boxes[i]["id"] == id){
-				this.boxes.splice(i, 1);
+
+				this.httpReq.deleteWidget(localStorage["id"], this.boxes[i].servId).subscribe(
+					response => {
+						if(response.success){
+							let boxServId = response.payload;
+							this.boxes[this.boxes.length-1].servId = boxServId;
+							this.boxes.splice(i, 1);
+						}else{
+							//this.removeBox(conf.payload);
+						}
+					});
+
+				//this.boxes.splice(i, 1);
 			}
 		}
 		// if(this.boxes[id]){
@@ -149,16 +229,43 @@ export class WidgetControlService {
 	}
 	
 	onDrag(index: number, event: NgGridItemEvent): void {
+		// let index = this.getBoxIndex(id);
+		// if(index == -1){
+		// 	return;
+		// }
 		this.boxes[index].config["col"] = event.col;
 		this.boxes[index].config["row"] = event.row;
+		this.updateServerConf(index);
+
 		// Do something here
 	}
 	
 	onResize(index: number, event: NgGridItemEvent): void {
+		// let index = this.getBoxIndex(id);
+		// if(index == -1){
+		// 	return;
+		// }
 		this.boxes[index].config["sizex"] = event.sizex;
 		this.boxes[index].config["sizey"] = event.sizey;
+		this.updateServerConf(index);
 		// Do something here
 	}
+
+	updateServerConf(index: number): void {
+		let box: Box;
+		box = this.boxes[index];
+		this.httpReq.updateWidget(localStorage["id"], box.servId, [], box.type.toString() , 0, box.config.col, box.config.row, box.config.sizex, box.config.sizey).subscribe(
+			response => {
+				if(response.success){
+
+				}
+			}, 
+			error => {
+
+			}
+		)
+	}
+
 	
 	setMinSize(index: number, x: number = undefined, y: number = undefined): void{
 		if(x != undefined){
@@ -203,5 +310,76 @@ export class WidgetControlService {
 				this.boxes[boxIndex].error = "Error timeout in Server. Server may be slow, or stock data is updating on Yahoo page.";
 			}
 		);
+
+		//now save stocks and fields to server for the stock
+    }
+
+
+	getBoxIndex(id: number): number{
+		for(var i = 0; i < this.boxes.length; i++){
+			if(this.boxes[i]["id"] == id){
+				return i;
+			}
+		}
+		return -1;
+	}
+
+    //Email subscription handling methods
+    getEmailData(id : number, boxIndex: number)  {      
+    	let httpData: Array<any>;
+	this.httpReq.getMail(id).subscribe(
+ 			response => {
+                if(response.success){
+                    this.boxes[boxIndex].data = response.payload;
+                    this.showError = false;
+                    this.boxes[boxIndex].error = "";
+                }else{
+					this.showError = true;
+					this.boxes[boxIndex].error = response.message;
+                    //retrieval failed for some reason
+                }
+            }, 
+			error => {
+				this.showError = true;
+				this.boxes[boxIndex].error = "Error timeout in Server. Server may be slow, or stock data is updating on Yahoo page.";
+			}
+		);
+    }
+
+    addEmailData(id : number, stock : string, boxIndex: number)  {      
+    	let httpData: Array<any>;
+	this.httpReq.addMail(id, stock).subscribe(
+ 			response => {
+                if(response.success){
+                   this.getEmailData(id, boxIndex);
+                }else{
+		this.showError = true;
+		this.boxes[boxIndex].error = response.message;
+                    	//retrieval failed for some reason
+                }
+            }, 
+		error => {
+			this.showError = true;
+			this.boxes[boxIndex].error = "Error timeout in Server. Server may be slow, or stock data is updating on Yahoo page.";
+		}
+	);
+    }
+    removeEmailData(id : number, stock : string, boxIndex: number)  {      
+    	let httpData: Array<any>;
+	this.httpReq.removeMail(id, stock).subscribe(
+ 			response => {
+                if(response.success){
+                   this.getEmailData(id, boxIndex);
+                }else{
+		this.showError = true;
+		this.boxes[boxIndex].error = response.message;
+                    //retrieval failed for some reason
+                }
+            }, 
+		error => {
+			this.showError = true;
+			this.boxes[boxIndex].error = "Error timeout in Server. Server may be slow, or stock data is updating on Yahoo page.";
+		}
+	);
     }
 }

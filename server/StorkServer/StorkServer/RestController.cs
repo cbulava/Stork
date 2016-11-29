@@ -238,6 +238,57 @@ namespace StorkServer {
             return sr;
         }
 
+        //create Mail
+        [Route("user/{id:int}/mail")]
+        [HttpPost]
+        public ServerResponse createMail(int id, [FromBody] StockNameModel stock) {
+            ServerResponse sr;
+            bool success = true;
+            string message = "";
+            if (stock == null) {
+                success = false;
+                message = "no stock given";
+            }
+            
+            if (success) {
+                sr = UserUtilities.addMail(id, stock.stock);
+            }
+            else {
+                sr = new ServerResponse(success, message, null);
+            }
+
+            return sr;
+        }
+        [Route("user/{id:int}/mail")]
+        [HttpGet]
+        public ServerResponse getMail(int id) {
+            ServerResponse sr;
+            sr = UserUtilities.getAllMail(id);
+            return sr;
+        }
+
+        [Route("user/{id:int}/mail/{symbol}")]
+        [HttpDelete]
+        public ServerResponse deleteMail(int id, string symbol) {
+            ServerResponse sr;
+            bool success = true;
+            string message = "";
+            if (symbol == null || "".Equals(symbol)) {
+                success = false;
+                message = "no stock given";
+            }
+
+            if (success) {
+                sr = UserUtilities.deleteMail(id, symbol);
+            }
+            else {
+                sr = new ServerResponse(success, message, null);
+            }
+
+            return sr;
+        }
+
+
 
 
         //GET STOCK

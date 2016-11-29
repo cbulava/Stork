@@ -10,6 +10,10 @@ import { WidgetListDataComponent } from '../widgets/widget-listData/widget-listD
 import { WidgetCommoditiesComponent } from '../widgets/widget-commodities/widget-commodities.component';
 import { WidgetCompareGraphsComponent } from '../widgets/widget-compareGraphs/widget-compareGraphs.component';
 import { WidgetStockNewsComponent } from '../widgets/widget-stockNews/widget-stockNews.component';
+import { RiskComponent } from '../widgets/widget-risk/widget-risk.component';
+import { WidgetEmailComponent } from '../widgets/widget-email/widget-email.component';
+
+
 import globals = require('../shared/globals');
 
 // class Widget { 
@@ -48,7 +52,9 @@ class BoxId{
 		WidgetListDataComponent, 
 		WidgetCommoditiesComponent,
 		WidgetCompareGraphsComponent,
-		WidgetStockNewsComponent
+		WidgetStockNewsComponent,
+		RiskComponent,
+		WidgetEmailComponent
 	],
     templateUrl: 'widget-holder.component.html', 
 })
@@ -60,9 +66,10 @@ export class WidgetHolderComponent implements OnInit {
 	private boxComps: Array<ViewContainerRef> = [];
 	private gridConfig: NgGridConfig;
 	
-	private addBoxCheck: boolean;
+	private loadBoxCheck: boolean;
+	public addBoxCheck: boolean;
 	private removeBoxCheck: boolean;
-	private numBoxes: number;	
+	public numBoxes: number;	
 	private removeBoxNum: number;
 	private addBoxNum: number;
 
@@ -81,6 +88,8 @@ export class WidgetHolderComponent implements OnInit {
 
 		//for 0 type in your widget type number from getWidget
 		//this.widgetControl.createTestStocks(5);
+		//this.widgetControl.loadUserWidgets();
+		//load widgets based on User.Id
 
 		//this.blist.createComponent(factory);
 		this.gridConfig = this.widgetControl.getGridConfig;
@@ -96,6 +105,8 @@ export class WidgetHolderComponent implements OnInit {
 		this.widgetChoiceMap.push({id: 4, name: 'Commodities Widget'});
 		this.widgetChoiceMap.push({id: 5, name: 'Compare Graphs Widget'});
 		this.widgetChoiceMap.push({id: 6, name: 'Stock News Widget'});
+		this.widgetChoiceMap.push({id: 7, name: 'Risk Widget'});
+		this.widgetChoiceMap.push({id: 8, name: 'Email Widget'});
 
 		//identifiers for adding and removing boxes. Numbers are box types to remove/add
 		//checks are bools for if the button has been clicked. 
@@ -103,6 +114,8 @@ export class WidgetHolderComponent implements OnInit {
 		this.removeBoxCheck = false;
 		this.addBoxNum = -1;
 		this.addBoxCheck = false;
+
+		//get all widgets here
 
 		for(var i = 0; i < this.boxes.length; i++){
 			this.removeCheckBoxes.push(this.boxes[i].id);
@@ -152,11 +165,17 @@ export class WidgetHolderComponent implements OnInit {
 		if(i == 4){
 			return WidgetCommoditiesComponent;
 		}
+
 		if(i == 5){
 			return WidgetCompareGraphsComponent;
 		}
 		if(i == 6){
 			return WidgetStockNewsComponent;
+		if(i == 7) {
+			return RiskComponent;
+		}
+		if (i == 8){
+			return WidgetEmailComponent;
 		}
 	}
 
@@ -210,11 +229,30 @@ export class WidgetHolderComponent implements OnInit {
 			this.addBoxCheck = false;
 			
 		}	
+		if(this.loadBoxCheck && this.widgetControl.numServBoxes == this.boxids.length){
+			for(let i = 0; i < this.widgetControl.numServBoxes; i++){
+				let temp: ViewContainerRef[];
+				temp = this.boxids.toArray();
+				this.widgetControl.currBoxId = i;
+				let factory = this.componentfactoryResolver.resolveComponentFactory(this.getWidget(this.boxes[i].type));
+				temp[i].createComponent(factory);
+				this.loadBoxCheck = false;
+				this.haveWidgets = false;
+			}
+			this.numBoxes = this.widgetControl.numServBoxes;
+
+		}
+
 
 	}
 	ngAfterViewInit() {
 
-		
+		if(this.widgetControl.doLoadOnce){
+			this.widgetControl.loadUserWidgets();
+			this.widgetControl.doLoadOnce = false;
+			this.loadBoxCheck = true;
+			
+		}
 
 		//Where all the boxes are filled with their respective components. 
 		let factory = this.componentfactoryResolver.resolveComponentFactory(WidgetSampleComponent);

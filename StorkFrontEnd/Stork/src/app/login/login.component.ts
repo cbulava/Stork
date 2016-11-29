@@ -1,6 +1,7 @@
-﻿import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
 import { HttpRequestService } from '../shared/services/http-request.service';
 import { Router } from '@angular/router';
+import { WidgetControlService } from '../shared/services/widget-control.service';
 
 @Component({
     moduleId: module.id,
@@ -11,7 +12,9 @@ export class LoginComponent implements OnInit {
     private httpData: Array<any>;
     private user_id: number;
     private error_message: string;
-    constructor(private httpReq: HttpRequestService, private router: Router) { }
+    constructor(private httpReq: HttpRequestService, private router: Router, private widgetControl: WidgetControlService, private cfr: ComponentFactoryResolver) { 
+        widgetControl.resetService();
+    }
 
     ngOnInit() {
         
