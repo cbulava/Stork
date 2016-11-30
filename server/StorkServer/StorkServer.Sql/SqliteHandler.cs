@@ -379,5 +379,29 @@ namespace StorkServer.Sql {
 
             return widgets.ToArray();
         }
+
+        //get all users
+        public static long[] getAllUserIds() {
+            LinkedList<long> ids = new LinkedList<long>();
+            SQLiteConnection connection = connect();
+
+            string statement = "SELECT * FROM USERS";
+
+            SQLiteCommand command = new SQLiteCommand(statement, connection);
+            SQLiteDataReader reader = command.ExecuteReader();
+
+            if (reader.HasRows) {
+                while (reader.Read()) {
+                    long id = (long)reader[0];
+                    ids.AddLast(id);
+                }
+            }
+
+            reader.Close();
+
+            disconnect(connection);
+
+            return ids.ToArray();
+        }
     }
 }
