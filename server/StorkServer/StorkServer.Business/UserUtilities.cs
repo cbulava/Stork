@@ -264,17 +264,44 @@ namespace StorkServer.Business {
             client.Credentials = new System.Net.NetworkCredential("storkstockapp@gmail.com", "storkpassword");
             client.EnableSsl = true;
             client.Host = "smtp.gmail.com";
-            mail.To.Add(new MailAddress(toEmail));
-            mail.From = new MailAddress("storkstockapp@gmail.com");
-            mail.Subject = subject;
-            mail.Body = message;
             try {
+                mail.To.Add(new MailAddress(toEmail));
+                mail.From = new MailAddress("storkstockapp@gmail.com");
+                mail.Subject = subject;
+                mail.Body = message;
+            
                 client.Send(mail);
                 client.Dispose();
             }
             catch (Exception e) {
-                Console.WriteLine(e.ToString());
+                Console.WriteLine("There was an error trying to send mail to " + toEmail);
+                return;
+            }
+            Console.WriteLine("Mail sent to " + toEmail + " successfully!");
+        }
+
+
+        public static void emailAll() {
+            long[] ids = SqliteHandler.getAllUserIds();
+            for (int i = 0; i < ids.Length; i++) {
+                string[] stocks = SqliteHandler.getAllMail(ids[i]);
+                string contents = "";
+                for (int j = 0; j < stocks.Length; j++) {
+                    string[] fields = { "*" };
+                    ServerResponse sr = StockUtilities.getQuote(stocks[j], fields);
+
+                    if (sr.payload != null) {
+                        contents += sr.payload.ToString();
+                    }
+                }
+
+                UserModel user = SqliteHandler.getUser(ids[i]);
+
+
+                sendEmail(user.email, "Stock Update", contents);
+                
             }
         }
+
     }
 }
