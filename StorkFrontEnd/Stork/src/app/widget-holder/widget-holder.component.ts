@@ -84,7 +84,7 @@ export class WidgetHolderComponent implements OnInit {
 	@ViewChildren('boxid', {read: ViewContainerRef}) boxids: QueryList<ViewContainerRef>;
 	//@ViewChildren("boxList") private boxList: QueryList<ElementRef
 	constructor(private widgetControl: WidgetControlService, private componentfactoryResolver: ComponentFactoryResolver){
-
+		
 
 		//for 0 type in your widget type number from getWidget
 		//this.widgetControl.createTestStocks(5);
@@ -171,6 +171,7 @@ export class WidgetHolderComponent implements OnInit {
 		}
 		if(i == 6){
 			return WidgetStockNewsComponent;
+		}
 		if(i == 7) {
 			return RiskComponent;
 		}
