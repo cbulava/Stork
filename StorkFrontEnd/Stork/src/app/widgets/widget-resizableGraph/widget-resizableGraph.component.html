@@ -1,0 +1,40 @@
+     <div  style="margin: 10px 10px 10px;"> 
+        <!-- below displays title of widget in white box -->
+        <div class="title">{{box?.name}}</div>
+        <div class="form-group">
+            <label for="timeframes">Select a timeframe: </label>
+            <select name="timeframe" [(ngModel)]="timeframe">
+            <option *ngFor="let timeframe of timeframes" [value]="timeframe.value">
+                {{timeframe.display}}
+            </option>
+            </select>
+        </div>
+        <div>
+              <ng2-completer [(ngModel)]="searchStr" pause=500 [dataService]="dataService" [minSearchLength]="1" placeholder="Search by ticker or name..." #stockname></ng2-completer> <!--input box-->
+            <button (click)="getSymbolData(stockname.value);">
+            Look Up
+            </button>
+        </div>
+        <button (click)="refreshGraph();">Reload Graph</button>
+        <div id="data" style="width:100%; height:100%;" #dataContainer></div><!--graph-->
+
+            
+
+   <!--     <table>
+            <!-- below fills in stock data grid box labels -->
+  <!--          <tr>
+                <td *ngFor="let data of box.data | keys" style="padding:5px">
+                {{ data?.key }} 
+                </td>
+            </tr>
+            <!-- below fills in stock data grid boxes -->
+ <!--           <tr>
+                <td *ngFor="let data of box.data | keys" style="padding:5px">
+                {{ data?.value }} 
+                </td>
+            </tr>
+            <tr ng-show="widgetControl.showError">
+                {{ box?.error }}
+            </tr>
+            <P>
+        </table> -->
