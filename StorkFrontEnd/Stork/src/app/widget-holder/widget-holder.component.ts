@@ -11,8 +11,8 @@ import { WidgetCommoditiesComponent } from '../widgets/widget-commodities/widget
 import { WidgetCompareGraphsComponent } from '../widgets/widget-compareGraphs/widget-compareGraphs.component';
 import { WidgetStockNewsComponent } from '../widgets/widget-stockNews/widget-stockNews.component';
 import { RiskComponent } from '../widgets/widget-risk/widget-risk.component';
+import { ResizableGraphComponent } from '../widgets/widget-resizableGraph/widget-resizableGraph.component';
 import { WidgetEmailComponent } from '../widgets/widget-email/widget-email.component';
-
 
 import globals = require('../shared/globals');
 
@@ -54,7 +54,8 @@ class BoxId{
 		WidgetCompareGraphsComponent,
 		WidgetStockNewsComponent,
 		RiskComponent,
-		WidgetEmailComponent
+		WidgetEmailComponent,
+		ResizableGraphComponent
 	],
     templateUrl: 'widget-holder.component.html', 
 })
@@ -87,6 +88,7 @@ export class WidgetHolderComponent implements OnInit {
 		
 
 		//for 0 type in your widget type number from getWidget
+		//this.widgetControl.createTestStocks(6);
 		//this.widgetControl.createTestStocks(5);
 		//this.widgetControl.loadUserWidgets();
 		//load widgets based on User.Id
@@ -107,6 +109,7 @@ export class WidgetHolderComponent implements OnInit {
 		this.widgetChoiceMap.push({id: 6, name: 'Stock News Widget'});
 		this.widgetChoiceMap.push({id: 7, name: 'Risk Widget'});
 		this.widgetChoiceMap.push({id: 8, name: 'Email Widget'});
+		this.widgetChoiceMap.push({id: 9, name: 'Resizable Graph Widget'});
 
 		//identifiers for adding and removing boxes. Numbers are box types to remove/add
 		//checks are bools for if the button has been clicked. 
@@ -175,8 +178,11 @@ export class WidgetHolderComponent implements OnInit {
 		if(i == 7) {
 			return RiskComponent;
 		}
-		if (i == 8){
+		if(i == 8) {
 			return WidgetEmailComponent;
+		}
+		if(i == 9) {
+			return ResizableGraphComponent;
 		}
 	}
 

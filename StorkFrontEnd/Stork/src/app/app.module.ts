@@ -19,8 +19,8 @@ import { WidgetCommoditiesComponent } from './widgets/widget-commodities/widget-
 import { WidgetCompareGraphsComponent } from './widgets/widget-compareGraphs/widget-compareGraphs.component';
 import { WidgetStockNewsComponent } from './widgets/widget-stockNews/widget-stockNews.component';
 import { RiskComponent } from './widgets/widget-risk/widget-risk.component';
+import { ResizableGraphComponent } from './widgets/widget-resizableGraph/widget-resizableGraph.component';
 import { WidgetEmailComponent } from './widgets/widget-email/widget-email.component';
-
 
 import { app_routing } from './app.routing';
 
@@ -39,7 +39,7 @@ import {Ng2CompleterModule } from 'ng2-completer';
 
 @NgModule({
     imports: [BrowserModule, FormsModule, HttpModule, app_routing, NgGridModule, Ng2CompleterModule],
-    declarations: [AppComponent, HomeComponent, LoginComponent, MenuTopComponent, WidgetHolderComponent, KeysPipe, EditComponent, AccountCreationComponent, WidgetSampleComponent, StocktableComponent, WidgetListDataComponent, WidgetShowGraphComponent, WidgetCommoditiesComponent, RiskComponent, WidgetEmailComponent, StocktableComponent, WidgetListDataComponent, WidgetShowGraphComponent, WidgetCommoditiesComponent, WidgetCompareGraphsComponent, WidgetStockNewsComponent ],
+    declarations: [AppComponent, HomeComponent, LoginComponent, MenuTopComponent, WidgetHolderComponent, KeysPipe, EditComponent, AccountCreationComponent, WidgetSampleComponent, StocktableComponent, WidgetListDataComponent, WidgetShowGraphComponent, WidgetCommoditiesComponent, RiskComponent, WidgetEmailComponent, StocktableComponent, WidgetListDataComponent, WidgetShowGraphComponent, WidgetCommoditiesComponent, WidgetCompareGraphsComponent, WidgetStockNewsComponent, ResizableGraphComponent ],
     providers: [DataService, HttpRequestService, WidgetControlService, {provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap:    [ AppComponent ]
 })
