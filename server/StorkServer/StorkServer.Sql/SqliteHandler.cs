@@ -352,25 +352,32 @@ namespace StorkServer.Sql {
 
             if (reader.HasRows) {
                 while (reader.Read()) {
-                    long id = (long)reader[0];
-                    string stocklist = (string)reader[2];
-                    long type = (long)reader[3];
-                    long refresh = (long)reader[4];
-                    long x = (long)reader[5];
-                    long y = (long)reader[6];
-                    long height = (long)reader[7];
-                    long width = (long)reader[8];
-                    WidgetModel widget = new WidgetModel();
-                    widget.id = id;
-                    widget.stockList = stockStringToArray(stocklist);
-                    widget.widgetType = type;
-                    widget.refresh = refresh;
-                    widget.x = x;
-                    widget.y = y;
-                    widget.height = height;
-                    widget.width = width;
+                    try
+                    {
+                        long id = (long)reader[0];
+                        string stocklist = (string)reader[2];
+                        long type = (long)reader[3];
+                        long refresh = (long)reader[4];
+                        long x = (long)reader[5];
+                        long y = (long)reader[6];
+                        long height = (long)reader[7];
+                        long width = (long)reader[8];
+                        WidgetModel widget = new WidgetModel();
+                        widget.id = id;
+                        widget.stockList = stockStringToArray(stocklist);
+                        widget.widgetType = type;
+                        widget.refresh = refresh;
+                        widget.x = x;
+                        widget.y = y;
+                        widget.height = height;
+                        widget.width = width;
 
-                    widgets.AddLast(widget);
+                        widgets.AddLast(widget);
+                    }
+                    catch(InvalidCastException e)
+                    {
+                        //shh
+                    }
                 }
             }
 
