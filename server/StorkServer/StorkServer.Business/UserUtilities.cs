@@ -297,8 +297,13 @@ namespace StorkServer.Business {
 
                 UserModel user = SqliteHandler.getUser(ids[i]);
 
-
-                sendEmail(user.email, "Stock Update", contents);
+                if (stocks.Length != 0) {
+                    sendEmail(user.email, "Stock Update", contents);
+                }
+                else {
+                    Console.WriteLine(user.email + " was skipped as they had no subscriptions");
+                }
+                
                 
             }
         }

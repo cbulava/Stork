@@ -53,9 +53,25 @@ namespace StorkServer {
             try {
                 using (WebApp.Start<Startup>(url: baseAddress)) {
                     Console.WriteLine("Server Started up on port " + port);
-
-                    //keep running the web app
-                    Thread.Sleep(Timeout.Infinite);
+                    Console.WriteLine("Enter a command. type 'help' for a list of commands");
+                    bool keep = true;
+                    while (keep) {
+                        string command = Console.ReadLine();
+                        switch (command) {
+                            case "help": Console.WriteLine("'help'  - Displays this message");
+                                Console.WriteLine("'exit'  - Exits the server");
+                                Console.WriteLine("'email' - Sends out an email blast to those who have subscribed");
+                                break;
+                            case "exit": Console.WriteLine("exiting...");
+                                keep = false;
+                                break;
+                            case "email": UserUtilities.emailAll();
+                                Console.WriteLine("All mail entries have been sent.");
+                                break;
+                            default: Console.WriteLine("Command not recongnized. Please try again");
+                                break;
+                        }
+                    }
                 }
             }
             //Catch the error that is thrown when admin mode requirement is not met
