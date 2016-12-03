@@ -1,0 +1,26 @@
+<div style="margin: 10px 10px 10px;">
+    <div class="title">{{box?.name}}</div>
+    <br>
+    <p>Add a Stock you wish to receive email updates on</p>
+    <form action="">
+        Stock Name: <input type="text"  #stockInput>
+    <input type="button" value="Add" (click) = 'addValue(stockInput.value)'>
+    <br>
+    </form>
+        <table *ngIf ="!widgetControl.showError">
+            <tr *ngFor="let data of box.data | keys" style="padding:5px">
+                <td >
+                {{ data?.value }} 
+                </td>
+
+                <td>
+                <form action="">
+                    <input type="button" value="Remove" (click) = 'removeValue(data?.value)'>
+                </form>
+                </td>
+            </tr>
+        </table>
+        <tr *ngIf="widgetControl.showError">
+                {{ box?.error }}
+        </tr>
+</div>

@@ -8,6 +8,7 @@ using System.Data.SqlClient;
 using System.Data.SQLite;
 using StorkServer.Sql.Models;
 using StorkServer.Sql;
+using System.Net.Mail;
 
 namespace StorkServer.Business {
     public class UserUtilities {
@@ -227,5 +228,80 @@ namespace StorkServer.Business {
 
             return new ServerResponse(true, "widget was successfully created", wid);
         }
+
+        public static ServerResponse addMail(long userid, string stock) {
+            SqliteHandler.createMail(userid, stock);
+
+            return new ServerResponse(true, "mail successfully added", null);
+        }
+
+        public static ServerResponse deleteMail(long userid, string stock) {
+            SqliteHandler.removeMail(userid, stock);
+
+            return new ServerResponse(true, "mail successfully removed", null);
+        }
+
+        public static ServerResponse getAllMail(long userid) {
+            string[] stocks;
+
+            stocks = SqliteHandler.getAllMail(userid);
+            if (stocks.Length != 0) {
+                return new ServerResponse(true, "retrieved mail list successfully", stocks);
+            }
+            else {
+                return new ServerResponse(false, "There are no subscriptions currently.", null);
+            }
+            
+        }
+
+
+        public static void sendEmail(string toEmail, string subject, string message) {
+            MailMessage mail = new MailMessage();
+            SmtpClient client = new SmtpClient();
+            client.Port = 587;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.UseDefaultCredentials = false;
+            client.Credentials = new System.Net.NetworkCredential("storkstockapp@gmail.com", "storkpassword");
+            client.EnableSsl = true;
+            client.Host = "smtp.gmail.com";
+            try {
+                mail.To.Add(new MailAddress(toEmail));
+                mail.From = new MailAddress("storkstockapp@gmail.com");
+                mail.Subject = subject;
+                mail.Body = message;
+            
+                client.Send(mail);
+                client.Dispose();
+            }
+            catch (Exception e) {
+                Console.WriteLine("There was an error trying to send mail to " + toEmail);
+                return;
+            }
+            Console.WriteLine("Mail sent to " + toEmail + " successfully!");
+        }
+
+
+        public static void emailAll() {
+            long[] ids = SqliteHandler.getAllUserIds();
+            for (int i = 0; i < ids.Length; i++) {
+                string[] stocks = SqliteHandler.getAllMail(ids[i]);
+                string contents = "";
+                for (int j = 0; j < stocks.Length; j++) {
+                    string[] fields = { "*" };
+                    ServerResponse sr = StockUtilities.getQuote(stocks[j], fields);
+
+                    if (sr.payload != null) {
+                        contents += sr.payload.ToString();
+                    }
+                }
+
+                UserModel user = SqliteHandler.getUser(ids[i]);
+
+
+                sendEmail(user.email, "Stock Update", contents);
+                
+            }
+        }
+
     }
 }

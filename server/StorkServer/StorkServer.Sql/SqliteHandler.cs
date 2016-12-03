@@ -73,6 +73,17 @@ namespace StorkServer.Sql {
 
             command.ExecuteNonQuery();
 
+            statement = "CREATE TABLE MAIL (" +
+                "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "UID INTEGER," +
+                "STOCK CHAR(64)," +
+                "FOREIGN KEY(UID) REFERENCES USERS(ID)" +
+                ");";
+
+            command = new SQLiteCommand(statement, connection);
+
+            command.ExecuteNonQuery();
+
             disconnect(connection);
         }
         //returns the id of the user
@@ -208,6 +219,61 @@ namespace StorkServer.Sql {
             return id;
         }
 
+        //inserts an email entry
+
+        public static long createMail(long uid, string stock) {
+            SQLiteConnection connection = connect();
+            string statement = "INSERT INTO MAIL(UID, STOCK) VALUES(" +
+                uid + ", '" + stock + "')";
+            SQLiteCommand command = new SQLiteCommand(statement, connection);
+            command.ExecuteNonQuery();
+
+            statement = "SELECT last_insert_rowid()";
+            command = new SQLiteCommand(statement, connection);
+            Int64 id = (Int64)command.ExecuteScalar();
+
+            disconnect(connection);
+            return id;
+        }
+
+        public static bool removeMail(long uid, string stock) {
+            SQLiteConnection connection = connect();
+            bool status = true;
+            string statement = "DELETE FROM MAIL WHERE UID = " + uid + " AND STOCK='" + stock + "'";
+            SQLiteCommand command = new SQLiteCommand(statement, connection);
+            command.ExecuteNonQuery();
+            disconnect(connection);
+            return status;
+        }
+
+        
+        public static string[] getAllMail(long uid) {
+            LinkedList<string> stocks = new LinkedList<string>();
+            SQLiteConnection connection = connect();
+
+            string statement = "SELECT * FROM MAIL WHERE UID = " + uid;
+            SQLiteCommand command = new SQLiteCommand(statement, connection);
+            SQLiteDataReader reader = command.ExecuteReader();
+
+            if (reader.HasRows) {
+                while (reader.Read()) {
+                    try {
+                        string stock = (string)reader[2];
+                        stocks.AddLast(stock);
+                    }
+                    catch (InvalidCastException e) {
+                       //do nothing
+                    }
+                }
+            }
+
+            reader.Close();
+            disconnect(connection);
+
+            return stocks.ToArray();
+        }
+        
+
         //updates a widget in the database
         public static void updateWidget(long wid, WidgetModel newWidget) {
             SQLiteConnection connection = connect();
@@ -286,25 +352,32 @@ namespace StorkServer.Sql {
 
             if (reader.HasRows) {
                 while (reader.Read()) {
-                    long id = (long)reader[0];
-                    string stocklist = (string)reader[2];
-                    long type = (long)reader[3];
-                    long refresh = (long)reader[4];
-                    long x = (long)reader[5];
-                    long y = (long)reader[6];
-                    long height = (long)reader[7];
-                    long width = (long)reader[8];
-                    WidgetModel widget = new WidgetModel();
-                    widget.id = id;
-                    widget.stockList = stockStringToArray(stocklist);
-                    widget.widgetType = type;
-                    widget.refresh = refresh;
-                    widget.x = x;
-                    widget.y = y;
-                    widget.height = height;
-                    widget.width = width;
+                    try
+                    {
+                        long id = (long)reader[0];
+                        string stocklist = (string)reader[2];
+                        long type = (long)reader[3];
+                        long refresh = (long)reader[4];
+                        long x = (long)reader[5];
+                        long y = (long)reader[6];
+                        long height = (long)reader[7];
+                        long width = (long)reader[8];
+                        WidgetModel widget = new WidgetModel();
+                        widget.id = id;
+                        widget.stockList = stockStringToArray(stocklist);
+                        widget.widgetType = type;
+                        widget.refresh = refresh;
+                        widget.x = x;
+                        widget.y = y;
+                        widget.height = height;
+                        widget.width = width;
 
-                    widgets.AddLast(widget);
+                        widgets.AddLast(widget);
+                    }
+                    catch(InvalidCastException e)
+                    {
+                        //shh
+                    }
                 }
             }
 
@@ -312,6 +385,30 @@ namespace StorkServer.Sql {
             disconnect(connection);
 
             return widgets.ToArray();
+        }
+
+        //get all users
+        public static long[] getAllUserIds() {
+            LinkedList<long> ids = new LinkedList<long>();
+            SQLiteConnection connection = connect();
+
+            string statement = "SELECT * FROM USERS";
+
+            SQLiteCommand command = new SQLiteCommand(statement, connection);
+            SQLiteDataReader reader = command.ExecuteReader();
+
+            if (reader.HasRows) {
+                while (reader.Read()) {
+                    long id = (long)reader[0];
+                    ids.AddLast(id);
+                }
+            }
+
+            reader.Close();
+
+            disconnect(connection);
+
+            return ids.ToArray();
         }
     }
 }

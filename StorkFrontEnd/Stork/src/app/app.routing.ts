@@ -6,11 +6,13 @@ import { EditComponent } from './edit/edit.component';
 import { AccountCreationComponent }  from './account-creation/account-creation.component';
 
 const app_routes: Routes = [
-    { path: '',  pathMatch:'full', redirectTo: '/edit' },
+
+  { path: '',  pathMatch:'full', redirectTo: '/edit' },
   { path: 'home',  component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'edit', component: EditComponent },
-  { path: 'account-creation', component: AccountCreationComponent }
+  { path: 'account-creation', component: AccountCreationComponent },
+      { path: '',  pathMatch:'full', redirectTo: '/login' }
 ];
 
 export const app_routing = RouterModule.forRoot(app_routes);
