@@ -62,7 +62,9 @@ export class ResizableGraphComponent implements OnInit, DoCheck {
         //fetch the data.
      }
 
+    ngDoCheck(){
     
+    }
 
     ngOnInit() { 
         
