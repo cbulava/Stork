@@ -10,8 +10,7 @@ namespace StorkServer.Business {
 
         public static string baseQuote = "http://marketdata.websol.barchart.com/getQuote.json?key=";
         public static string baseHistory = "http://marketdata.websol.barchart.com/getHistory.json?key=";
-        public static string baseCompetitor = "http://marketdata.websol.barchart.com/getCompetitors.json?key=";
-
+        public static string baseCompetitor = "http://ondemand.websol.barchart.com/getCompetitors.json?apikey=";
 
         private static ServerResponse barchartRequest(string baseAddress, string additionAddress, string[] fields, bool single) {
             bool success = true;
@@ -46,7 +45,7 @@ namespace StorkServer.Business {
                     jsonresults = new JObject();
 
                     //remove extraneous fields
-                    if (!fields[0].Equals("*")) {
+                    if (fields.Length != 0 && !fields[0].Equals("*")) {
                         
                         for (int j = 0; j < relevant.Count; j++) {
                             JObject partialRelevant = new JObject();
@@ -122,7 +121,9 @@ namespace StorkServer.Business {
             StringBuilder additionString = new StringBuilder();
             additionString.Append("&symbol=");
             additionString.Append(symbol);
-            additionString.Append("&fields=");
+            if (fields.Length > 0) {
+                additionString.Append("&fields=");
+            }
             for (int i = 0; i < fields.Length; i++) {
                 if (i != 0) {
                     additionString.Append(',');

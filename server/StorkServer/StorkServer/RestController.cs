@@ -319,7 +319,7 @@ namespace StorkServer {
             string[] fields;
             //if user didn't specify anything, give them everything!
             if (payload == null || payload.fields.Count() == 0 || payload.fields.Contains("*")) {
-                fields = new string[] { "*" };
+                fields = new string[] { };
             }
             else {
 
