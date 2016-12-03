@@ -3,7 +3,7 @@ import { NgGrid, NgGridItem } from 'angular2-grid';
 import { HttpRequestService } from '../../shared/services/http-request.service';
 import { NgGridConfig, NgGridItemConfig, NgGridItemEvent } from "angular2-grid";
 import { WidgetControlService } from '../../shared/services/widget-control.service';
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, DoCheck} from '@angular/core';
 import { Injectable } from '@angular/core';
 import { WidgetSampleComponent } from '../widget-sample/widget-sample.component';
 import { CompleterService, CompleterData } from 'ng2-completer';
@@ -25,7 +25,7 @@ interface Box {
     selector: 'widget-resizableGraph',
     templateUrl: 'widget-resizableGraph.component.html'
 })
-export class ResizableGraphComponent implements OnInit {
+export class ResizableGraphComponent implements OnInit, DoCheck {
 	private boxes: Array<Box> = [];
     private box: Box;
 	private gridConfig: NgGridConfig;
@@ -49,8 +49,8 @@ export class ResizableGraphComponent implements OnInit {
 
         //do you stock retrieval before getting your box to play with!
         this.widgetControl.getStockData("AAPL", this.boxId, this.basicFields);
-        this.widgetControl.setMinSize(this.boxId, 35, 35);
-        this.widgetControl.updateSize(this.boxId, 35, 35);
+        this.widgetControl.setMinSize(this.boxId, 20, 25);
+        this.widgetControl.updateSize(this.boxId, 25, 25);
                 //get your box!
         this.box = this.boxes[this.boxId];
 
@@ -62,11 +62,7 @@ export class ResizableGraphComponent implements OnInit {
         //fetch the data.
      }
 
-    refreshGraph(){
-        var container = document.getElementById("data");
-        var content = container.innerHTML;
-        container.innerHTML= content;
-    }
+    
 
     ngOnInit() { 
         
@@ -95,8 +91,7 @@ export class ResizableGraphComponent implements OnInit {
         this.httpReq.getStock(symbol, this.basicFields).subscribe(
             response => {
                 if(response.success){
-                            this.widgetControl.updateSize(this.boxId, 35, 28);
-                            this.dataContainer.nativeElement.innerHTML = "<img src=\"http://chart.finance.yahoo.com/z?s="+symbol+"&t="+this.timeframe+"&q=l&l=on&z=s&p=m50,m200\" width=\"100%\" height=\"100%\"/>";
+                            this.dataContainer.nativeElement.innerHTML = "<img src=\"http://chart.finance.yahoo.com/z?s="+symbol+"&t="+this.timeframe+"&q=l&l=on&z=s&p=m50,m200\" style=\"width:100%; height:100%\"/>";
                             this.widgetControl.getStockData(symbol, this.boxId, this.basicFields);
                         }else{
                             alert("Look up unsuccessful. Please check your symbol and try again.");

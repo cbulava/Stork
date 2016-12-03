@@ -15,26 +15,33 @@
             Look Up
             </button>
         </div>
-        <button (click)="refreshGraph();">Reload Graph</button>
-        <div id="data" style="width:100%; height:100%;" #dataContainer></div><!--graph-->
+        <!-- <script type="text/javascript">
+            function reload(){
+                var container = document.getElementById("data");
+                var content = container.innerHTML;
+                container.innerHTML= content;
+            }
+        </script>
+        <script>
+        var $element = $("#dataContainer");
+        var lastHeight = $("#dataContainer").css('width');
+        function checkForChanges()
+        {
+            if ($element.css('width') != lastHeight)
+            {
+                reload();
+                lastHeight = $element.css('height'); 
+            }
 
-            
+            setTimeout(checkForChanges, 500);
+        }
+        </script> -->
 
-   <!--     <table>
-            <!-- below fills in stock data grid box labels -->
-  <!--          <tr>
-                <td *ngFor="let data of box.data | keys" style="padding:5px">
-                {{ data?.key }} 
-                </td>
+        <table style="width:auto;">
+            <tr>
+                <th>
+                     <label id="data" #dataContainer>
+                     </label>
+                </th>
             </tr>
-            <!-- below fills in stock data grid boxes -->
- <!--           <tr>
-                <td *ngFor="let data of box.data | keys" style="padding:5px">
-                {{ data?.value }} 
-                </td>
-            </tr>
-            <tr ng-show="widgetControl.showError">
-                {{ box?.error }}
-            </tr>
-            <P>
-        </table> -->
+        </table> <!--graph-->
