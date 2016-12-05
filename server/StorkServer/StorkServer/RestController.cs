@@ -194,7 +194,7 @@ namespace StorkServer {
             }
 
             if (!success) {
-                sr = new ServerResponse(success, message, null);
+                return new ServerResponse(success, message, null);
             }
 
             return UserUtilities.addUserWidget(id, widget);

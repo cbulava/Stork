@@ -60,6 +60,7 @@ namespace StorkServer.Sql {
                 "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "UID INTEGER," + 
                 "STOCKLIST CHAR(1024)," +
+                "STOCKFIELDS CHAR(1024)," +
                 "TYPE INTEGER," +
                 "REFRESH INTEGER," +
                 "X INTEGER, " +
@@ -203,10 +204,11 @@ namespace StorkServer.Sql {
 
         //inserts a widget into the database
         public static long createWidget(long uid, WidgetModel widget) {
+
             SQLiteConnection connection = connect();
 
-            string statement = "INSERT INTO WIDGETS(UID, STOCKLIST, TYPE, REFRESH, X, Y, HEIGHT, WIDTH) VALUES(" + 
-                uid + ", '" + stockArrayToString(widget.stockList) + "', " + widget.widgetType + ", " + widget.refresh + "," + widget.x + "," + widget.y + "," + widget.height + "," + widget.width + ")";
+            string statement = "INSERT INTO WIDGETS(UID, STOCKLIST, STOCKFIELDS, TYPE, REFRESH, X, Y, HEIGHT, WIDTH) VALUES(" + 
+                uid + ", '" + stockArrayToString(widget.stockList) + "', '" + stockArrayToString(widget.stockFields) + "'," + widget.widgetType + ", " + widget.refresh + "," + widget.x + "," + widget.y + "," + widget.height + "," + widget.width + ")";
             SQLiteCommand command = new SQLiteCommand(statement, connection);
 
             command.ExecuteNonQuery();
@@ -278,7 +280,7 @@ namespace StorkServer.Sql {
         public static void updateWidget(long wid, WidgetModel newWidget) {
             SQLiteConnection connection = connect();
             string statement = "UPDATE WIDGETS SET " +
-                "STOCKLIST = '" + stockArrayToString(newWidget.stockList) + "', TYPE = " + newWidget.widgetType + ", REFRESH = " + newWidget.refresh + ", X = " + newWidget.x + ", Y = " + newWidget.y + ", HEIGHT = " + newWidget.height + ", WIDTH = " + newWidget.width + " " +
+                "STOCKLIST = '" + stockArrayToString(newWidget.stockList) + "', STOCKFIELDS = '" + stockArrayToString(newWidget.stockFields) + "', TYPE = " + newWidget.widgetType + ", REFRESH = " + newWidget.refresh + ", X = " + newWidget.x + ", Y = " + newWidget.y + ", HEIGHT = " + newWidget.height + ", WIDTH = " + newWidget.width + " " +
                 "WHERE ID = " + wid;
 
             SQLiteCommand command = new SQLiteCommand(statement, connection);
@@ -314,15 +316,17 @@ namespace StorkServer.Sql {
                 reader.Read();
                 long id = (long)reader[0];
                 string stocklist = (string)reader[2];
-                long type = (long)reader[3];
-                long refresh = (long)reader[4];
-                long x = (long)reader[5];
-                long y = (long)reader[6];
-                long height = (long)reader[7];
-                long width = (long)reader[8];
+                string stockfields = (string)reader[3];
+                long type = (long)reader[4];
+                long refresh = (long)reader[5];
+                long x = (long)reader[6];
+                long y = (long)reader[7];
+                long height = (long)reader[8];
+                long width = (long)reader[9];
                 widget = new WidgetModel();
                 widget.id = id;
                 widget.stockList = stockStringToArray(stocklist);
+                widget.stockFields = stockStringToArray(stockfields);
                 widget.widgetType = type;
                 widget.refresh = refresh;
                 widget.x = x;
@@ -356,15 +360,17 @@ namespace StorkServer.Sql {
                     {
                         long id = (long)reader[0];
                         string stocklist = (string)reader[2];
-                        long type = (long)reader[3];
-                        long refresh = (long)reader[4];
-                        long x = (long)reader[5];
-                        long y = (long)reader[6];
-                        long height = (long)reader[7];
-                        long width = (long)reader[8];
+                        string stockfields = (string)reader[3];
+                        long type = (long)reader[4];
+                        long refresh = (long)reader[5];
+                        long x = (long)reader[6];
+                        long y = (long)reader[7];
+                        long height = (long)reader[8];
+                        long width = (long)reader[9];
                         WidgetModel widget = new WidgetModel();
                         widget.id = id;
                         widget.stockList = stockStringToArray(stocklist);
+                        widget.stockFields = stockStringToArray(stockfields);
                         widget.widgetType = type;
                         widget.refresh = refresh;
                         widget.x = x;
