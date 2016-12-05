@@ -39,10 +39,11 @@ http://stackoverflow.com/questions/12403095/resizing-div-panel
             <option *ngFor="let box of widgetChoiceMap" value={{box.id}}>{{box.name}}</option>
         </select>
 
-        <button (click)='removeBox($event)'>Remove Box</button>
+        <!--<button (click)='removeBox($event)'>Remove Box</button>
         <select [(ngModel)]="removeBoxNum"> Select
             <option *ngFor="let num of removeCheckBoxes" value={{num}}>{{num}}</option>
-        </select>
+        </select>-->
+        <button (click)='setRemoveBoxTrue()'>{{removeBoxText}}</button>
 
     </div>
     <div id="edit_tri"></div>
@@ -56,7 +57,11 @@ http://stackoverflow.com/questions/12403095/resizing-div-panel
 
 <div class="grid" [(ngGrid)]="gridConfig">
         
-        <div #boxList *ngFor="let box of boxes" [(ngGridItem)]="box.config" style="display: flex; flex-wrap: wrap;"  (onDragStop)="widgetControl.onDrag(box.id, $event)" (onResizeStop)="widgetControl.onResize(box.id, $event)">
-        <div #boxid id="{{box.id}}"></div>
+        <div #boxList *ngFor="let box of boxes"  [style.border]=box.backgroundColor (click)="widgetControl.addBoxToRemove(box.id)" [(ngGridItem)]="box.config" style="display: flex; flex-wrap: wrap;"  (onDragStop)="widgetControl.onDrag(box.id, $event)" (onResizeStop)="widgetControl.onResize(box.id, $event)">
+
+        <div #boxid id="{{box.id}}" >
+            <div >
+            </div>
+        </div>
     </div>
 </div>

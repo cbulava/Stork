@@ -20,6 +20,7 @@ interface Box {
 	name: string;
 	error: string;
 	type: number;
+	backgroundColor: string;
 }
 
 @Injectable()
@@ -37,8 +38,12 @@ export class WidgetControlService {
 	private stockSymbols: Array<string> = ["MSFT", "GOOG", "AMZN", "FB"];
 	public currBoxId: number = 5;
 	private manualResize: boolean = false;
+	public removingBoxes: boolean = false;
+	public boxesToRemove: Array<number> = [];
 
 	public numServBoxes = 0;
+
+	public loadBoxCheck: boolean = false;
 
 	public doLoadOnce: boolean = true;
 
@@ -90,12 +95,14 @@ export class WidgetControlService {
 		this.manualResize = false;
 		this.numServBoxes = 0;
 		this.doLoadOnce = true;
+		this.removingBoxes = false;
+		this.boxesToRemove = [];
 
 	}
 
 	createTestStocks(stockId: number){
 		for (var i = 0; i < 4; i++) {
-			this.boxes[i] = { id: i + 1, servId: 0, config: this._generateDefaultItemConfig(), data: [] , name: "box", error: "", type: stockId};	
+			this.boxes[i] = { id: i + 1, servId: 0, config: this._generateDefaultItemConfig(), data: [] , name: "box", error: "", type: stockId, backgroundColor: ""};	
 			//this.getStockData(this.stockSymbols[i], i, this.basicStockData);		
 		}
 	}
@@ -152,6 +159,7 @@ export class WidgetControlService {
 						conf.sizex = obj.height;
 						conf.row = obj.y;
 						conf.col = obj.x;
+
 						let len = this.boxes.push({
 							 id: conf.payload, 
 							 servId: obj.id, 
@@ -159,10 +167,16 @@ export class WidgetControlService {
 							 data: [], 
 							 name: "" , 
 							 error: "", 
-							 type: obj.widgetType});
+							 type: obj.widgetType,
+							backgroundColor: ""});
+						//call get stock data on box index (len) and box data
+						for(let stock of obj.stockList){
+							
+						}
 						i++;
 						//load data for box, data is currently empty though
 					}
+					this.loadBoxCheck = true;
 				}
 			},
 			error => {
@@ -175,7 +189,7 @@ export class WidgetControlService {
 	addBox(type: number): number {
 		const conf: NgGridItemConfig = this._generateDefaultItemConfig();
 		conf.payload = this.curNum++;
-		this.boxes.push({ id: conf.payload, servId: 0, config: conf, data: [], name: "" , error: "", type: type});
+		this.boxes.push({ id: conf.payload, servId: 0, config: conf, data: [], name: "" , error: "", type: type, backgroundColor: ""});
 		this.numServBoxes++;	
 		this.httpReq.addWidget(localStorage["id"], [], type.toString(), 0, 1, 1, 70, 10).subscribe(
  			response => {
@@ -183,45 +197,52 @@ export class WidgetControlService {
                     let boxServId = response.payload;
 					this.boxes[this.boxes.length - 1].servId = boxServId;
             	}else{
-					this.removeBox(conf.payload);
+			
 				}
 			 });
 		return conf.payload;	
 	}
 	
-	removeBox(id: number): void {
-		// if (this.boxes[this.curItemCheck]) {
-		// 	this.boxes.splice(this.curItemCheck, 1);
-		// }
-		
-		if(id < 0){
-			return;
+	resetBackgroundColors(): void {
+		for(let i = 0; i < this.boxes.length; i++){
+			this.boxes[i].backgroundColor = "";
 		}
-		this.numServBoxes--;
+	}
 
-		for(var i = 0; i < this.boxes.length; i++){
-			if(this.boxes[i]["id"] == id){
-
-				this.httpReq.deleteWidget(localStorage["id"], this.boxes[i].servId).subscribe(
-					response => {
-						if(response.success){
-							let boxServId = response.payload;
-							this.boxes[this.boxes.length-1].servId = boxServId;
-							this.boxes.splice(i, 1);
-						}else{
-							//this.removeBox(conf.payload);
-						}
-					});
-
-				//this.boxes.splice(i, 1);
-			}
-		}
-		// if(this.boxes[id]){
-		// 	this.boxes.splice(id, 1);
-		// }
+	removeBox(i: number, id: number): void {
+		this.httpReq.deleteWidget(localStorage["id"], this.boxes[i].servId).subscribe(
+			response => {
+				if(response.success){
+					let boxServId = response.payload;
+					this.boxes[this.boxes.length-1].servId = boxServId;
+					let ind = this.getBoxIndex(id);
+					this.boxes.splice(ind, 1);
+				}else{
+					//this.removeBox(conf.payload);
+				}
+			});
 		
 	}
 
+	removeBoxes(){
+		if(this.removingBoxes){
+			this.removingBoxes = false;
+		}else{
+			return;
+		}
+
+		for(var i = 0; i < this.boxes.length; i++){
+			for(var f = 0; f < this.boxesToRemove.length; f++){			
+				if(this.boxes[i]["id"] == this.boxesToRemove[f]){
+					this.numServBoxes--;
+					this.removeBox(i, this.boxes[i]["id"]);
+					//this.boxes.splice(i, 1);
+				}
+			}
+		}
+
+		this.boxesToRemove = [];
+	}
 	
 	updateItem(index: number, event: NgGridItemEvent): void {
 		// Do something here
@@ -249,6 +270,14 @@ export class WidgetControlService {
 		this.boxes[index].config["sizey"] = event.sizey;
 		this.updateServerConf(index);
 		// Do something here
+	}
+
+	addBoxToRemove(index: number): void {
+		if(this.removingBoxes){
+			this.boxesToRemove.push(index);
+			let i = this.getBoxIndex(index);
+			this.boxes[i].backgroundColor = '2px solid green';
+		}
 	}
 
 	updateServerConf(index: number): void {
@@ -299,6 +328,7 @@ export class WidgetControlService {
  			response => {
                 if(response.success){
                     this.boxes[boxIndex].data = response.payload.results;
+					//on success, stock data retrieval was good, now update widget with stock data and fields...
                 }else{
 					this.showError = true;
 					this.boxes[boxIndex].error = response.message;

@@ -3,7 +3,17 @@
 <h4 style="margin: 10px 10px 10px; color: #333; font-size:20px;"><b>Stork</b></h4>
 </div>
 <ul id="main_menu">
-    <li id="homeLink" [style.color]=home (click)="changeColorHome()"><a id="homeA" style=":hover{ color:red; }"[style.border-bottom]=home_line [style.color]=home  routerLink="/home">Home</a></li>
-    <li id="editLink" [style.color]=edit (click)="changeColorEdit()"><a id="editA" [style.border-bottom]=edit_line [style.color]=edit  routerLink="/edit">Edit</a></li>
-    <li id="loginLink" [style.color]=login (click)="changeColorLogin()" ><a id="loginA" [style.border-bottom]=login_line [style.color]=login  routerLink="/login">Login</a></li>
+    <li id="homeLink"  [style.color]=home (click)="changeColorHome()">
+        <a *ngIf="!homeEnabled" id="homeA" style=":hover{ color:red; }" [style.border-bottom]=home_line [style.color]=home  routerLink="/home">Home</a>
+        <a *ngIf="homeEnabled" class="disabled" [style.border-bottom]=home_line>Home</a>
+    </li>
+
+    <li id="editLink"  [style.color]=edit (click)="changeColorEdit()">
+        <a *ngIf="!editEnabled" id="editA" [style.border-bottom]=edit_line  routerLink="/edit">Edit</a>
+        <a *ngIf="editEnabled" class="disabled" [style.border-bottom]=edit_line>Edit</a>
+    </li>
+
+    <li id="loginLink" [style.color]=login (click)="changeColorLogin()" >
+        <a id="loginA" [style.border-bottom]=login_line routerLink="/login">{{loginText}}</a>
+    </li>
 </ul>

@@ -5,7 +5,7 @@ import { NgGrid, NgGridItem } from 'angular2-grid';
 import { HttpRequestService } from '../shared/services/http-request.service';
 import { NgGridConfig, NgGridItemConfig, NgGridItemEvent } from "angular2-grid";
 import { WidgetControlService } from '../shared/services/widget-control.service';
-
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -15,7 +15,10 @@ import { WidgetControlService } from '../shared/services/widget-control.service'
 })
 export class EditComponent implements OnInit {
 
-    constructor(private widgetControl: WidgetControlService) { 
+    constructor(private widgetControl: WidgetControlService, private router: Router) { 
+        if(!localStorage.getItem("id")){
+            router.navigate(["/"]);
+        }
 
         for(let i = 0; i < this.widgetControl.getBoxes.length; i++){
             this.widgetControl.getBoxes[i].config.resizable = true;

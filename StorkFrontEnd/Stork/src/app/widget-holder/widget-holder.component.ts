@@ -31,6 +31,7 @@ interface Box {
     data: Array<any>;
 	name: string;
 	type: number;
+	backgroundColor: string;
 }
 
 @Directive({
@@ -73,6 +74,8 @@ export class WidgetHolderComponent implements OnInit {
 	public numBoxes: number;	
 	private removeBoxNum: number;
 	private addBoxNum: number;
+
+	private removeBoxText: string = "Remove Widgets";
 
 	private haveWidgets: boolean;
 	private isEdit: boolean;	
@@ -137,6 +140,9 @@ export class WidgetHolderComponent implements OnInit {
 
 	
 	ngOnInit() {
+		this.widgetControl.removingBoxes = false;
+		this.removeBoxText = "Removing Boxes";
+		this.widgetControl.boxesToRemove = [];
 		if(document.location.href.includes("home")){
 			for(let i = 0; i < this.widgetControl.getBoxes.length; i++){
 				this.widgetControl.getBoxes[i].config.resizable = false;
@@ -168,7 +174,6 @@ export class WidgetHolderComponent implements OnInit {
 		if(i == 4){
 			return WidgetCommoditiesComponent;
 		}
-
 		if(i == 5){
 			return WidgetCompareGraphsComponent;
 		}
@@ -186,21 +191,23 @@ export class WidgetHolderComponent implements OnInit {
 		}
 	}
 
-	//Remove selected box
-	removeBox(){
-	//check if the newBoxNum is not -1. -1 is default and means no box was selected.
-		if(this.numBoxes > 0){
-			this.widgetControl.removeBox(this.removeBoxNum);
+
+	setRemoveBoxTrue(){
+		if(this.widgetControl.removingBoxes){
+			this.removeBoxText = "Remove Widgets";
+
+			this.numBoxes = this.numBoxes - this.widgetControl.boxesToRemove.length;
+			this.widgetControl.removeBoxes();
 			this.removeBoxCheck = true;
-			this.numBoxes = this.numBoxes - 1;
-			for(var i = 0; i < this.removeCheckBoxes.length; i++){
-				if(this.removeCheckBoxes[i] == this.removeBoxNum){
-					this.removeCheckBoxes.splice(i, 1);
-				}
-			}
+			
+			this.widgetControl.removingBoxes = false;
+			this.widgetControl.resetBackgroundColors();
+		}else{
+			this.widgetControl.removingBoxes = true;
+			this.removeBoxText = "Remove These Widgets for Good!"
+		
 		}
 	}
-
 	//add a new widget 
 	addBox(){
 		var id = 0;
@@ -236,14 +243,14 @@ export class WidgetHolderComponent implements OnInit {
 			this.addBoxCheck = false;
 			
 		}	
-		if(this.loadBoxCheck && this.widgetControl.numServBoxes == this.boxids.length){
+		if(this.widgetControl.loadBoxCheck && this.widgetControl.numServBoxes == this.boxids.length){
+			this.widgetControl.loadBoxCheck = false;
 			for(let i = 0; i < this.widgetControl.numServBoxes; i++){
 				let temp: ViewContainerRef[];
 				temp = this.boxids.toArray();
 				this.widgetControl.currBoxId = i;
 				let factory = this.componentfactoryResolver.resolveComponentFactory(this.getWidget(this.boxes[i].type));
 				temp[i].createComponent(factory);
-				this.loadBoxCheck = false;
 				this.haveWidgets = false;
 			}
 			this.numBoxes = this.widgetControl.numServBoxes;
@@ -257,7 +264,7 @@ export class WidgetHolderComponent implements OnInit {
 		if(this.widgetControl.doLoadOnce){
 			this.widgetControl.loadUserWidgets();
 			this.widgetControl.doLoadOnce = false;
-			this.loadBoxCheck = true;
+			this.numBoxes = this.widgetControl.getBoxes.length;
 			
 		}
 

@@ -105,10 +105,20 @@ li {
 }
 
 /* Change the link color to #111 (black) on hover */
-#main_menu li a:hover {
+#main_menu li #homeA:hover, #main_menu li #editA:hover, #main_menu li #loginA:hover {
     color: #75b781;
     text-decoration: none;
     border-bottom:3px solid #75b781;
+}
+
+
+
+#main_menu li .disabled{
+    color: lightgray!important;
+    text-decoration: none !important;
+}
+#disabled:hover {
+   color: "gray"  !important;
 }
 /*
 #homeLink:hover{    
@@ -187,7 +197,7 @@ a {text-decoration: none;}
 
 #edit_div {
     background-color: #444;
-    width:400px;
+    width:490px;
 
     -moz-transition-duration: 0.3s;
     -webkit-transition-duration: 0.3s;

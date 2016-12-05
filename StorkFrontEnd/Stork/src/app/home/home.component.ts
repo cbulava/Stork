@@ -14,7 +14,7 @@ export class HomeComponent implements OnInit {
     projectName: string;
 
     constructor(private dataService: DataService, private router: Router) { 
-        if(!localStorage["id"]){
+        if(!localStorage.getItem("id")){
             router.navigate(["/"]);
         }
     }
