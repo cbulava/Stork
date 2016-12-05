@@ -78,6 +78,13 @@ export class HttpRequestService {
           .catch(this.handleError);
   }
 
+  getCompetitor(stock : string, fields: any[]){
+    let body = JSON.stringify({fields});
+    return this.http.post(this.serverUrl.concat("/stock/competitor/").concat(stock), body, this.options)
+          .map(this.extractData)
+          .catch(this.handleError);
+  }
+
   getMail(id : number){
       return this.http.get(this.serverUrl.concat("user/").concat(id.toString()).concat("/mail"), this.options)
           .map(this.extractData)
