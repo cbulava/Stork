@@ -41,7 +41,7 @@ import {Ng2CompleterModule } from 'ng2-completer';
 
 @NgModule({
     imports: [BrowserModule, FormsModule, HttpModule, app_routing, NgGridModule, Ng2CompleterModule],
-    declarations: [AppComponent, HomeComponent, LoginComponent, MenuTopComponent, WidgetHolderComponent, KeysPipe, EditComponent, AccountCreationComponent, WidgetSampleComponent, StocktableComponent, WidgetListDataComponent, WidgetShowGraphComponent, WidgetCommoditiesComponent, RiskComponent, WidgetEmailComponent, StocktableComponent, WidgetListDataComponent, WidgetShowGraphComponent, WidgetCommoditiesComponent, WidgetCompareGraphsComponent, WidgetStockNewsComponent, ResizableGraphComponent, WidgetCompetitorComponent ],
+    declarations: [AppComponent, HomeComponent, LoginComponent, MenuTopComponent, WidgetHolderComponent, KeysPipe, EditComponent, AccountCreationComponent, CaptchaCheckComponent, WidgetSampleComponent, StocktableComponent, WidgetListDataComponent, WidgetShowGraphComponent, WidgetCommoditiesComponent, RiskComponent, WidgetEmailComponent, StocktableComponent, WidgetListDataComponent, WidgetShowGraphComponent, WidgetCommoditiesComponent, WidgetCompareGraphsComponent, WidgetStockNewsComponent, ResizableGraphComponent, WidgetCompetitorComponent ],
     providers: [DataService, HttpRequestService, WidgetControlService, {provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap:    [ AppComponent ]
 })
