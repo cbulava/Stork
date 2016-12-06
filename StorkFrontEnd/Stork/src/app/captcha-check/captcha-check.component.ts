@@ -1,18 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpRequestService } from '../shared/services/http-request.service';
-import { Router } from '@angular/router';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { Component } from '@angular/core';
+
+ 
 @Component({
-    moduleId: module.id,
     selector: 'captcha-check',
-    templateUrl: 'captcha-check.component.html'
-})
-export class CaptchaCheckComponent implements OnInit {
-    private httpData: Array<any>;
-
-    constructor(private httpReq: HttpRequestService, private router: Router) { }
-
-    ngOnInit() { 
-
+    template: `<recaptcha (resolved)="resolved($event)" siteKey="6LeCsCYTAAAAAHg1zDajPfozcSWYlyGXoJJ71mmv"></recaptcha>`,
+}) export class CaptchaCheckComponent {
+    resolved(captchaResponse: string) {
+        console.log(`Resolved captcha with response ${captchaResponse}:`);
     }
-    
 }
+ 

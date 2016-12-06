@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
     }
 
     navigateToAC(){
-        this.router.navigate(['account-creation']);
+        this.router.navigate(['captcha-check']);
     }
 
 }
