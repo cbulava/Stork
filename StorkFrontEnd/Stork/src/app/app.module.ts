@@ -8,6 +8,7 @@ import { AppComponent }  from './app.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { AccountCreationComponent } from './account-creation/account-creation.component';
+import { CaptchaCheckComponent } from './captcha-check/captcha-check.component';
 import { MenuTopComponent } from './menu-top/menu-top.component';
 import { WidgetHolderComponent } from './widget-holder/widget-holder.component';
 import { WidgetSampleComponent } from './widgets/widget-sample/widget-sample.component';
