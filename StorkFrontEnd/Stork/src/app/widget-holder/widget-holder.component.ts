@@ -13,6 +13,7 @@ import { WidgetStockNewsComponent } from '../widgets/widget-stockNews/widget-sto
 import { RiskComponent } from '../widgets/widget-risk/widget-risk.component';
 import { ResizableGraphComponent } from '../widgets/widget-resizableGraph/widget-resizableGraph.component';
 import { WidgetEmailComponent } from '../widgets/widget-email/widget-email.component';
+import { WidgetCompetitorComponent} from '../widgets/widget-competitor/widget-competitor.component';
 
 import globals = require('../shared/globals');
 
@@ -56,7 +57,8 @@ class BoxId{
 		WidgetStockNewsComponent,
 		RiskComponent,
 		WidgetEmailComponent,
-		ResizableGraphComponent
+		ResizableGraphComponent,
+		WidgetCompetitorComponent
 	],
     templateUrl: 'widget-holder.component.html', 
 })
@@ -113,6 +115,7 @@ export class WidgetHolderComponent implements OnInit {
 		this.widgetChoiceMap.push({id: 7, name: 'Risk Widget'});
 		this.widgetChoiceMap.push({id: 8, name: 'Email Widget'});
 		this.widgetChoiceMap.push({id: 9, name: 'Resizable Graph Widget'});
+		this.widgetChoiceMap.push({id : 10, name: 'Competitor Widget'});
 
 		//identifiers for adding and removing boxes. Numbers are box types to remove/add
 		//checks are bools for if the button has been clicked. 
@@ -188,6 +191,9 @@ export class WidgetHolderComponent implements OnInit {
 		}
 		if(i == 9) {
 			return ResizableGraphComponent;
+		}
+		if (i == 10){
+			return WidgetCompetitorComponent;
 		}
 	}
 
