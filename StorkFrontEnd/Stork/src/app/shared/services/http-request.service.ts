@@ -102,8 +102,8 @@ export class HttpRequestService {
   		.catch(this.handleError);
   }
 
-  updateWidget(id : number, widgetid: number, stockList: string[], widgetType : string, refresh : number, x : number, y : number, height : number, width : number){
-  	let body = JSON.stringify({stockList, widgetType, refresh, x, y, height, width});
+  updateWidget(id : number, widgetid: number, stockList: string[], widgetType : string, refresh : number, x : number, y : number, height : number, width : number, stockFields: string[]){
+  	let body = JSON.stringify({stockList, widgetType, refresh, x, y, height, width, stockFields});
   	return this.http.put(this.serverUrl.concat("user/").concat(id.toString()).concat("/dashboard/").concat(widgetid.toString()), body, this.options)
   		.map(this.extractData)
   		.catch(this.handleError);

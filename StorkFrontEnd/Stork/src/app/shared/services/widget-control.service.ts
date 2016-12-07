@@ -21,6 +21,8 @@ interface Box {
 	error: string;
 	type: number;
 	backgroundColor: string;
+	stockList: string[];
+	stockFields: string[];
 }
 
 @Injectable()
@@ -102,7 +104,7 @@ export class WidgetControlService {
 
 	createTestStocks(stockId: number){
 		for (var i = 0; i < 4; i++) {
-			this.boxes[i] = { id: i + 1, servId: 0, config: this._generateDefaultItemConfig(), data: [] , name: "box", error: "", type: stockId, backgroundColor: ""};	
+			this.boxes[i] = { id: i + 1, servId: 0, config: this._generateDefaultItemConfig(), data: [] , name: "box", error: "", type: stockId, backgroundColor: "", stockFields: [], stockList: []};	
 			//this.getStockData(this.stockSymbols[i], i, this.basicStockData);		
 		}
 	}
@@ -168,10 +170,14 @@ export class WidgetControlService {
 							 name: "" , 
 							 error: "", 
 							 type: obj.widgetType,
-							backgroundColor: ""});
+							backgroundColor: "",
+							stockList: [],
+							stockFields: []});
 						//call get stock data on box index (len) and box data
 						for(let stock of obj.stockList){
-							
+							if(stock != ""){
+								this.getStockData(stock, len-1, obj.stockFields);
+							}
 						}
 						i++;
 						//load data for box, data is currently empty though
@@ -189,7 +195,7 @@ export class WidgetControlService {
 	addBox(type: number): number {
 		const conf: NgGridItemConfig = this._generateDefaultItemConfig();
 		conf.payload = this.curNum++;
-		this.boxes.push({ id: conf.payload, servId: 0, config: conf, data: [], name: "" , error: "", type: type, backgroundColor: ""});
+		this.boxes.push({ id: conf.payload, servId: 0, config: conf, data: [], name: "" , error: "", type: type, backgroundColor: "", stockList: [], stockFields: []});
 		this.numServBoxes++;	
 		this.httpReq.addWidget(localStorage["id"], [], type.toString(), 0, 1, 1, 70, 10).subscribe(
  			response => {
@@ -283,7 +289,7 @@ export class WidgetControlService {
 	updateServerConf(index: number): void {
 		let box: Box;
 		box = this.boxes[index];
-		this.httpReq.updateWidget(localStorage["id"], box.servId, [], box.type.toString() , 0, box.config.col, box.config.row, box.config.sizex, box.config.sizey).subscribe(
+		this.httpReq.updateWidget(localStorage["id"], box.servId, box.stockList, box.type.toString() , 0, box.config.col, box.config.row, box.config.sizex, box.config.sizey, box.stockFields).subscribe(
 			response => {
 				if(response.success){
 
@@ -324,11 +330,14 @@ export class WidgetControlService {
 	//Stock symbol and widget index to save it to
     getStockData(stock: string, boxIndex: number, fields: any[]){
         let httpData: Array<any>;
+		this.boxes[boxIndex].stockFields = fields;
+		this.boxes[boxIndex].stockList = [stock];
 		this.httpReq.getStock(stock, fields).subscribe(
  			response => {
                 if(response.success){
                     this.boxes[boxIndex].data = response.payload.results;
 					//on success, stock data retrieval was good, now update widget with stock data and fields...
+					this.updateServerConf(boxIndex);
                 }else{
 					this.showError = true;
 					this.boxes[boxIndex].error = response.message;
