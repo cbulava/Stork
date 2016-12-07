@@ -421,4 +421,26 @@ export class WidgetControlService {
 		}
 	);
     }
+    //competitor handling functions
+    getCompetitorData(stock: string, boxIndex: number, fields: any[]){
+        let httpData: Array<any>;
+		this.httpReq.getCompetitor(stock, fields).subscribe(
+ 			response => {
+                if(response.success){
+                    this.boxes[boxIndex].data = response.payload.results;
+					//on success, stock data retrieval was good, now update widget with stock data and fields...
+                }else{
+					this.showError = true;
+					this.boxes[boxIndex].error = response.message;
+                    //retrieval failed for some reason
+                }
+            }, 
+			error => {
+				this.showError = true;
+				this.boxes[boxIndex].error = "Error timeout in Server. Server may be slow, or stock data is updating on Yahoo page.";
+			}
+		);
+
+		//now save stocks and fields to server for the stock
+    }
 }
