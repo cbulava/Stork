@@ -12,7 +12,9 @@ interface Box {
     data: Array<any>;
 	name: string;
     type: number;
+    stockList: string[];
 }
+
 
 @Component({
     moduleId: module.id,
@@ -25,7 +27,41 @@ export class WidgetCommoditiesComponent implements OnInit {
 	private gridConfig: NgGridConfig;
     private boxId: number;
     private basicFields: Array<string> = ['low', 'high', 'fiftyTwoWkLow', 'fiftyTwoWkHigh', 'avgVolume'];
-
+    private loadOnce: boolean = true;
+    private selectedValue: string = "";
+    private values = {
+     "GCZ16": "Gold",
+     "SIX16": "Silver",
+     "HGX16": "Copper",
+     "PLX16": "Platinum",
+     "PAX16": "Palladium",
+     "CLZ16": "Crude Oil", 
+     "HOZ16": "Heating Oil",
+     "RBZ16": "Gas",
+     "NGZ16": "Natural Gas",
+     "CBF17": "Crude Oil Brent",
+     "ZKZ16": "Ethanol",
+     "ZWZ16": "Wheat",
+     "ZCZ16": "Corn",
+     "ZSX16": "Soybeans",
+     "ZMZ16": "Soybean Meal",
+     "ZLZ16": "Soybean Oil",
+     "ZOZ16": "Oats",
+     "ZRX16": "Rough Rice",
+     "KEX16": "Red Wheat",
+     "MWZ16": "Spring Wheat",
+     "RSX16": "Canola",
+     "LEX16": "Live Cattle", 
+     "GFX16": "Feeder Cattle",
+     "HEZ16": "Lean Hogs",
+     "DLX16": "Milk",
+     "CTZ16": "Cotton #2",
+     "OJX16": "Orange Juice",
+     "SBH17": "Sugar",
+     "KCZ16": "Coffee",
+     "CCZ16": "Cocoa",
+     "LSX16": "Lumber"
+    };
     constructor(private widgetControl: WidgetControlService) {
         this.boxes = this.widgetControl.getBoxes;
 
@@ -47,12 +83,23 @@ export class WidgetCommoditiesComponent implements OnInit {
 
         //do your stuff!
         this.box.name = "Commodities";
-        this.selected("Gold");
+        this.selectedValue = this.values[this.box.stockList[0]];
+        //this.selected("Gold");
+    }
+
+    ngDoCheck() {
+        if(this.box.stockList.length > 0 && this.loadOnce){
+            this.loadOnce = false;
+            //this.selectedValue = this.box.stockList[0];
+            this.selected(this.box.stockList[0]);
+            this.selectedValue = this.values[this.box.stockList[0]];
+        }
     }
 
     selected(value: string){
         this.widgetControl.getStockData(value, this.boxId, this.basicFields);
-        console.log(this.box.data);
+        this.selectedValue = this.values[this.box.stockList[0]];
+        //console.log(this.box.data);
     }
 
 }

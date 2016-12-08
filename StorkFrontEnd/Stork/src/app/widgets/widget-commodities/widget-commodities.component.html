@@ -1,7 +1,7 @@
 <div style="margin: 10px 10px 10px;">
-    <div class="title">{{box?.name}}</div>
+    <div class="title">{{box?.name}} - {{selectedValue}}</div>
 
-        <select class = "comod-control" #t (change)="selected(t.value)">
+        <select class = "comod-control" [ngModel]="this.selectedValue" (ngModelChange)="selected($event)">
             <option value = "GCZ16">Gold</option>
             <option value = "SIX16">Silver</option>
             <option value = "HGX16">Copper</option>

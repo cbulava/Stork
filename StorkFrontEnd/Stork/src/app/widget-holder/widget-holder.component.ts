@@ -82,6 +82,7 @@ export class WidgetHolderComponent implements OnInit {
 	private haveWidgets: boolean;
 	private isEdit: boolean;	
     private widgetChoiceMap: Array<Widget> = [];
+	private widgetHelpText: string = "Choose from your widgets here!";
 	private factoryComponents: Array<any> = [
     	WidgetSampleComponent
 	];
@@ -145,6 +146,7 @@ export class WidgetHolderComponent implements OnInit {
 	ngOnInit() {
 		this.widgetControl.removingBoxes = false;
 		this.removeBoxText = "Removing Boxes";
+		this.widgetHelpText = "Choose from your widgets here!";
 		this.widgetControl.boxesToRemove = [];
 		if(document.location.href.includes("home")){
 			for(let i = 0; i < this.widgetControl.getBoxes.length; i++){
@@ -201,6 +203,7 @@ export class WidgetHolderComponent implements OnInit {
 	setRemoveBoxTrue(){
 		if(this.widgetControl.removingBoxes){
 			this.removeBoxText = "Remove Widgets";
+			this.widgetHelpText = "Choose from your widgets here!";
 
 			this.numBoxes = this.numBoxes - this.widgetControl.boxesToRemove.length;
 			this.widgetControl.removeBoxes();
@@ -210,8 +213,8 @@ export class WidgetHolderComponent implements OnInit {
 			this.widgetControl.resetBackgroundColors();
 		}else{
 			this.widgetControl.removingBoxes = true;
-			this.removeBoxText = "Remove These Widgets for Good!"
-		
+			this.removeBoxText = "Remove These Widgets for Good!";
+			this.widgetHelpText = "Select Your Widgets to Remove!";
 		}
 	}
 	//add a new widget 
