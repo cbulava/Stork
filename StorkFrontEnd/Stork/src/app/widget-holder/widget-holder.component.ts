@@ -14,7 +14,7 @@ import { RiskComponent } from '../widgets/widget-risk/widget-risk.component';
 import { ResizableGraphComponent } from '../widgets/widget-resizableGraph/widget-resizableGraph.component';
 import { WidgetEmailComponent } from '../widgets/widget-email/widget-email.component';
 import { WidgetCompetitorComponent} from '../widgets/widget-competitor/widget-competitor.component';
-
+import {DropdownModule} from "ng2-dropdown";
 import globals = require('../shared/globals');
 
 // class Widget { 
