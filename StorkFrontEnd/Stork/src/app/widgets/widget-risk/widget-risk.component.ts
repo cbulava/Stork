@@ -15,6 +15,7 @@ interface Box {
 	name: string;
     type: number;
     error: string;
+    stockList: string[];
 }
 
 @Component({
@@ -32,6 +33,7 @@ export class RiskComponent implements OnInit, DoCheck {
     private searchData = myGlobals.stocks;
     private showError: boolean = false;
     private httpData: Array<any>;
+    private searchStr: string;
 
     constructor(private widgetControl: WidgetControlService,
                 private completerService: CompleterService,
@@ -46,6 +48,7 @@ export class RiskComponent implements OnInit, DoCheck {
 
         this.widgetControl.setMinSize(this.boxId, 35, 27);
         this.widgetControl.updateSize(this.boxId, 35, 27);
+
 
         //do you stock retrieval before getting your box to play with!
         //this.widgetControl.getStockData("MSFT", this.boxId, this.basicFields);
@@ -73,7 +76,7 @@ export class RiskComponent implements OnInit, DoCheck {
     private lastPrice: number;
     private averageTradingVolume: number;
     private twelveMonthPct: number;
-    private stock: String;
+    private stock: string;
 
     fieldsImported: number = 0;
 
@@ -101,6 +104,7 @@ export class RiskComponent implements OnInit, DoCheck {
 
     ngDoCheck(){
         if (this.stock !== undefined) {
+            this.searchStr = this.stock;
             this.importFields();
         } else {
         }
@@ -241,8 +245,8 @@ export class RiskComponent implements OnInit, DoCheck {
     ngOnInit() { 
                 //get your box!
         this.box = this.boxes[this.boxId];
-
         //do your stuff!
+        this.stock = this.box.stockList[0];
         this.box.name = "Risk Calculator";
     }
 

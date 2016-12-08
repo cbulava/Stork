@@ -17,6 +17,7 @@ interface Box {
 	name: string;
     type: number;
     error: string;
+    stockList: string[];
 }
 
 
@@ -35,6 +36,7 @@ export class WidgetListDataComponent implements OnInit {
     private basicFields: Array<string> = ["bid", "low", "high", "fiftyTwoWkLow", "fiftyTwoWkHigh", "ask", "avgVolume", "exchangeMargin"];
     private showError: boolean = false;
     private httpData: Array<any>;
+    private loadOnce: boolean = true;
     
     constructor(private widgetControl: WidgetControlService, private httpReq: HttpRequestService) {
         this.boxes = this.widgetControl.getBoxes;
@@ -44,7 +46,7 @@ export class WidgetListDataComponent implements OnInit {
         this.boxId = this.widgetControl.currentInitBoxId;
         
         //do you stock retrieval before getting your box to play with!
-        this.widgetControl.getStockData("AAPL", this.boxId, this.basicFields);
+        //this.widgetControl.getStockData("AAPL", this.boxId, this.basicFields);
 
         //get your box!
         this.box = this.boxes[this.boxId];
@@ -64,6 +66,13 @@ export class WidgetListDataComponent implements OnInit {
         
     }
 
+    ngDoCheck() {
+        if(this.box.stockList.length > 0 && this.loadOnce){
+            this.loadOnce = false;
+            this.widgetControl.getStockData(this.box.stockList[0], this.boxId, this.basicFields);
+            this.getSymbolData(this.box.stockList[0]);
+        }
+    }
 
     getSymbolData(symbol: string){
         this.httpReq.getStock(symbol, this.basicFields).subscribe(

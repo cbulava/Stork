@@ -17,6 +17,7 @@ interface Box {
 	name: string;
     type: number;
     error: string;
+    stockList: string[];
 }
 
 
@@ -34,6 +35,7 @@ export class WidgetShowGraphComponent implements OnInit {
     private basicFields: Array<string> = ["bid", "daysLow", "daysHigh", "yearsLow", "yearsHigh", "ask", "averageDailyVolume", "daysRange"];
     private showError: boolean = false;
     private httpData: Array<any>;
+    private loadOnce: boolean = true;
     
     constructor(private widgetControl: WidgetControlService, private httpReq: HttpRequestService) {
         this.boxes = this.widgetControl.getBoxes;
@@ -43,7 +45,7 @@ export class WidgetShowGraphComponent implements OnInit {
         this.boxId = this.widgetControl.currentInitBoxId;
 
         //do you stock retrieval before getting your box to play with!
-        this.widgetControl.getStockData("AAPL", this.boxId, this.basicFields);
+        //this.widgetControl.getStockData("AAPL", this.boxId, this.basicFields);
         this.widgetControl.setMinSize(this.boxId, 35, 27);
         this.widgetControl.updateSize(this.boxId, 35, 27);
                 //get your box!
@@ -51,7 +53,7 @@ export class WidgetShowGraphComponent implements OnInit {
 
         //do your stuff!
         this.box.name = "Stock symbol to look up...";
-        this.getSymbolData("AAPL");
+        //this.getSymbolData("AAPL");
         //the key values are known only to you so that's on you. You can use the data
         //in the html by using {{ box.data.your_key }}. You can look up pipes to 
         //fetch the data.
@@ -61,7 +63,13 @@ export class WidgetShowGraphComponent implements OnInit {
 
         
     }
-
+    ngDoCheck() {
+        if(this.box.stockList.length > 0 && this.loadOnce){
+            this.loadOnce = false;
+            this.widgetControl.getStockData(this.box.stockList[0], this.boxId, this.basicFields);
+            this.getSymbolData(this.box.stockList[0]);
+        }
+    }
 
     @ViewChild('dataContainer') dataContainer: ElementRef;
 //<img src="http://chart.finance.yahoo.com/z?s="+symbol.value+"&t=6m&q=l&l=on&z=s&p=m50,m200"/>

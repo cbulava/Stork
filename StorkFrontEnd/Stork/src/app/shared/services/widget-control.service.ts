@@ -241,6 +241,7 @@ export class WidgetControlService {
 			for(var f = 0; f < this.boxesToRemove.length; f++){			
 				if(this.boxes[i]["id"] == this.boxesToRemove[f]){
 					this.numServBoxes--;
+					this.curNum--;
 					this.removeBox(i, this.boxes[i]["id"]);
 					//this.boxes.splice(i, 1);
 				}
@@ -424,10 +425,13 @@ export class WidgetControlService {
     //competitor handling functions
     getCompetitorData(stock: string, boxIndex: number, fields: any[]){
         let httpData: Array<any>;
+		this.boxes[boxIndex].stockFields = fields;
+		this.boxes[boxIndex].stockList = [stock];		
 		this.httpReq.getCompetitor(stock, fields).subscribe(
  			response => {
                 if(response.success){
                     this.boxes[boxIndex].data = response.payload.results;
+					this.updateServerConf(boxIndex);					
 					//on success, stock data retrieval was good, now update widget with stock data and fields...
                 }else{
 					this.showError = true;

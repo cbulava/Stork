@@ -15,6 +15,7 @@ interface Box {
 	name: string;
     type: number;
     error: string;
+    stockList: string[];
 }
 
 @Component({
@@ -32,7 +33,8 @@ export class WidgetCompetitorComponent implements OnInit, DoCheck {
     private searchData = myGlobals.stocks;
     private showError: boolean = false;
     private httpData: Array<any>;
-
+    private loadOnce: boolean = true;
+    private searchStr: string;
     constructor(private widgetControl: WidgetControlService,
                 private completerService: CompleterService,
                 private httpReq: HttpRequestService) {
@@ -59,6 +61,11 @@ export class WidgetCompetitorComponent implements OnInit, DoCheck {
 
 
     ngDoCheck(){
+        if(this.loadOnce && this.box.stockList.length > 0){
+            this.loadOnce = false;
+            this.searchForStock(this.box.stockList[0]);
+            this.searchStr = this.box.stockList[0];
+        }
     }
 
     searchForStock(symbol: string){

@@ -17,6 +17,7 @@ interface Box {
 	name: string;
     type: number;
     error: string;
+    stockList: string[];
 }
 
 
@@ -38,7 +39,7 @@ export class WidgetStockNewsComponent implements AfterViewInit {
     private showError: boolean = false;
     private httpData: Array<any>;
     private symbol: string;
-
+    private loadOnce: boolean = true; 
     constructor(private widgetControl: WidgetControlService, private httpReq: HttpRequestService) {
         this.boxes = this.widgetControl.getBoxes;
 
@@ -65,6 +66,14 @@ export class WidgetStockNewsComponent implements AfterViewInit {
     ngOnInit() { 
 
         
+    }
+
+    ngDoCheck(){
+        if(this.loadOnce && this.box.stockList.length > 0){
+            this.loadOnce = false;
+            this.symbol = this.box.stockList[0];
+            this.ngAfterViewInit();
+        }
     }
 
 
@@ -95,6 +104,7 @@ export class WidgetStockNewsComponent implements AfterViewInit {
                             //this.dataContainer.nativeElement.innerHTML = "<html xmlns=\"http://finance.yhoo.com/rss/headline?s="+symbol+"\" xml:lang=\"en\" lang=\"en\"><head><title></title></head><body></body></html>";
 
                             this.widgetControl.getStockData(symbol, this.boxId, this.basicFields);
+                            this.ngAfterViewInit();
                         }else{
                             alert("Look up unsuccesful. Please check your symbol and try again.");
                             //look up failed do stuff here

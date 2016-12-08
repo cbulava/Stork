@@ -17,6 +17,7 @@ interface Box {
 	name: string;
     type: number;
     error: string;
+    stockList: string[];
 }
 
 
@@ -35,6 +36,8 @@ export class WidgetCompareGraphsComponent implements OnInit {
     private basicFields: Array<string> = ["bid", "daysLow", "daysHigh", "yearsLow", "yearsHigh", "ask", "averageDailyVolume", "daysRange"];
     private showError: boolean = false;
     private httpData: Array<any>;
+    private loadOnce: boolean = true;
+    private loadSecond: boolean = false;
     
     constructor(private widgetControl: WidgetControlService, private httpReq: HttpRequestService) {
         this.boxes = this.widgetControl.getBoxes;
