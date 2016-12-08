@@ -8,7 +8,7 @@
 <input #password/>
 <br />
 <br />
-<re-captcha site_key="<6LeCsCYTAAAAAHg1zDajPfozcSWYlyGXoJJ71mmv>"></re-captcha>
+<re-captcha (captchaResponse)="handleCorrectCaptcha($event)" site_key="<6LeCsCYTAAAAAHg1zDajPfozcSWYlyGXoJJ71mmv>"></re-captcha>
 <button (click)="createAccount(email.value, password.value);" style="color:black;">
     Create Account
 </button>
