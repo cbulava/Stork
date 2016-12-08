@@ -6,7 +6,8 @@
     '@angular':                   'node_modules/@angular',
     'rxjs':                       'node_modules/rxjs',
     'angular2-grid': 'node_modules/angular2-grid/dist',
-    'ng2-completer':             'node_modules/ng2-completer/bundles'
+    'ng2-completer':             'node_modules/ng2-completer/bundles',
+    'angular2-recaptcha': 'node_modules/angular2-recaptcha'
   };
 
   // packages tells the System loader how to load when no filename and/or no extension
@@ -14,7 +15,8 @@
     'app':                        { main: 'main.js',  defaultExtension: 'js' },
     'rxjs':                       { defaultExtension: 'js' },
     'angular2-grid': { main: 'main.js',  defaultExtension: 'js' },
-    'ng2-completer':           {main: 'ng2-completer.js', format: 'cjs'}
+    'ng2-completer':           {main: 'ng2-completer.js', format: 'cjs'},
+    'angular2-recaptcha': {defaultExtension: 'js', main:'index'}
   };
 
   var ngPackageNames = [

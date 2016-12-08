@@ -37,9 +37,11 @@ import { KeysPipe } from './shared/keys.pipe';
 
 import {Ng2CompleterModule } from 'ng2-completer';
 
+import { ReCaptchaModule } from 'angular2-recaptcha';
+
 
 @NgModule({
-    imports: [BrowserModule, FormsModule, HttpModule, app_routing, NgGridModule, Ng2CompleterModule],
+    imports: [BrowserModule, FormsModule, HttpModule, app_routing, NgGridModule, Ng2CompleterModule,ReCaptchaModule],
     declarations: [AppComponent, HomeComponent, LoginComponent, MenuTopComponent, WidgetHolderComponent, KeysPipe, EditComponent, AccountCreationComponent, WidgetSampleComponent, StocktableComponent, WidgetListDataComponent, WidgetShowGraphComponent, WidgetCommoditiesComponent, RiskComponent, WidgetEmailComponent, StocktableComponent, WidgetListDataComponent, WidgetShowGraphComponent, WidgetCommoditiesComponent, WidgetCompareGraphsComponent, WidgetStockNewsComponent, ResizableGraphComponent, WidgetCompetitorComponent ],
     providers: [DataService, HttpRequestService, WidgetControlService, {provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap:    [ AppComponent ]
