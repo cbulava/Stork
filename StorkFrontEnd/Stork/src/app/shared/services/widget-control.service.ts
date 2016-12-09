@@ -61,7 +61,7 @@ export class WidgetControlService {
 		'min_rows': 1,
 		'col_width': 1,
 		'row_height': 1,
-		'cascade': 'top',
+		'cascade': 'up',
 		'min_width': 10,
 		'min_height': 10,
 		'fix_to_grid': false,

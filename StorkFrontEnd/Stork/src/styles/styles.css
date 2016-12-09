@@ -133,7 +133,7 @@ li {
 
 .grid {
 	background-color: white;
-	width: 100%;
+	width: 1700px !important;
 	min-height: 750px;
     height:10000px !important;
 }
@@ -161,7 +161,7 @@ li {
 
 @media (max-width: 767px) {
 	.grid {
-		width: 100% !important;
+		width: 1700px !important;
 		height: auto !important;
 		padding: 10px;
 	}
